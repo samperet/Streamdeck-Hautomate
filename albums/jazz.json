@@ -1,0 +1,614 @@
+[
+ {
+  "artist": "Miles Davis",
+  "title": "Kind of Blue",
+  "id": "1weenld61qoidwYuZ1GESA",
+  "spotify_title": "Kind Of Blue"
+ },
+ {
+  "artist": "John Coltrane",
+  "title": "A Love Supreme",
+  "id": "7Eoz7hJvaX1eFkbpQxC5PA",
+  "spotify_title": "A Love Supreme"
+ },
+ {
+  "artist": "Dave Brubeck Quartet",
+  "title": "Time Out",
+  "id": "0nTTEAhCZsbbeplyDMIFuA",
+  "spotify_title": "Time Out"
+ },
+ {
+  "artist": "John Coltrane",
+  "title": "Blue Train",
+  "id": "2Z11cXWEa2qqYQBGkJrCga",
+  "spotify_title": "Blue Train"
+ },
+ {
+  "artist": "Charles Mingus",
+  "title": "Mingus Ah Um",
+  "id": "3a2i6s10mAibRR7TlrnHRM",
+  "spotify_title": "Mingus Ah Um"
+ },
+ {
+  "artist": "Cannonball Adderley",
+  "title": "Somethin' Else",
+  "id": "2fDg4j0a74aPZMyVQ5ac11",
+  "spotify_title": "Somethin' Else"
+ },
+ {
+  "artist": "Bill Evans Trio",
+  "title": "Waltz for Debby",
+  "id": "3jrQgQYZ3WDW3mn55SFuUv",
+  "spotify_title": "Waltz For Debby [Original Jazz Classics Remasters] (OJC Remaster)"
+ },
+ {
+  "artist": "Art Blakey & The Jazz Messengers",
+  "title": "Moanin'",
+  "id": "5PzlTnVafjgt5RtjTdIKoC",
+  "spotify_title": "Moanin' (Expanded Edition)"
+ },
+ {
+  "artist": "Ella Fitzgerald & Louis Armstrong",
+  "title": "Ella and Louis",
+  "id": "176VGwd7ODjJVxT0DkQA7A",
+  "spotify_title": "Ella and Louis"
+ },
+ {
+  "artist": "Sonny Rollins",
+  "title": "Saxophone Colossus",
+  "id": "2dtjLAwt7Cq763h6AupyPZ",
+  "spotify_title": "Saxophone Colossus"
+ },
+ {
+  "artist": "Ornette Coleman",
+  "title": "The Shape of Jazz to Come",
+  "id": "2iPH3iUmpa9ufIpwY76keF",
+  "spotify_title": "The Shape Of Jazz To Come"
+ },
+ {
+  "artist": "Herbie Hancock",
+  "title": "Maiden Voyage",
+  "id": "4PMwCdbTTBTgyMh8dbTVRb",
+  "spotify_title": "Maiden Voyage"
+ },
+ {
+  "artist": "Wayne Shorter",
+  "title": "Speak No Evil",
+  "id": "27Rl7A8jXEQOkIfUKOa6ZU",
+  "spotify_title": "Speak No Evil (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Horace Silver Quintet",
+  "title": "Song for My Father",
+  "id": "4LEnATSqKeANOJ0mLUAuCE",
+  "spotify_title": "Song For My Father"
+ },
+ {
+  "artist": "Miles Davis",
+  "title": "Bitches Brew",
+  "id": "4HeZ7OqYlDWsXdgSQLCAdE",
+  "spotify_title": "Bitches Brew"
+ },
+ {
+  "artist": "Miles Davis",
+  "title": "Sketches of Spain",
+  "id": "56WqCnM5giX57Jr3aAN2aK",
+  "spotify_title": "Sketches Of Spain"
+ },
+ {
+  "artist": "Miles Davis",
+  "title": "'Round About Midnight",
+  "id": "4VUawqEDCHHfrUe77ScQ2K",
+  "spotify_title": "'Round About Midnight"
+ },
+ {
+  "artist": "Miles Davis",
+  "title": "In a Silent Way",
+  "id": "0Hs3BomCdwIWRhgT57x22T",
+  "spotify_title": "In A Silent Way"
+ },
+ {
+  "artist": "Thelonious Monk",
+  "title": "Brilliant Corners",
+  "id": "5gWF47eGSbv4BOfxoFcQtd",
+  "spotify_title": "Brilliant Corners"
+ },
+ {
+  "artist": "Thelonious Monk",
+  "title": "Monk's Dream",
+  "id": "7v41RCRSzPO8BowdYsAoFw",
+  "spotify_title": "Monk's Dream"
+ },
+ {
+  "artist": "John Coltrane",
+  "title": "Giant Steps",
+  "id": "4jTDjHLMFCHWrjuP1qmCf4",
+  "spotify_title": "Giant Steps (60th Anniversary Super Deluxe Edition) [2020 Remaster]"
+ },
+ {
+  "artist": "John Coltrane",
+  "title": "My Favorite Things",
+  "id": "3nLStxdTkSzihxm7FTLzCP",
+  "spotify_title": "My Favorite Things"
+ },
+ {
+  "artist": "John Coltrane",
+  "title": "John Coltrane and Johnny Hartman",
+  "id": "5e3mq4TT4RLn4VXfgKV6MU",
+  "spotify_title": "John Coltrane And Johnny Hartman"
+ },
+ {
+  "artist": "Lee Morgan",
+  "title": "The Sidewinder",
+  "id": "1n1trPeeY9Q5H4eLbbHHRg",
+  "spotify_title": "The Sidewinder (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Hank Mobley",
+  "title": "Soul Station",
+  "id": "731OW49heGHCMrMOREHYlY",
+  "spotify_title": "Soul Station"
+ },
+ {
+  "artist": "Eric Dolphy",
+  "title": "Out to Lunch!",
+  "id": "3PIVqZzL1PnrxFZDzuT1aX",
+  "spotify_title": "Out To Lunch (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Herbie Hancock",
+  "title": "Head Hunters",
+  "id": "5fmIolILp5NAtNYiRPjhzA",
+  "spotify_title": "Head Hunters"
+ },
+ {
+  "artist": "Chet Baker",
+  "title": "Chet Baker Sings",
+  "id": "5JJ779nrbHx0KB2lBrMMa4",
+  "spotify_title": "Chet Baker Sings"
+ },
+ {
+  "artist": "Stan Getz",
+  "title": "Getz/Gilberto",
+  "id": "73ZRKdD3Ds43IjHrhKgucY",
+  "spotify_title": "Getz/Gilberto"
+ },
+ {
+  "artist": "Keith Jarrett",
+  "title": "The Köln Concert",
+  "id": "3MyXPG2AYKTXZyjfzkMOmx",
+  "spotify_title": "The Köln Concert"
+ },
+ {
+  "artist": "Bill Evans",
+  "title": "Sunday at the Village Vanguard",
+  "id": "20ONXWjxrJhlX3rfNeAbS0",
+  "spotify_title": "Sunday At The Village Vanguard"
+ },
+ {
+  "artist": "Duke Ellington",
+  "title": "Ellington at Newport",
+  "id": "0t41BkcZayaAsa0FdRelfz",
+  "spotify_title": "Ellington at Newport 1956 (Complete)"
+ },
+ {
+  "artist": "Duke Ellington",
+  "title": "Duke Ellington & John Coltrane",
+  "id": "7qsnx3thQiQabvDkHfqI1m",
+  "spotify_title": "Duke Ellington & John Coltrane"
+ },
+ {
+  "artist": "Charles Mingus",
+  "title": "The Black Saint and the Sinner Lady",
+  "id": "6Sts4Yh7KsDFwq2yTWrGGV",
+  "spotify_title": "The Black Saint And The Sinner Lady"
+ },
+ {
+  "artist": "Oliver Nelson",
+  "title": "The Blues and the Abstract Truth",
+  "id": "6lxRA8Rl9a9XoZDCVWBzBY",
+  "spotify_title": "The Blues And The Abstract Truth"
+ },
+ {
+  "artist": "Dexter Gordon",
+  "title": "Go",
+  "id": "5nEJj9bjoarnzlS88NiWet",
+  "spotify_title": "Go! (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Wes Montgomery",
+  "title": "The Incredible Jazz Guitar of Wes Montgomery",
+  "id": "5RwRaAJXxc7SULhw1Z1j0y",
+  "spotify_title": "The Incredible Jazz Guitar Of Wes Montgomery"
+ },
+ {
+  "artist": "Oscar Peterson",
+  "title": "Night Train",
+  "id": "3gPOWmWT0q7Ygp95Xiuw1v",
+  "spotify_title": "Night Train (Expanded Edition)"
+ },
+ {
+  "artist": "Nina Simone",
+  "title": "Little Girl Blue",
+  "id": "5mXNVZksXs98VfRjBHGzNg",
+  "spotify_title": "Little Girl Blue"
+ },
+ {
+  "artist": "Billie Holiday",
+  "title": "Lady in Satin",
+  "id": "4LrLP7DM1KBj8r2Sc098JA",
+  "spotify_title": "Lady In Satin"
+ },
+ {
+  "artist": "Ella Fitzgerald",
+  "title": "Ella Fitzgerald Sings the Cole Porter Song Book",
+  "id": "6nOxyYuddsKmHYRQccKSjM",
+  "spotify_title": "Ella Fitzgerald Sings The Cole Porter Song Book"
+ },
+ {
+  "artist": "Sarah Vaughan",
+  "title": "Sarah Vaughan",
+  "id": "7wX89EWCK8cNZeGnBS5bMG",
+  "spotify_title": "Sarah Vaughan"
+ },
+ {
+  "artist": "Clifford Brown",
+  "title": "Clifford Brown & Max Roach",
+  "id": "2EKn6vs5MXWjMubeBhqgKG",
+  "spotify_title": "Clifford Brown And Max Roach (Expanded Edition)"
+ },
+ {
+  "artist": "Pharoah Sanders",
+  "title": "Karma",
+  "id": "04sSPjO9MQFQ6fG4lpBI3G",
+  "spotify_title": "Karma"
+ },
+ {
+  "artist": "Alice Coltrane",
+  "title": "Journey in Satchidananda",
+  "id": "6zV55F6W8kh1qe8LHhqRbz",
+  "spotify_title": "Journey in Satchidananda"
+ },
+ {
+  "artist": "Kamasi Washington",
+  "title": "The Epic",
+  "id": "2j2q2ySuVk43eHB8wI5XQj",
+  "spotify_title": "The Epic"
+ },
+ {
+  "artist": "Vince Guaraldi Trio",
+  "title": "Jazz Impressions of Black Orpheus",
+  "id": "0ExXxc4TftyLlHFsB6DfpY",
+  "spotify_title": "Jazz Impressions Of Black Orpheus"
+ },
+ {
+  "artist": "McCoy Tyner",
+  "title": "The Real McCoy",
+  "id": "22HoIP0ai6Wikh4R8yM0AX",
+  "spotify_title": "The Real McCoy (Remastered / Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Sonny Rollins",
+  "title": "Way Out West",
+  "id": "5Yq4OoPNmtoYiNPlAuvnKk",
+  "spotify_title": "Way Out West"
+ },
+ {
+  "artist": "Sonny Rollins",
+  "title": "A Night at the Village Vanguard",
+  "id": "4ZsJnvskaNpZ03ynI0mqlH",
+  "spotify_title": "A Night At The Village Vanguard (The Complete Masters)"
+ },
+ {
+  "artist": "Bill Evans Trio",
+  "title": "Portrait in Jazz",
+  "id": "093nLQ4H81HusNsFdGS4Or",
+  "spotify_title": "Portrait In Jazz"
+ },
+ {
+  "artist": "Herbie Hancock",
+  "title": "Empyrean Isles",
+  "id": "5HCi1WVOT9SGks2deeceFu",
+  "spotify_title": "Empyrean Isles (Expanded Edition)"
+ },
+ {
+  "artist": "Wayne Shorter",
+  "title": "JuJu",
+  "id": "46VoobaZCtFPReElOHFEqq",
+  "spotify_title": "JuJu"
+ },
+ {
+  "artist": "Joe Henderson",
+  "title": "Page One",
+  "id": "7mQGTuvmdp56DNz0AmMwWi",
+  "spotify_title": "Page One"
+ },
+ {
+  "artist": "Joe Henderson",
+  "title": "Inner Urge",
+  "id": "2Amg9J3U9jEUUJUxCW5OgI",
+  "spotify_title": "Inner Urge (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Andrew Hill",
+  "title": "Point of Departure",
+  "id": "647o8vl4OD1sjvvhql3jFS",
+  "spotify_title": "Point Of Departure (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Larry Young",
+  "title": "Unity",
+  "id": "5a8cjdV55tR5l2noku0vVv",
+  "spotify_title": "Unity (Remastered / Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Grant Green",
+  "title": "Idle Moments",
+  "id": "1lDtUlOPGKp56gQ24MvmNG",
+  "spotify_title": "Idle Moments"
+ },
+ {
+  "artist": "Jimmy Smith",
+  "title": "Back at the Chicken Shack",
+  "id": "6YhvR14clg0yibdTKB5aBv",
+  "spotify_title": "Back At The Chicken Shack"
+ },
+ {
+  "artist": "Kenny Burrell",
+  "title": "Midnight Blue",
+  "id": "0hMuKAciHKinu4L3R4Ojjl",
+  "spotify_title": "Midnight Blue (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Freddie Hubbard",
+  "title": "Red Clay",
+  "id": "1EKOKpUcbqvwxFcmek60Za",
+  "spotify_title": "Red Clay"
+ },
+ {
+  "artist": "Freddie Hubbard",
+  "title": "Hub-Tones",
+  "id": "6WXQu3KjFlb9Hjwzy3vyS5",
+  "spotify_title": "Hub-Tones"
+ },
+ {
+  "artist": "Lee Morgan",
+  "title": "Cornbread",
+  "id": "5aY4PliFxsCd55sgU5A2KQ",
+  "spotify_title": "Cornbread"
+ },
+ {
+  "artist": "Horace Silver",
+  "title": "Blowin' the Blues Away",
+  "id": "2yjs1MxTiDffQ1VGY9ilJc",
+  "spotify_title": "Blowin' The Blues Away"
+ },
+ {
+  "artist": "Jackie McLean",
+  "title": "Let Freedom Ring",
+  "id": "7cDdrBZaImUjYGqkir7bVw",
+  "spotify_title": "Let Freedom Ring (Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Bobby Hutcherson",
+  "title": "Happenings",
+  "id": "4TbWPn2fJUrQc924iTylFi",
+  "spotify_title": "Happenings"
+ },
+ {
+  "artist": "Sonny Clark",
+  "title": "Cool Struttin'",
+  "id": "2yWj7slAmHfBohXn40HKVU",
+  "spotify_title": "Cool Struttin’"
+ },
+ {
+  "artist": "Art Pepper",
+  "title": "Art Pepper Meets the Rhythm Section",
+  "id": "3DIRzZy1M8s8w5xlHhlnqn",
+  "spotify_title": "Art Pepper Meets The Rhythm Section"
+ },
+ {
+  "artist": "Gerry Mulligan",
+  "title": "Night Lights",
+  "id": "1uJ9OJIgmgj4ta8xjq9nEJ",
+  "spotify_title": "Night Lights (Expanded Edition)"
+ },
+ {
+  "artist": "Stan Getz",
+  "title": "Jazz Samba",
+  "id": "5Lyz7ZD1UaPq6WoEqTOqom",
+  "spotify_title": "Jazz Samba"
+ },
+ {
+  "artist": "Paul Desmond",
+  "title": "Take Ten",
+  "id": "67OvvuGokycHO0Quc9HyKZ",
+  "spotify_title": "Take Ten"
+ },
+ {
+  "artist": "The Modern Jazz Quartet",
+  "title": "Django",
+  "id": "6f7NUwHcqKOtROS8JippAp",
+  "spotify_title": "Django (Rudy Van Gelder Remaster)"
+ },
+ {
+  "artist": "Charlie Parker",
+  "title": "Charlie Parker with Strings",
+  "id": "1DPRDrZgfU3rAo2SL4GrZw",
+  "spotify_title": "Charlie Parker With Strings (Deluxe Edition)"
+ },
+ {
+  "artist": "Dizzy Gillespie",
+  "title": "Sonny Side Up",
+  "id": "5oNoDsIeu8Gty0kxJ7o0fo",
+  "spotify_title": "Sonny Side Up"
+ },
+ {
+  "artist": "Louis Armstrong",
+  "title": "Louis Armstrong Plays W.C. Handy",
+  "id": "6yvbyi8LOzXI59WkW6QzG2",
+  "spotify_title": "Louis Armstrong Plays W. C. Handy"
+ },
+ {
+  "artist": "Duke Ellington",
+  "title": "Money Jungle",
+  "id": "5I3aoewqDpP4TglIl9O7su",
+  "spotify_title": "Money Jungle (Expanded Edition / 2002 Remaster)"
+ },
+ {
+  "artist": "Count Basie",
+  "title": "The Atomic Mr. Basie",
+  "id": "03M3VID0s2wANlxJIJBWKb",
+  "spotify_title": "The Atomic Mr Basie"
+ },
+ {
+  "artist": "Thelonious Monk",
+  "title": "Monk's Music",
+  "id": "5VTHqe7GnSKHRqq9qF8O5G",
+  "spotify_title": "Monk's Music"
+ },
+ {
+  "artist": "Bud Powell",
+  "title": "The Amazing Bud Powell, Vol. 1",
+  "id": "4JZpydaQoCZY03mYcPgsaS",
+  "spotify_title": "The Amazing Bud Powell: Vol. 1 (The Rudy Van Gelder Edition)"
+ },
+ {
+  "artist": "Ahmad Jamal",
+  "title": "At the Pershing: But Not for Me",
+  "id": "3nUwuIFxJid3GQo8c4F6HY",
+  "spotify_title": "Ahmad Jamal At The Pershing: But Not For Me"
+ },
+ {
+  "artist": "Erroll Garner",
+  "title": "Concert by the Sea",
+  "id": "6P8W18Qy0P2vreXHoEeVQL",
+  "spotify_title": "Concert By The Sea"
+ },
+ {
+  "artist": "Oscar Peterson Trio",
+  "title": "We Get Requests",
+  "id": "4rCo3zGQW3xzkuHYwhJg40",
+  "spotify_title": "We Get Requests"
+ },
+ {
+  "artist": "Max Roach",
+  "title": "We Insist! Max Roach's Freedom Now Suite",
+  "id": "2A40MlJAWcClvI4MH8T2r0",
+  "spotify_title": "We Insist! Max Roach's Freedom Now Suite (Remastered)"
+ },
+ {
+  "artist": "Abbey Lincoln",
+  "title": "Straight Ahead",
+  "id": "08qSdQj5CvKjKVLY4oJs7K",
+  "spotify_title": "Straight Ahead (Remastered)"
+ },
+ {
+  "artist": "Ella Fitzgerald",
+  "title": "Ella in Berlin: Mack the Knife",
+  "id": "1wQ8jRyqbHquuUBv0oPi20",
+  "spotify_title": "Mack The Knife: Ella In Berlin (Live)"
+ },
+ {
+  "artist": "Billie Holiday",
+  "title": "Songs for Distingué Lovers",
+  "id": "4aVrAD83svetEEqiANmvmw",
+  "spotify_title": "Songs For Distingué Lovers"
+ },
+ {
+  "artist": "Dinah Washington",
+  "title": "What a Diff'rence a Day Makes!",
+  "id": "0w8YD8Wz1hEkwXdsAMzzFe",
+  "spotify_title": "What A Diff'rence A Day Makes! (Expanded Edition)"
+ },
+ {
+  "artist": "Chick Corea",
+  "title": "Now He Sings, Now He Sobs",
+  "id": "7wKVcBB5SgqVX3Cj3LPllE",
+  "spotify_title": "Now He Sings, Now He Sobs (Expanded Edition)"
+ },
+ {
+  "artist": "Return to Forever",
+  "title": "Light as a Feather",
+  "id": "2b53ZhXIiCGr3rPTYkpVeF",
+  "spotify_title": "Light As A Feather"
+ },
+ {
+  "artist": "Weather Report",
+  "title": "Heavy Weather",
+  "id": "2M9F2yYsUvqiBPwUGeNvn1",
+  "spotify_title": "Heavy Weather"
+ },
+ {
+  "artist": "Mahavishnu Orchestra",
+  "title": "The Inner Mounting Flame",
+  "id": "6XHQCPGwvSaqv9MZ2tauqr",
+  "spotify_title": "The Inner Mounting Flame (with John McLaughlin)"
+ },
+ {
+  "artist": "Pat Metheny",
+  "title": "Bright Size Life",
+  "id": "1wyaHGxXkIGaLGSQTTgKzw",
+  "spotify_title": "Bright Size Life"
+ },
+ {
+  "artist": "Keith Jarrett",
+  "title": "Belonging",
+  "id": "6dmq2NJgWAvrzRVrpPwkzv",
+  "spotify_title": "Belonging"
+ },
+ {
+  "artist": "Ornette Coleman",
+  "title": "Free Jazz",
+  "id": "7zE4RadAWa8lYSvAZkGtFw",
+  "spotify_title": "Free Jazz"
+ },
+ {
+  "artist": "Albert Ayler",
+  "title": "Spiritual Unity",
+  "id": "0X7WwByQT7NxJNhb8iHJ3K",
+  "spotify_title": "Spiritual Unity 50th Anniversary Expanded Edition"
+ },
+ {
+  "artist": "Cecil Taylor",
+  "title": "Unit Structures",
+  "id": "2GQNkSoyBPwTkpuzn8niec",
+  "spotify_title": "Unit Structures"
+ },
+ {
+  "artist": "Sun Ra",
+  "title": "Lanquidity",
+  "id": "6hwD6ZjtCYrZSBMmK5se46",
+  "spotify_title": "Lanquidity (Definitive Edition)"
+ },
+ {
+  "artist": "Archie Shepp",
+  "title": "Fire Music",
+  "id": "1vz97Cr9Jw5A4tJnA7dLNk",
+  "spotify_title": "Fire Music"
+ },
+ {
+  "artist": "Yusef Lateef",
+  "title": "Eastern Sounds",
+  "id": "7Dd9kbH46vk4fIA9esp3rf",
+  "spotify_title": "Eastern Sounds (Remastered 2023)"
+ },
+ {
+  "artist": "Rahsaan Roland Kirk",
+  "title": "The Inflated Tear",
+  "id": "5xduKf7XKIvw4JV3fHcItg",
+  "spotify_title": "The Inflated Tear"
+ },
+ {
+  "artist": "Charles Lloyd",
+  "title": "Forest Flower",
+  "id": "6lIWfnUerZuu9UcUDnF2JD",
+  "spotify_title": "Forest Flower: Charles Lloyd At Monterey (Live)"
+ },
+ {
+  "artist": "Charles Mingus",
+  "title": "Mingus Mingus Mingus Mingus Mingus",
+  "id": "12DCd8u80PoRIvBgjQrtuH",
+  "spotify_title": "Mingus Mingus Mingus Mingus Mingus"
+ }
+]

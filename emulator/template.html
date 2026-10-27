@@ -1,0 +1,1258 @@
+<title>Streamdeck Hautomate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&family=Roboto:wght@500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: the 8x4 deck across the top as the hero, the player, lights and Home Assistant panels below it. */
+:root {
+  --bg: #eef0f2;
+  --surface: #ffffff;
+  --fg: #1c2127;
+  --muted: #5d6874;
+  --line: #d6dbe0;
+  --accent: #1f6fd1;         /* Home Assistant-ish blue for interactive bits */
+  --amber: #f0a020;          /* the deck's own "entity is on" text colour */
+  --ok: #1d8a4e;
+  --warn: #b26200;
+  --chassis: #1a1c1f;        /* the device itself is always dark hardware */
+  --chassis-edge: #2c2f33;
+  --keyglass: #000000;
+  /* Chicago everywhere, as on the deck (fonts/ChicagoFLF.ttf, inlined by build.py); one weight, so no faux bold */
+  --font-ui: "ChicagoFLF", "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-head: "ChicagoFLF", "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --font-key: "ChicagoFLF", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121417; --surface: #1b1f24; --fg: #e4e8ec; --muted: #98a3ae; --line: #2d333a;
+  --accent: #5ea2f2; --ok: #4cc283; --warn: #e5a04a; --chassis: #0b0c0d; --chassis-edge: #34383d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121417; --surface: #1b1f24; --fg: #e4e8ec; --muted: #98a3ae; --line: #2d333a;
+  --accent: #5ea2f2; --ok: #4cc283; --warn: #e5a04a; --chassis: #0b0c0d; --chassis-edge: #34383d; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--font-ui); font-synthesis: none }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 48px; display: grid; gap: 28px; }
+header h1 { font: 700 1.9rem/1.1 var(--font-head); margin: 0 0 6px; text-wrap: balance; letter-spacing: .01em }
+header p { margin: 0; color: var(--muted); max-width: 64ch }
+.main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start }
+
+/* ── Device ── */
+.stage { display: grid; gap: 14px; min-width: 0 }
+.device { background: linear-gradient(180deg, var(--chassis-edge), var(--chassis) 14%); border-radius: 22px; padding: clamp(14px, 3.5vw, 26px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 18px 40px -18px rgba(0,0,0,.55); max-width: 960px; }
+.grid { display: grid; grid-template-columns: repeat(var(--cols, 8), minmax(0, 1fr)); gap: clamp(4px, 1.4vw, 14px) }
+.key { all: unset; position: relative; aspect-ratio: 1; max-width: 100%; border-radius: 12%; overflow: hidden; background: var(--keyglass);
+  container-type: inline-size; cursor: pointer; box-shadow: 0 0 0 1px #2a2d31, 0 2px 0 #050505; transition: transform .06s; touch-action: manipulation; user-select: none; -webkit-user-select: none }
+.key:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }
+.key.down { transform: scale(.94) }
+.key.empty { cursor: default }
+.key img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none }
+/* the cover spans the 3x3 bezels included (3 keys + 2 x 24 px of 96 = 350%); what falls under a bezel is
+   hidden, as _tile in visualizer/deck_run.py cuts it, so the picture isn't stretched across the gaps */
+.key .tile { position: absolute; inset: 0; background-size: 350% 350%; pointer-events: none }
+.key canvas.volov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none }
+.key svg { position: absolute; left: 15%; top: 15%; width: 70%; height: 70%; pointer-events: none }
+.key .txt { position: absolute; inset: 0; display: grid; place-items: center; padding: 4%; text-align: center; white-space: pre-line;
+  font: 500 calc(var(--ts, 12) / var(--kp, 96) * 100cqw)/1.1 var(--font-key); color: var(--tc, #fff); overflow: hidden; word-break: break-word; pointer-events: none;
+  text-shadow: 0 0 3px #000, 0 0 6px #000 }
+.key .count { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.6); color: var(--amber);
+  font: 700 38cqw/1 var(--font-key); pointer-events: none }
+.key .missing { position: absolute; inset: 22%; border: 2px dashed #e0533d; border-radius: 10%; display: grid; place-items: center; color: #e0533d; font: 700 26cqw/1 var(--font-key) }
+.key .hold { position: absolute; left: 0; bottom: 0; height: 4%; width: 0; background: var(--amber); pointer-events: none }
+.key .hold.run { width: 100%; transition: width var(--lp) linear }
+/* deleting a cover: a red circle in the middle of the cover fills in, clockwise from 12, over the 2.5 s hold */
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 0% }
+.key .hold.del { left: 27%; top: 27%; bottom: auto; width: 46%; height: 46%; border-radius: 50%;
+  background: conic-gradient(#ff5a46 var(--p), #280c0a 0); box-shadow: 0 0 0 2px #ff5a46, 0 0 10px rgba(0,0,0,.85);
+  opacity: 0; transition: opacity .15s }
+.key.down .hold.del { opacity: 1 }
+.key .hold.del.run { width: 46%; --p: 100%; transition: --p var(--lp) linear, opacity .15s }
+.blank { filter: brightness(0) }
+.key canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none }
+.vis-src { color: var(--muted); font-size: .88rem }
+.devfoot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; max-width: 960px }
+.crumb { font: 600 1.05rem var(--font-head); letter-spacing: .02em }
+.crumb span { color: var(--muted); font-weight: 600 }
+.hint { color: var(--muted); font-size: .88rem }
+
+/* ── Panels ── */
+.side { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px; min-width: 0; align-items: start }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; min-width: 0 }
+.panel h2 { margin: 0; font: 700 .78rem var(--font-head); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 8px }
+.np { display: grid; grid-template-columns: 76px minmax(0,1fr); gap: 14px; align-items: center }
+.np .art { width: 76px; height: 76px; border-radius: 6px; background: var(--line); object-fit: cover; display: block }
+.np .t { font: 600 1.05rem/1.25 var(--font-head); overflow-wrap: anywhere }
+.np .meta { color: var(--muted); font-size: .88rem; font-variant-numeric: tabular-nums }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 99px; font: 600 .74rem/1.6 var(--font-ui); letter-spacing: .04em; text-transform: uppercase; border: 1px solid currentColor }
+.chip.on { color: var(--ok) } .chip.off { color: var(--muted) } .chip.lit { color: var(--warn) }
+.vol { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden } .vol i { display: block; height: 100%; background: var(--accent) }
+.lights { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px 14px; margin: 0; padding: 0; list-style: none }
+.lights li { display: flex; justify-content: space-between; gap: 8px; font-size: .9rem }
+.log { margin: 0; padding: 0; list-style: none; font: .78rem/1.5 var(--font-mono); max-height: 260px; overflow: auto; display: grid; gap: 6px }
+.log li { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 10px }
+.log time { color: var(--muted); font-variant-numeric: tabular-nums }
+.log code { overflow-wrap: anywhere } .log .svc { color: var(--accent) } .log .nav { color: var(--muted) }
+.notes { margin: 0; padding-left: 18px; color: var(--muted); font-size: .88rem; display: grid; gap: 4px }
+.notes code { font: .8rem var(--font-mono); color: var(--fg) }
+.btn { all: unset; cursor: pointer; color: var(--accent); font: 600 .78rem var(--font-ui); letter-spacing: .04em; text-transform: none }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px }
+/* ── Mode switch: Development (simulated) / Live (real Home Assistant) ── */
+:root { --live: #d6402b } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --live: #f0705c } } :root[data-theme="dark"] { --live: #f0705c }
+.modebar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 8px }
+.switch { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; font: 600 .8rem var(--font-ui); color: var(--muted); user-select: none }
+.switch input { appearance: none; -webkit-appearance: none; margin: 0; width: 30px; height: 17px; border-radius: 99px; background: var(--line); position: relative; cursor: pointer; transition: background .15s }
+.switch input::after { content: ""; position: absolute; left: 2px; top: 2px; width: 13px; height: 13px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: transform .15s }
+.switch input:checked { background: var(--accent) } .switch input:checked::after { transform: translateX(13px) }
+.switch input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.stage .panel { max-width: 960px }
+details.panel { display: block }
+.logbox > summary { list-style: none; cursor: pointer }
+.logbox > summary::-webkit-details-marker { display: none }
+.logbox > summary h2 span::before { content: "▸"; display: inline-block; width: 1.2em; transition: transform .15s }
+.logbox[open] > summary h2 span::before { transform: rotate(90deg) }
+.logbox[open] > summary { margin-bottom: 12px }
+.logbox > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 3px }
+.status { font-size: .88rem; color: var(--muted); display: inline-flex; gap: 8px; align-items: center }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none }
+.dot.ok { background: var(--ok) } .dot.bad { background: var(--live) } .dot.wait { background: var(--warn) }
+body.live .device { box-shadow: 0 0 0 3px var(--live), 0 18px 40px -18px rgba(0,0,0,.55) }
+.auth { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); max-width: 560px }
+.auth label { display: grid; gap: 3px; font-size: .84rem; color: var(--muted) }
+.auth input { font: .9rem var(--font-mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); min-width: 0 }
+.auth .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap }
+.auth .go { all: unset; cursor: pointer; background: var(--live); color: #fff; padding: 6px 14px; border-radius: 6px; font: 600 .86rem var(--font-ui) }
+.auth .go:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.log .err { color: var(--live) } .log .ok { color: var(--ok) }
+.ha { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center }
+.ha p { margin: 0; flex: 1 1 200px; color: var(--muted); font-size: .88rem }
+.danger { all: unset; cursor: pointer; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--live); color: var(--live); font: 600 .86rem var(--font-ui) }
+.danger[data-armed] { background: var(--live); color: #fff }
+.danger:disabled { opacity: .55; cursor: default }
+.danger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+/* ── Player controls (both modes) ── */
+.np { grid-template-columns: 96px minmax(0,1fr) } .np .art { width: 96px; height: 96px }
+.transport { display: flex; gap: 8px; align-items: center }
+.tbtn { all: unset; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--fg); border: 1px solid var(--line); background: var(--bg) }
+.tbtn.big { width: 48px; height: 48px; background: var(--fg); color: var(--bg); border-color: var(--fg) }
+.tbtn svg { width: 22px; height: 22px } .tbtn.big svg { width: 26px; height: 26px }
+.tbtn:hover { border-color: var(--muted) } .tbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.tbtn:disabled { opacity: .4; cursor: default }
+/* the player: now playing, progress and transport on the left, a vertical volume slider on the right */
+.player { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 14px; align-items: stretch }
+.pmain { display: grid; gap: 12px; min-width: 0; align-content: start }
+.vcol { display: grid; grid-template-rows: auto auto minmax(110px, 1fr) auto auto; justify-items: center; gap: 8px; padding-left: 14px; border-left: 1px solid var(--line) }
+.vcol output { font: 600 .82rem var(--font-ui); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 3ch; text-align: center }
+.vcol input[type=range] { writing-mode: vertical-lr; direction: rtl; width: 28px; height: 100%; min-height: 110px; margin: 0; accent-color: var(--accent); cursor: pointer }
+.vcol input[type=range]:disabled { cursor: default; opacity: .5 }
+/* 1% steps either side of the slider: many speakers are loud, and the useful range is the bottom fifth */
+.tbtn.fine { width: 32px; height: 32px; font: 600 1.1rem var(--font-ui) }
+.prog { display: grid; gap: 4px }
+.prog .bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden }
+.prog .bar i { display: block; height: 100%; width: 0; background: var(--fg) }
+.prog .times { display: flex; justify-content: space-between; font: .78rem var(--font-ui); font-variant-numeric: tabular-nums; color: var(--muted) }
+.toast.info { background: var(--fg); color: var(--bg) }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: calc(100vw - 32px); background: var(--live); color: #fff; padding: 10px 16px; border-radius: 8px;
+  font: 500 .9rem var(--font-ui); box-shadow: 0 8px 24px -8px rgba(0,0,0,.5); z-index: 10 }
+/* Live: a clean view of the deck and the player; Development: everything, including the call log and setup notes */
+body.live .dev-only { display: none !important }
+/* Phones (and the Home Assistant app): deck first and edge to edge, less chrome around it */
+@media (max-width: 600px) {
+  .wrap { padding-block: 10px 20px; gap: 14px; padding-inline: 10px }
+  header h1 { font-size: 1.35rem; margin-bottom: 2px }
+  .main, .side { gap: 14px }
+  .device { border-radius: 16px; padding: 10px }
+  .grid { gap: 3px }
+  .panel { padding: 12px }
+  .np { grid-template-columns: 72px minmax(0,1fr) } .np .art { width: 72px; height: 72px }
+}
+@media (prefers-reduced-motion: reduce) { .key, .key .hold.run:not(.del) { transition: none } }  /* the delete circle is progress, not decoration */
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Streamdeck Hautomate</h1>
+    <p id="intro" class="dev-only"></p>
+    <div class="modebar">
+      <span class="status" id="status" aria-live="polite"></span>
+      <label class="switch"><input type="checkbox" id="devmode" role="switch"> Dev mode</label>
+    </div>
+    <form class="auth panel" id="auth" hidden>
+      <h2>Connect to Home Assistant</h2>
+      <label>Address <input id="a-url" type="url" autocomplete="off" spellcheck="false"></label>
+      <label>Long-lived access token (Home Assistant › your profile › Security) <input id="a-tok" type="password" autocomplete="off" spellcheck="false"></label>
+      <div class="row"><button class="go" type="submit">Connect</button><span class="hint">Saved in this browser only.</span></div>
+    </form>
+  </header>
+  <div class="main">
+    <section class="stage" aria-label="Stream Deck">
+      <div class="device"><div class="grid" id="grid"></div></div>
+      <div class="devfoot">
+        <div class="crumb" id="crumb"></div>
+        <div class="hint dev-only">Click to press. Tap a genre to see its albums; tap a cover to play it; after a minute untouched it goes back to Home. Keyboard: Tab to a key, then Space.</div>
+      </div>
+      <details class="panel logbox" id="logbox" open>
+        <summary><h2 id="h-log"><span id="logh">Calls sent to Home Assistant</span> <button class="btn" id="reset" type="button">Reset</button></h2></summary>
+        <ol class="log" id="log" reversed></ol>
+      </details>
+    </section>
+    <aside class="side">
+      <section class="panel" aria-labelledby="h-np">
+        <h2 id="h-np">Speaker <span id="pw"></span></h2>
+        <div class="player">
+          <div class="pmain">
+            <div class="np"><img class="art" id="art" alt=""><div style="min-width:0;display:grid;gap:6px">
+              <div class="t" id="title"></div><div class="meta" id="meta"></div></div></div>
+            <div class="prog" id="prog" hidden>
+              <div class="bar" role="progressbar" aria-label="Track progress" id="p-bar-wrap"><i id="p-bar"></i></div>
+              <div class="times"><span id="p-pos"></span><span id="p-dur"></span></div>
+            </div>
+            <div class="transport">
+              <button class="tbtn" type="button" id="c-prev" aria-label="Previous track"></button>
+              <button class="tbtn big" type="button" id="c-play" aria-label="Play"></button>
+              <button class="tbtn" type="button" id="c-next" aria-label="Next track"></button>
+            </div>
+          </div>
+          <div class="vcol">
+            <output id="c-volv" for="c-vol"></output>
+            <button class="tbtn fine" type="button" id="c-volup" aria-label="Volume up 1%">+</button>
+            <input type="range" id="c-vol" min="0" max="100" step="1" aria-label="Volume" aria-orientation="vertical">
+            <button class="tbtn fine" type="button" id="c-voldn" aria-label="Volume down 1%">−</button>
+            <button class="tbtn" type="button" id="c-mute" aria-label="Mute"></button>
+          </div>
+        </div>
+      </section>
+      <section class="panel" id="lights-panel" aria-labelledby="h-l">
+        <h2 id="h-l">Lights</h2><ul class="lights" id="lights"></ul>
+      </section>
+      <section class="panel dev-only" aria-labelledby="h-ha">
+        <h2 id="h-ha">Home Assistant</h2>
+        <div class="ha"><p id="ha-msg">Restarts the real Home Assistant, in either mode. Takes about a minute; the deck reconnects by itself.</p>
+          <button class="danger" id="ha-restart" type="button">Restart Home Assistant</button></div>
+      </section>
+      <section class="panel dev-only" aria-labelledby="h-n">
+        <h2 id="h-n">Before it goes live</h2><ul class="notes" id="notes"></ul>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src=".live-auth.js" onerror="this.remove()"></script>
+<script>
+const DATA = /*__DATA__*/null;
+const CFG = DATA.config, ICONS = DATA.icons, ALBUMS = DATA.albums, FILES = DATA.files || {};
+const SOUNDS = DATA.sounds || {};  // More › Sound Effects clips, by file name (sounds/)
+const WIIM = DATA.player;
+const LP_MS = (CFG.long_press_duration || 0.5) * 1000;
+// the deck's size (emulator/build.py reads it off the pages): an XL is 8x4 keys of 96 px, the 15-key deck 5x3 of 72 px
+const COLS = (DATA.deck || {}).cols || 8, ROWS = (DATA.deck || {}).rows || 4, KEYS = COLS * ROWS, KEY_PX = (DATA.deck || {}).key || 96;
+const DECK_NAME = KEYS === 32 ? 'the 32-key Stream Deck XL' : 'a 15-key Stream Deck';
+document.documentElement.style.setProperty('--cols', COLS); document.documentElement.style.setProperty('--kp', KEY_PX);
+const $ = id => document.getElementById(id);
+
+// ── Simulated Home Assistant state ──
+let ents, history, current, screenOff, timers = {}, listening = null;
+function initState() {
+  const first = Object.values(ALBUMS)[0] || {};
+  ents = { [WIIM]: { state: 'playing', title: first.title || 'Kind Of Blue', artist: first.artist || 'Miles Davis', art: first.img, volume: 0.35, muted: false, source: 'Spotify',
+    duration: 312, pos: 41, posAt: Date.now() } };
+  allButtons().forEach(b => { const e = b.entity_id; if (typeof e === 'string' && e.startsWith('light.') && !ents[e]) ents[e] = { state: 'off' }; });
+  allButtons().forEach(b => { const e = b.service_data && b.service_data.entity_id;  // other players, e.g. the TV
+    if (typeof e === 'string' && e.startsWith('media_player.') && e !== WIIM && !ents[e]) ents[e] = { state: 'off' }; });
+  history = []; current = CFG.pages[0]; screenOff = false; clearTimeout(sleepT);
+  if (listening) { clearTimeout(listening.t); listening = null; }
+  Object.values(timers).forEach(t => clearInterval(t.iv)); timers = {};
+}
+function allButtons() { return [...CFG.pages, ...CFG.anonymous_pages].flatMap(p => p.buttons || []); }
+
+// ── Template evaluation (the subset this config uses) ──
+function ev(v) {
+  if (!v || typeof v !== 'object' || !v.$tpl) return v;
+  if (mode === 'live' && live && live.tpl.has(v.src)) return live.tpl.get(v.src); // rendered by Home Assistant itself
+  const w = ents[v.entity || WIIM] || {};
+  switch (v.$tpl) {
+    case 'cond': {
+      const e = ents[v.entity] || {}, attr = { is_volume_muted: 'muted', media_title: 'title', volume_level: 'volume' }[v.arg] || v.arg;
+      return (v.fn === 'is_state' ? e.state === v.arg : !!e[attr]) ? v.a : v.b;
+    }
+    case 'title': return w.state === 'off' ? 'WiiM' : (w.title || 'WiiM');
+    case 'playpause_icon': return w.state === 'playing' ? 'pause' : 'play';
+    case 'mute_icon': return w.muted ? 'volume-off' : 'volume-high';
+    case 'mute_toggle': return !w.muted;
+    case 'volume_pct': return v.src.replace(/\{\{[\s\S]*?\}\}/, w.volume == null ? '0' : Math.round(w.volume * 100));  // "Vol +\n35%"
+    case 'marquee': return v.src.slice(0, 10) + (w.state === 'off' ? '' : `${w.artist || ''}\n${w.title || ''}`) + `\n${w.state || ''}`;  // "marquee:<n>:" + artist, song, state
+    case 'tile': return v.src.slice(0, 7) + (w.art || '');  // "tile:<n>:" and the cover
+    case 'game': {
+      const s = String((ents[v.entity] || {}).state || ''), cells = s.split(':')[0];
+      if (v.part === 'bg') return cells[v.cell] === '#' ? LO_COLOURS[(+s.split(':')[2] || 0) % LO_COLOURS.length] : '#000000';
+      return cells.includes('#') ? '' : lightsOutText(s, v.cell);
+    }
+    default: return '{{ ? }}';
+  }
+}
+function evAll(o) { if (Array.isArray(o)) return o.map(evAll); if (o && typeof o === 'object' && !o.$tpl) { const r = {}; for (const k in o) r[k] = evAll(o[k]); return r; } return ev(o); }
+
+// ── Rendering ──
+function svgIcon(name, color) {
+  const d = ICONS[name];
+  if (!d) return `<span class="missing" title="Icon “${name}” does not exist">?</span>`;
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="${color}" d="${d}"/></svg>`;
+}
+function dim(hex) { // the deck derives icon colour from text colour, mixed toward grey
+  const n = parseInt(hex.slice(1), 16), mix = c => Math.round(c * 0.55 + 128 * 0.45);
+  return `rgb(${mix(n >> 16)},${mix((n >> 8) & 255)},${mix(n & 255)})`;
+}
+const NAMED = { white: '#ffffff', amber: '#f0a020' };
+function looks(b) {
+  const st = b.special_type;
+  if (st === 'next-page') return { icon_mdi: 'arrow-right', text: 'Next\npage' };
+  if (st === 'previous-page') return { icon_mdi: 'arrow-left', text: 'Previous\npage' };
+  if (st === 'turn-off') return { icon_mdi: 'power', text: 'Turn off\ndeck' };
+  return b;
+}
+let holding = false, dirty = false, queued = false;
+function scheduleRender() { // coalesces live updates; waits while a key is held down
+  if (holding) { dirty = true; return; }
+  if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; if (holding) dirty = true; else render(); }); }
+}
+function render() {
+  dirty = false;
+  const grid = $('grid'); grid.innerHTML = '';
+  if (vis) return renderVis(grid);
+  const btns = current.buttons || [];
+  for (let i = 0; i < KEYS; i++) {
+    const b = btns[i] || { special_type: 'empty' }, L = looks(b);
+    const el = document.createElement('button'); el.type = 'button'; el.className = 'key';
+    if (screenOff) el.classList.add('blank');
+    if (b.special_type === 'empty') { el.classList.add('empty'); el.tabIndex = -1; el.setAttribute('aria-hidden', 'true'); }
+    const ent = ents[b.entity_id], on = ent && ent.state === 'on';
+    const tcv = ev(b.text_color);
+    const tc = NAMED[tcv] || tcv || (on ? NAMED.amber : NAMED.white);
+    let html = '';
+    const bg = ev(b.icon_background_color);
+    if (bg) el.style.background = bg;
+    const icon = ev(b.icon);
+    const sp = typeof icon === 'string' && icon.match(/^spotify:(?:album|playlist|artist|track|episode)\/(\w{22})/);
+    if (sp && ALBUMS[sp[1]] && ALBUMS[sp[1]].img) html += `<img src="${ALBUMS[sp[1]].img}" alt="">`;
+    const tile = typeof icon === 'string' && icon.match(/^tile:(\d):/);  // the Now Playing panel: a ninth of the cover, as visualizer/deck_run.py cuts it
+    const art = tile && ents[WIIM] && ents[WIIM].art;
+    if (art) html += `<span class="tile" style="background-image:url('${art.replace(/'/g, '%27')}');background-position:${tile[1] % 3 * 50}% ${Math.floor(tile[1] / 3) * 50}%"></span>`;
+    if (tile) html += `<canvas class="volov" width="192" height="192" data-n="${tile[1]}"></canvas>`;  // the level while it changes
+    const mq = typeof icon === 'string' && icon.match(/^marquee:(\d):([\s\S]*)$/);  // a third of the scrolling artist and song
+    if (mq) html += `<canvas class="mq" width="192" height="192" data-n="${mq[1]}" data-text="${esc(mq[2])}"></canvas>`;
+    const local = typeof icon === 'string' && icon.startsWith('/icons/');
+    if (local) html += FILES[icon] ? `<img src="${FILES[icon]}" alt=""${b.icon_gray_when_off && ent && ent.state === 'off' ? ' style="filter:grayscale(1)"' : ''}>` : `<span class="missing" title="Image ${icon} not found">?</span>`;
+    const mdi = ev(L.icon_mdi);
+    if (mdi && !sp && !local && !tile && !mq) html += svgIcon(mdi, b.icon_mdi_color || dim(tc));
+    const text = ev(L.text);
+    if (text) {
+      const off = b.text_offset ? `transform:translateY(${b.text_offset / KEY_PX * 100}cqw);` : '';  // positive is down, as the library draws it
+      html += `<span class="txt" style="--ts:${b.text_size || 12};--tc:${tc};${off}">${esc(String(text).trim())}</span>`;
+    }
+    if (timers[i]) html += `<span class="count">${timers[i].left}</span>`;
+    if (b.long_press && b.long_press.service === REMOVE_SVC) html += `<span class="hold del" style="--lp:${HOLD_DELETE_MS}ms"></span>`;
+    else if (b.long_press) html += `<span class="hold" style="--lp:${LP_MS}ms"></span>`;
+    el.innerHTML = html;
+    el.setAttribute('aria-label', label(b, sp, text, mdi));
+    wire(el, b, i);
+    grid.appendChild(el);
+  }
+  if (rmArmed && rmArmed.page === current) keyNote(grid.children[rmArmed.i], 'Tap again\nto delete', RED);
+  $('crumb').innerHTML = esc(current.name) + (history.length ? ` <span>· from ${esc(history.map(p => p.name).join(' › '))}</span>` : '');
+  panel(); drawMarquee(); drawVolume();
+}
+
+// ── "artist – song" scrolling on one large line under the cover: the same strip visualizer/deck_run.py draws ──
+// (numbers as there: a 96 px key, the 24 px bezel counted in, so letters line up across keys)
+const MQ = { gap: 24, pad: 6, speed: 28, pause: 1.5, space: 96, size: 40, base: 62, artist: '#a8a8a8', song: '#ffffff', dim: '#5a5a5a', sep: '  –  ',
+  icon: '#8a8a8a', iconY: 84 };  // the small icon under the line on each key: Vol −, play/pause, Vol +
+const mqT0 = performance.now();
+let mqRaf = null;
+function drawMarquee() {
+  cancelAnimationFrame(mqRaf);
+  const keys = [...document.querySelectorAll('#grid canvas.mq')];
+  if (!keys.length) return;
+  const S = 2, K = 96, W = 3 * K + 2 * MQ.gap, t = (performance.now() - mqT0) / 1000;
+  const [artist = '', song = '', state = ''] = keys[0].dataset.text.split('\n').map(l => l.trim());
+  let parts = !song ? [['Nothing playing', MQ.dim]] : [...(artist.trim() ? [[artist.trim() + MQ.sep, MQ.artist]] : []), [song, MQ.song]];
+  if (volShowing()) parts = [[`${vol.pct}%`, MQ.song]];  // the level on the middle key while it changes (_vol_strip)
+  const strip = document.createElement('canvas'); strip.width = W * S; strip.height = K * S;
+  const c = strip.getContext('2d'); c.scale(S, S); c.textBaseline = 'alphabetic';
+  c.font = `500 ${MQ.size}px ${getComputedStyle(document.body).getPropertyValue('--font-key')}`;
+  const widths = parts.map(([part]) => c.measureText(part).width), tw = widths.reduce((a, b) => a + b, 0);
+  const scrolls = tw > K - 2 * MQ.pad, loop = Math.max(tw + MQ.space, W);  // one pass: the line and a gap, at least the strip
+  const moved = scrolls ? Math.max(0, t % (MQ.pause + loop / MQ.speed) - MQ.pause) * MQ.speed : 0;
+  for (let x of scrolls ? [MQ.pad - moved, MQ.pad - moved + loop] : [(W - tw) / 2])
+    parts.forEach(([part, color], i) => { c.fillStyle = color; c.fillText(part, x, MQ.base); x += widths[i]; });
+  for (const k of keys) {
+    const g = k.getContext('2d'); g.fillStyle = '#000'; g.fillRect(0, 0, k.width, k.height);
+    g.drawImage(strip, +k.dataset.n * (K + MQ.gap) * S, 0, K * S, K * S, 0, 0, k.width, k.height);
+    mqIcon(g, +k.dataset.n, state, k.width / K);
+  }
+  if (scrolls) mqRaf = requestAnimationFrame(drawMarquee);
+}
+function mqIcon(g, n, state, s) {  // as _marquee_icon in visualizer/deck_run.py
+  const cy = MQ.iconY, r = (x, y, w, h) => g.fillRect(x * s, y * s, w * s, h * s);
+  const poly = pts => { g.beginPath(); pts.forEach(([x, y], i) => g[i ? 'lineTo' : 'moveTo'](x * s, y * s)); g.closePath(); g.fill(); };
+  g.fillStyle = MQ.icon;
+  if (n === 1) {
+    const x = (96 - 10) / 2;
+    if (state === 'playing') { r(x, cy - 6, 3.5, 12); r(x + 6.5, cy - 6, 3.5, 12); } else poly([[x, cy - 7], [x, cy + 7], [x + 11, cy]]);
+    return;
+  }
+  const x = n === 0 ? 8 : 96 - 8 - 22;
+  r(x, cy - 3, 4, 6); poly([[x + 4, cy - 3], [x + 10, cy - 7.5], [x + 10, cy + 7.5], [x + 4, cy + 3]]);
+  r(x + 13, cy - 1.2, 9, 2.4);
+  if (n === 2) r(x + 16.3, cy - 4.5, 2.4, 9);
+}
+function label(b, sp, text, mdi) {
+  if (b.special_type === 'empty') return 'empty';
+  const ic = ev(b.icon);
+  if (!text && typeof ic === 'string' && ic.startsWith('/icons/')) return ic.slice(7, -4).replace(/-/g, ' ');
+  if (sp) return ALBUMS[sp[1]] ? ALBUMS[sp[1]].title : 'album';
+  if (b.long_press && b.long_press.service === LISTEN_SVC) return 'empty slot, hold and say an album, artist or playlist to add';
+  if (b.service === LO_SVC) { const lit = ev(b.icon_background_color) !== '#000000';
+    return `${String(text || '').replace(/\s+/g, ' ').trim() || 'Lights Out'}: cell ${b.service_data.cell + 1}, ${lit ? 'lit' : 'dark'}`; }
+  return String(text || mdi || b.special_type || b.service || 'key').trim();
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function panel() {
+  const w = ents[WIIM] || { state: mode === 'live' ? 'not in Home Assistant' : 'off' }, vol = w.volume == null ? null : Math.round(w.volume * 100);
+  const idle = ['off', 'unavailable', 'unknown', 'not in Home Assistant'].includes(w.state);
+  $('pw').innerHTML = `<span class="chip ${idle ? 'off' : 'on'}">${esc(w.state)}</span>`;
+  $('title').textContent = w.state === 'off' ? 'Amp off' : idle ? 'Unavailable' : (w.title || 'Nothing playing');
+  $('meta').textContent = [w.source && `Source ${w.source}`, w.muted && 'muted'].filter(Boolean).join(' · ');
+  renderProgress();
+  const gone = idle && w.state !== 'off', ico = n => svgIcon(n, 'currentColor');  // off can still be woken by Play
+  $('c-play').innerHTML = ico(w.state === 'playing' ? 'pause' : 'play'); $('c-play').setAttribute('aria-label', w.state === 'playing' ? 'Pause' : 'Play');
+  $('c-prev').innerHTML = ico('skip-previous'); $('c-next').innerHTML = ico('skip-next');
+  $('c-mute').innerHTML = ico(w.muted ? 'volume-off' : 'volume-high'); $('c-mute').setAttribute('aria-label', w.muted ? 'Unmute' : 'Mute');
+  ['c-prev', 'c-play', 'c-next'].forEach(id => $(id).disabled = gone);
+  ['c-mute', 'c-vol', 'c-volup', 'c-voldn'].forEach(id => $(id).disabled = gone || vol == null);
+  if (!dragging) { $('c-vol').value = vol ?? 0; $('c-volv').textContent = vol == null ? '–' : vol + '%'; }
+  const art = $('art'); if (w.art && w.state !== 'off') { art.src = w.art; art.style.visibility = 'visible'; } else { art.removeAttribute('src'); art.style.visibility = 'hidden'; }
+  $('lights-panel').hidden = !LIGHTS.length || (mode === 'live' && !LIGHTS.some(e => ents[e])); // placeholders only clutter the live view
+  $('lights').innerHTML = LIGHTS.map(e => { const st = ents[e] ? ents[e].state : 'missing';
+    return `<li><span>${esc(e.slice(6).replace(/_/g, ' '))}</span><span class="chip ${st === 'on' ? 'lit' : 'off'}">${esc(st)}</span></li>`; }).join('');
+}
+
+// ── Input: press, long-press, keyboard ──
+function wire(el, b, i) {
+  if (b.special_type === 'empty' && !screenOff) return;
+  if (b.long_press && b.long_press.service === LISTEN_SVC && !screenOff) return wireTalk(el, b.long_press.service_data || {});
+  if (b.long_press && b.long_press.service === REMOVE_SVC && !screenOff) return wireRemove(el, b, i);
+  if (b.service === VOL_SVC && !screenOff) return wireVolume(el, b);
+  let t0 = 0, lpTimer = null, fired = false;
+  const down = () => {
+    t0 = Date.now(); fired = false; el.classList.add('down'); holding = true;
+    const bar = el.querySelector('.hold'); if (bar) requestAnimationFrame(() => bar.classList.add('run'));
+    if (b.long_press && !screenOff) lpTimer = setTimeout(() => { fired = true; el.classList.remove('down'); act(b.long_press, i, true); }, LP_MS);
+  };
+  const up = () => {
+    if (!t0) return; t0 = 0; clearTimeout(lpTimer); el.classList.remove('down'); holding = false;
+    const bar = el.querySelector('.hold'); if (bar) bar.classList.remove('run');
+    if (!fired) press(b, i); else if (dirty) render();
+  };
+  const cancel = () => { t0 = 0; clearTimeout(lpTimer); el.classList.remove('down'); holding = false; const bar = el.querySelector('.hold'); if (bar) bar.classList.remove('run'); if (dirty) render(); };
+  el.addEventListener('pointerdown', e => { e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} down(); });
+  el.addEventListener('pointerup', up);
+  el.addEventListener('pointercancel', cancel);
+  el.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); down(); } });
+  el.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); up(); } });
+}
+// Vol – / Vol +, as ramp() in visualizer/deck_run.py: a first tap steps by the level (VOL.tiers), a
+// slower tap soon after (either way) 1% (fine-tuning), quick taps 5% from the 3rd, 10% from the 6th (VOL.run);
+// held past VOL.hold it slides to 0 (or 100) over VOL.sweep ms. The level is kept here, since Home
+// Assistant's state comes back too slowly to add each step to it. While it changes, the level shows
+// across the cover (and on the scrolling line).
+const VOL_SVC = 'script.deck_volume', VOL = {
+  tiers: [[15, 1], [35, 2], [60, 3], [101, 5]], run: [[6, 10], [3, 5]], reverse: 4000, tapGap: 350,
+  hold: 400, sweep: 2600, tick: 100, show: 2000 };
+const vol = { dir: 0, at: -Infinity, fine: false, pct: 0, until: 0, run: 0, tap: -Infinity };
+let volShowT = null;
+const volShowing = () => performance.now() < vol.until;
+function volStep(pct, up, fine, run) {
+  const r = VOL.run.find(([nth]) => run >= nth); if (r) return r[1];
+  const ref = up ? pct : pct - 1;
+  return fine ? 1 : VOL.tiers.find(([top]) => ref < top)[1];
+}
+function volNext(pct, up, step) {  // on a round number: a multiple of the step
+  return Math.min(100, Math.max(0, up ? (Math.floor(pct / step) + 1) * step : (Math.ceil(pct / step) - 1) * step));
+}
+function drawVolume() {  // the number and bar across the 3x3, as _vol_layer in visualizer/deck_run.py
+  const S = 2, K = 96, W = 3 * K + 2 * MQ.gap, on = volShowing();
+  for (const k of document.querySelectorAll('#grid canvas.volov')) {
+    const g = k.getContext('2d'); g.clearRect(0, 0, k.width, k.height);
+    if (!on) continue;
+    const n = +k.dataset.n, s = k.width / K;
+    g.save(); g.scale(s, s); g.translate(-(n % 3) * (K + MQ.gap), -Math.floor(n / 3) * (K + MQ.gap));
+    g.fillStyle = 'rgba(0,0,0,.59)'; g.fillRect(0, 0, W, W);
+    const fam = getComputedStyle(document.body).getPropertyValue('--font-key'), num = String(vol.pct);
+    let size = 84, nw, pw;  // as big as fits on the middle key, clear of the bezels
+    for (;; size -= 2) {
+      g.font = `500 ${size}px ${fam}`; nw = g.measureText(num).width; g.font = `500 ${size * 0.45}px ${fam}`; pw = g.measureText('%').width;
+      if (nw + pw <= K - 8 || size <= 30) break;
+    }
+    const row = K + MQ.gap, x = (W - nw - pw) / 2, y = row + 48 + size * 0.36;
+    g.fillStyle = '#fff'; g.font = `500 ${size}px ${fam}`; g.fillText(num, x, y); g.font = `500 ${size * 0.45}px ${fam}`; g.fillText('%', x + nw, y);
+    const bh = 16, x0 = 30, x1 = W - 30, by = 2 * row + (K - bh) / 2;  // across the bottom row
+    g.fillStyle = 'rgba(255,255,255,.24)'; g.beginPath(); g.roundRect(x0, by, x1 - x0, bh, bh / 2); g.fill();
+    if (vol.pct) { g.fillStyle = vol.fine ? '#f5b301' : '#fff'; g.beginPath(); g.roundRect(x0, by, Math.max(bh, (x1 - x0) * vol.pct / 100), bh, bh / 2); g.fill(); }
+    g.restore();
+  }
+}
+function wireVolume(el, b) {
+  let timer = null, line = null;
+  const set = pct => {
+    vol.pct = pct; vol.at = performance.now(); vol.until = vol.at + VOL.show;
+    const data = { entity_id: WIIM, volume_level: pct / 100 };
+    if (mode === 'live') callService('media_player.volume_set', data, undefined, line); else simulate('media_player.volume_set', data);
+    line = Object.assign(document.createElement('div'), { innerHTML: '<code></code>' });  // only the first step is logged
+    dirty = true; panel(); drawVolume(); drawMarquee();  // the keys redraw on release: redrawing now would replace the one held
+    clearTimeout(volShowT); volShowT = setTimeout(() => { drawVolume(); drawMarquee(); }, VOL.show + 20);
+  };
+  const down = () => {
+    if (timer !== null) return;
+    const up = +(b.service_data || {}).direction > 0, now = performance.now();
+    const recent = now - vol.at < VOL.reverse, same = vol.dir === (up ? 1 : -1);
+    vol.run = same && now - vol.tap < VOL.tapGap ? vol.run + 1 : 1;
+    vol.fine = recent && vol.run === 1;  // tapping slowly, or back the other way: fine adjustments
+    if (!recent) vol.pct = Math.round(((ents[WIIM] || {}).volume || 0) * 100);
+    vol.dir = up ? 1 : -1; vol.tap = now;
+    el.classList.add('down'); holding = true;
+    const step = volStep(vol.pct, up, vol.fine, vol.run);
+    line = log('svc', `${VOL_SVC} ${up ? '+' : '−'}${step}%${vol.run > 1 ? ` (tap ${vol.run})` : ''}`, b.service_data);
+    set(volNext(vol.pct, up, step));
+    timer = setTimeout(() => {  // still held: a steady slide to the end, VOL.sweep ms from wherever it is
+      vol.run = 0;
+      const start = vol.pct, end = up ? 100 : 0, t0 = performance.now();
+      const slide = () => {
+        const pct = Math.round(start + (end - start) * Math.min(1, (performance.now() - t0) / VOL.sweep));
+        if (pct !== vol.pct) set(pct); else vol.until = performance.now() + VOL.show;
+        if (pct !== end) timer = setTimeout(slide, VOL.tick);
+      };
+      timer = setTimeout(slide, VOL.tick);
+    }, VOL.hold);
+  };
+  const release = () => { if (timer === null && !holding) return; clearTimeout(timer); timer = null; vol.at = performance.now(); el.classList.remove('down'); holding = false; if (dirty) render(); };
+  el.addEventListener('pointerdown', e => { e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} down(); });
+  el.addEventListener('pointerup', release);
+  el.addEventListener('pointercancel', release);
+  el.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); down(); } });
+  el.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); release(); } });
+}
+// After IDLE_HOME_MS without a press the deck goes back to Home, as visualizer/deck_run.py does
+const IDLE_HOME_MS = 60000;  // = IDLE_HOME in gen_config.py
+let idleT = null;
+function idleReset() {
+  clearTimeout(idleT);
+  idleT = setTimeout(() => {
+    if (holding || rmArmed || vis || current === CFG.pages[0]) return idleReset();
+    current = CFG.pages[0]; history = []; log('nav', 'Idle a minute: back to Home'); render();
+  }, IDLE_HOME_MS);
+}
+document.addEventListener('pointerdown', e => { if (e.target.closest?.('#grid .key')) idleReset(); }, true);
+document.addEventListener('keydown', e => { if (e.target.closest?.('#grid .key')) idleReset(); }, true);
+function press(b, i) {
+  if (screenOff) { screenOff = false; log('nav', 'Deck screen woken'); return render(); }
+  if (b.delay) {
+    if (timers[i]) { clearInterval(timers[i].iv); delete timers[i]; log('nav', 'Countdown cancelled'); return render(); }
+    timers[i] = { left: Math.ceil(b.delay), iv: setInterval(() => {
+      if (--timers[i].left <= 0) { clearInterval(timers[i].iv); delete timers[i]; act(b, i); } else render();
+    }, 1000) };
+    log('nav', `Countdown ${b.delay}s started. Press again to cancel.`); return render();
+  }
+  act(b, i);
+}
+
+// ── Actions ──
+function findPage(target) {
+  if (typeof target === 'number') return CFG.pages[target];
+  return CFG.pages.find(p => p.name === target) || CFG.anonymous_pages.find(p => p.name === target);
+}
+function act(b, i, isLong) {
+  const st = b.special_type;
+  if (st === 'go-to-page') {
+    const p = findPage(b.special_type_data);
+    if (!p) { log('nav', `No page named “${b.special_type_data}”`); return; }
+    // like the real deck: moving between pop-up pages (‹ › on albums) doesn't stack, so Back still goes Home
+    const popup = pg => CFG.anonymous_pages.includes(pg);
+    if (p === CFG.pages[0]) history = [];  // Home is the bottom of the stack (the games leave straight to it)
+    else if (!(popup(current) && popup(p))) history.push(current);
+    current = p; log('nav', `Go to page ${p.name}`); return render();
+  }
+  if (st === 'close-page') { current = history.pop() || CFG.pages[0]; log('nav', `Back to ${current.name}`); return render(); }
+  if (st === 'next-page' || st === 'previous-page') {
+    const ix = CFG.pages.indexOf(current), n = CFG.pages.length;
+    current = CFG.pages[ix < 0 ? 0 : (ix + (st === 'next-page' ? 1 : n - 1)) % n]; history = []; log('nav', `Page ${current.name}`); return render();
+  }
+  if (st === 'turn-off') { screenOff = true; log('nav', 'Deck screen off. Press any key to wake.'); return render(); }
+  if (st === 'light-control') { log('nav', 'Light-control page (not emulated)'); return; }
+  if (!b.service) return;
+  if (b.service === RANDOM_SVC) {  // More › Random: any album on the deck, as visualizer/deck_run.py picks it
+    const all = [...new Set([...CFG.pages, ...CFG.anonymous_pages].flatMap(pg => pg.buttons || [])
+      .filter(k => k.service === 'script.play_spotify_album').map(k => (k.service_data || {}).uri))].filter(Boolean);
+    const albums = all.filter(u => u.startsWith('spotify:album:'));
+    const pool = albums.length ? albums : all;
+    if (!pool.length) return;
+    history = [CFG.pages[0]];
+    return act({ service: 'script.play_spotify_album', service_data: { uri: pool[Math.floor(Math.random() * pool.length)] } }, i);
+  }
+  const data = b.service_data ? evAll(b.service_data) : (b.entity_id ? { entity_id: b.entity_id } : {});
+  const target = b.target ? evAll(b.target) : undefined;
+  const line = log('svc', `${isLong ? '[long] ' : ''}${b.service}`, target ? { ...data, target } : data);
+  // the real deck leaves a pop-up page (More, Sleep…) once one of its actions runs; pages with the
+  // Now Playing panel (album pages, People) stay open (visualizer/deck_run.py)
+  if (CFG.anonymous_pages.includes(current) && !hasPanel(current)) { current = CFG.pages.find(p => history.includes(p)) || CFG.pages[0]; history = []; }
+  if (mode === 'live') callService(b.service, data, target, line); else simulate(b.service, data);
+  // an album tapped opens Now Playing, the cover big; its Back returns here (visualizer/deck_run.py)
+  const np = findPage(NOW_PLAYING);
+  if (b.service === 'script.play_spotify_album' && !isLong && np && current !== np) { history.push(current); current = np; }
+  render();
+}
+const NOW_PLAYING = 'Now Playing';  // = NOW_PLAYING in gen_config.py
+const RANDOM_SVC = 'script.deck_random_album';  // = RANDOM in gen_config.py; no such script in Home Assistant
+const hasPanel = pg => (pg.buttons || []).some(b => b.icon && ['tile', 'marquee'].includes(b.icon.$tpl));  // album pages keep only the line
+function simulate(svc, d) {
+  const w = ents[WIIM], id = d.entity_id;
+  const wake = () => { if (w.state === 'off') w.state = 'idle'; };
+  const newTrack = () => Object.assign(w, { duration: 180 + Math.floor(Math.random() * 180), pos: 0, posAt: Date.now() });
+  switch (svc) {
+    case 'media_player.media_play_pause': wake(); Object.assign(w, { pos: posNow(w) ?? 0, posAt: Date.now() });
+      w.state = w.state === 'playing' ? 'paused' : 'playing'; break;
+    case 'media_player.media_next_track': case 'media_player.media_previous_track': wake(); newTrack(); w.state = 'playing'; break;
+    case 'media_player.volume_up': w.volume = Math.min(1, +(w.volume + 0.05).toFixed(2)); break;
+    case 'media_player.volume_down': w.volume = Math.max(0, +(w.volume - 0.05).toFixed(2)); break;
+    case 'media_player.volume_mute': w.muted = !!d.is_volume_muted; break;
+    case 'media_player.volume_set': w.volume = +d.volume_level; break;
+    case VOL_SVC: { const p = Math.round(w.volume * 100), up = +d.direction > 0; w.volume = volNext(p, up, volStep(p, up, false, 1)) / 100; break; }
+    case 'media_player.turn_off': w.state = 'off'; break;
+    case 'media_player.toggle': if (id && id !== WIIM) { if (ents[id]) ents[id].state = ents[id].state === 'on' ? 'off' : 'on'; break; }
+      w.state = w.state === 'off' ? 'idle' : 'off'; break;
+    case 'media_player.select_source': wake(); w.source = d.source; w.title = `${d.source} input`; w.artist = ''; w.art = null; w.duration = null; w.state = 'playing'; break;
+    case 'linkplay.play_preset': wake(); w.title = `Preset ${d.preset_number}`; w.art = null; w.source = 'Wifi'; w.duration = null; w.state = 'playing'; break;
+    case 'script.play_spotify_album': {
+      const a = ALBUMS[String(d.uri).split(':').pop()] || {};
+      if (!(w.state === 'playing' && w.source === 'Spotify')) w.volume = 0.2;  // a switch keeps the volume, as in homeassistant/deck_intercom.yaml
+      wake(); w.title = a.title || d.uri; w.artist = a.artist || ''; w.art = a.img || null; w.source = 'Spotify'; newTrack(); w.state = 'playing'; break; }
+    case 'input_boolean.turn_on': if (id === VIS_ENTITY) startVis(); break;
+    case LISTEN_SVC: listen(d); break;
+    case LO_SVC: lightsOutPress(d.board, +d.cell); break;
+    case 'timer.start': if (id === SLEEP_ENTITY) sleepStart(d.duration); break;
+    case 'timer.cancel': if (id === SLEEP_ENTITY) sleepStop('Sleep cancelled'); break;
+    case 'script.deck_sfx': {  // a second speaker plays it over the music; here the browser does
+      const clip = SOUNDS[String(d.url).split('/').pop()];
+      if (clip) new Audio(clip).play().catch(e => log('nav', `Couldn't play the sound: ${e.message}`));
+      break; }
+    case 'script.tv_jellyfin_play': {
+      const tv = Object.keys(ents).find(e => e.startsWith('media_player.') && e !== WIIM);
+      if (tv) ents[tv].state = 'on';
+      log('nav', `(emulator) The TV would turn on, open Jellyfin and play “${d.title}”.`); break; }
+    case 'script.tv_youtube_play': {
+      const tv = Object.keys(ents).find(e => e.startsWith('media_player.') && e !== WIIM);
+      if (tv) ents[tv].state = 'on';
+      log('nav', `(emulator) The TV would turn on and play “${d.title}” in YouTube.`); break; }
+    case 'script.tv_youtube_stop': log('nav', '(emulator) The TV would close YouTube.'); break;
+    case 'script.deck_listen_take':
+      if (listening) { log('nav', `Would add what's playing on Spotify now to ${listening.folder}`); stopListen(); } break;
+    case 'light.toggle': if (ents[id]) ents[id].state = ents[id].state === 'on' ? 'off' : 'on'; break;
+    case 'light.turn_on': if (ents[id]) ents[id].state = 'on'; break;
+    case 'light.turn_off':
+      Object.keys(ents).filter(e => e.startsWith('light.') && (id === 'all' || e === id)).forEach(e => ents[e].state = 'off'); break;
+  }
+}
+// ── Listen mode: holding a blank cover key (the real one watches Spotify, see manager/deck_manager.py) ──
+const LISTEN_SVC = 'script.deck_listen', LISTEN_ENTITY = 'input_text.deck_listen', LISTEN_DEMO_MS = 6000;
+function listen(d) {
+  if (listening) clearTimeout(listening.t);
+  ents[LISTEN_ENTITY] = { state: d.home_key || 'People' };
+  listening = { folder: d.folder, t: setTimeout(() => {
+    log('nav', `(emulator) The deck would now add what you said, or else the album, playlist or song you started on Spotify, to ${d.folder}.`);
+    stopListen();
+  }, LISTEN_DEMO_MS) };
+  log('nav', `Listening for ${d.folder}: say an album, artist or playlist into the server's microphone, or start one on Spotify. Hold “Listening…” on Home to take what's playing now.`);
+}
+// ── Push-to-talk on blank cover keys, like the real deck (visualizer/deck_run.py): ──
+// held = recording on the server's microphone, let go = transcribe and add; the page stays put.
+function keyNote(el, text, color = NAMED.amber) {
+  el.querySelectorAll('.txt').forEach(t => t.remove());
+  if (!text) return;
+  el.querySelectorAll('img, svg').forEach(n => n.style.opacity = '.25');
+  el.insertAdjacentHTML('beforeend', `<span class="txt" style="--ts:16;--tc:${color}">${esc(text)}</span>`);
+}
+
+// ── Deleting a cover you added to a person's folder (as visualizer/deck_run.py does on the deck): ──
+// hold 2.5 s, let go, then tap it again within 5 s; any other key cancels; a shorter press plays it.
+const REMOVE_SVC = 'script.deck_remove', RED = '#ff5a46', HOLD_DELETE_MS = 2500, CONFIRM_MS = 5000;
+let rmArmed = null;
+function disarm() { const was = rmArmed; rmArmed = null; if (was) { clearTimeout(was.t); render(); } return was; }
+function wireRemove(el, b, i) {
+  let t0 = 0, prompt = null;
+  const down = () => {
+    if (t0) return; t0 = Date.now(); holding = true; el.classList.add('down');
+    const bar = el.querySelector('.hold'); if (bar) requestAnimationFrame(() => bar.classList.add('run'));
+    prompt = setTimeout(() => keyNote(el, 'Let go,\nthen tap\nto delete', RED), HOLD_DELETE_MS);
+  };
+  const up = () => {
+    if (!t0) return;
+    const held = Date.now() - t0; t0 = 0; holding = false; clearTimeout(prompt); el.classList.remove('down');
+    el.querySelector('.hold')?.classList.remove('run');
+    if (held < HOLD_DELETE_MS) return press(b, i);
+    rmArmed = { i, page: current, b, t: setTimeout(() => { log('nav', 'Delete cancelled (no tap)'); disarm(); }, CONFIRM_MS) };
+    log('nav', `Tap ${b.long_press.service_data.title} again to delete it`);
+    render();
+  };
+  const cancel = () => { if (t0) { t0 = 0; holding = false; clearTimeout(prompt); el.classList.remove('down'); render(); } };
+  el.addEventListener('pointerdown', e => { e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} down(); });
+  el.addEventListener('pointerup', up);
+  el.addEventListener('pointercancel', cancel);
+  el.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); down(); } });
+  el.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); up(); } });
+}
+async function deleteCover(a) {
+  const d = a.b.long_press.service_data, line = log('svc', REMOVE_SVC, { ...d, confirm: true });
+  let speech = `(emulator) Would delete ${d.title} from ${d.folder}`;
+  if (mode === 'live') {
+    if (!live?.ready) { toast('Not connected to Home Assistant, nothing deleted'); return; }
+    try {
+      const r = await live.send({ type: 'call_service', domain: 'script', service: 'deck_remove',
+        service_data: { ...d, confirm: true }, return_response: true });
+      speech = r?.response?.speech || 'Deleted';
+      line.querySelector('code').append(' ✓');
+    } catch (e) { toast(`Delete failed: ${e.message || e.code}`); return; }
+  }
+  log('ok', speech); toast(speech, 'info');
+  // the deck regenerates without it; here, blank the slot until the page is reloaded
+  a.page.buttons[a.i] = { text: 'Deleted', text_size: 11, text_color: '#5a5a5a' };
+  render();
+}
+// while a cover waits for its confirming tap, the next key press is that tap (or a cancel)
+['pointerdown', 'keydown'].forEach(type => document.addEventListener(type, e => {
+  if (!rmArmed || !e.target.closest?.('#grid .key')) return;
+  if (type === 'keydown' && e.key !== ' ' && e.key !== 'Enter') return;
+  e.stopPropagation(); e.preventDefault();
+  const keyEl = e.target.closest('.key'), same = [...$('grid').children].indexOf(keyEl) === rmArmed.i && rmArmed.page === current;
+  const was = rmArmed; rmArmed = null; clearTimeout(was.t);
+  if (same) deleteCover(was); else { log('nav', 'Delete cancelled'); render(); }
+}, true));
+async function voice(command, folder, slot) { // the deck manager's answer, through Home Assistant
+  if (mode !== 'live') return {};
+  if (!live?.ready) return { speech: 'Not connected to Home Assistant', error: true };
+  try {
+    const r = await live.send({ type: 'call_service', domain: 'script', service: 'deck_voice',
+      service_data: { command, folder, ...(slot == null ? {} : { slot }) }, return_response: true });
+    return r?.response || {};
+  } catch (e) { return { speech: `script.deck_voice: ${e.message || e.code}`, error: true }; }
+}
+function wireTalk(el, d) {
+  let t0 = 0, started = null;
+  const down = () => {
+    if (t0) return; t0 = Date.now(); holding = true; el.classList.add('down'); keyNote(el, 'Listening…');
+    log('svc', `[hold] push-to-talk start ${d.folder}`);
+    started = mode === 'live' ? voice('start', d.folder, d.slot) : Promise.resolve({ ok: true });
+  };
+  const up = async () => {
+    if (!t0) return;
+    const held = Date.now() - t0; t0 = 0; holding = false; el.classList.remove('down');
+    const ok = await started;
+    if (mode === 'live' && !ok.ok) { toast(ok.speech || 'Couldn’t start recording'); log('err', ok.speech || 'push-to-talk failed'); return render(); }
+    if (held < 400) { await voice('cancel'); log('nav', 'Tap too short to say anything'); return render(); }
+    keyNote(el, 'Adding…');
+    if (mode !== 'live') {
+      log('nav', `(emulator) Held ${(held / 1000).toFixed(1)}s. The deck would now add what you said to ${d.folder}, or if you said nothing, what you start on Spotify.`);
+      return setTimeout(render, 1200);
+    }
+    const r = await voice('stop', d.folder);
+    log(r.added ? 'ok' : r.heard ? 'err' : 'nav', r.speech || '');
+    if (r.added || r.heard || r.error) { toast(r.speech, r.added ? 'info' : ''); return render(); }
+    keyNote(el, 'Start it\non Spotify');  // nothing said: listen mode watches Spotify instead
+    callService(LISTEN_SVC, { ...d, voice: false }, undefined, log('svc', LISTEN_SVC, { ...d, voice: false }));
+    setTimeout(render, 5000);
+  };
+  const cancel = () => { if (t0) { t0 = 0; holding = false; el.classList.remove('down'); voice('cancel'); render(); } };
+  el.addEventListener('pointerdown', e => { e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} down(); });
+  el.addEventListener('pointerup', up);
+  el.addEventListener('pointercancel', cancel);
+  el.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); down(); } });
+  el.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); up(); } });
+}
+function stopListen() { if (listening) clearTimeout(listening.t); listening = null; ents[LISTEN_ENTITY] = { state: '' }; render(); }
+
+// ── Lights Out (the real game is script.deck_lightsout_press in homeassistant/deck_games.yaml) ──
+// A board is a cell per key, '#' lit and '.' dark, then ':' and the moves made; empty until first played.
+const LO_SVC = 'script.deck_lightsout_press';
+const LO_COLOURS = ['#f5b301', '#1ec8e6', '#e8459a', '#3ddc6e', '#9b6cff', '#ff7a1a'];  // = LO_COLOURS in gen_config.py; a new game takes the next
+const loFlip = (s, p) => [...s].map((c, i) => {
+  const hit = (Math.floor(i / COLS) === Math.floor(p / COLS) && Math.abs(i % COLS - p % COLS) <= 1) || (i % COLS === p % COLS && Math.abs(Math.floor(i / COLS) - Math.floor(p / COLS)) === 1);
+  return hit ? (c === '#' ? '.' : '#') : c;
+}).join('');
+function lightsOutPress(board, cell) {
+  const [cells, moves, game] = String((ents[board] || {}).state || '').split(':');
+  if (cells && cells.includes('#')) {
+    const next = loFlip(cells, cell), n = (+moves || 0) + 1;
+    ents[board] = { state: `${next}:${n}:${game || 0}` };
+    if (!next.includes('#')) log('nav', `Lights Out solved in ${n} moves`);
+    return;
+  }
+  let s;  // deal: random presses on a dark board, so it can always be solved (not every pattern can)
+  do { s = '.'.repeat(KEYS); for (let p = 0; p < KEYS; p++) if (Math.random() < 0.5) s = loFlip(s, p); } while (!s.includes('#'));
+  ents[board] = { state: `${s}:0:${(game == null ? 0 : +game + 1) % 60}` };
+}
+function lightsOutText(s, cell) {  // keep in step with lights_out_page() in gen_config.py
+  const mid = COLS + Math.floor((COLS - 4) / 2), foot = (ROWS - 1) * COLS + Math.floor((COLS - 1) / 2);
+  const won = { [mid]: 'You', [mid + 1]: 'won', [mid + 2]: 'in', [mid + 3]: s.split(':')[1], [mid + 4]: 'moves', [foot]: 'Tap to\nplay again' };
+  const start = { [mid + 1]: 'Tap to\nplay', [foot]: 'Hold any\nkey to\nleave' };
+  return ((s.startsWith('.'.repeat(KEYS) + ':') ? won : start)[cell]) || '';
+}
+
+// ── Sleep timer (the real one: timer.deck_sleep and its automation in homeassistant/deck_sleep.yaml) ──
+const SLEEP_ENTITY = 'timer.deck_sleep';
+let sleepT = null;
+function sleepStart(duration) {
+  const [h, m, sec] = String(duration).split(':').map(Number), mins = h * 60 + m;
+  clearTimeout(sleepT); ents[SLEEP_ENTITY] = { state: 'active' };
+  log('nav', `Sleep in ${mins >= 60 ? mins / 60 + ' hour' + (mins > 60 ? 's' : '') : mins + ' min'}: then the music, amp, TV, visualizer and lights turn off. Leave this page open to see it happen.`);
+  sleepT = setTimeout(() => {
+    sleepStop('Sleep: everything off');
+    Object.keys(ents).filter(e => e.startsWith('media_player.')).forEach(e => ents[e].state = 'off');  // the WiiM and the TV
+    Object.keys(ents).filter(e => e.startsWith('light.')).forEach(e => ents[e].state = 'off');
+    if (vis) stopVis('sleep timer');
+    render();
+  }, (mins * 60 + (sec || 0)) * 1000);
+}
+function sleepStop(msg) { clearTimeout(sleepT); sleepT = null; ents[SLEEP_ENTITY] = { state: 'idle' }; log('nav', msg); }
+
+function log(kind, msg, data) {
+  const li = document.createElement('li'), t = new Date();
+  li.innerHTML = `<time>${t.toTimeString().slice(0, 8)}</time><code class="${kind}">${esc(msg)}${data ? ' ' + esc(JSON.stringify(data)) : ''}</code>`;
+  $('log').prepend(li);
+  while ($('log').children.length > 60) $('log').lastChild.remove();
+  return li;
+}
+
+// ── Visualizer: mirrors visualizer/visualizer.py (same bands, scaling and bar physics) ──
+const VIS_ENTITY = 'input_boolean.deck_visualizer';
+const VK = 96, VG = 24, VB = 3 * COLS, VW = COLS * VK + (COLS - 1) * VG, VH = ROWS * VK + (ROWS - 1) * VG, RANGE_DB = 42;
+let vis = null;
+function startVis() {
+  if (vis) return;
+  vis = { pos: new Float32Array(VB), vel: new Float32Array(VB), cap: new Float32Array(VB), capVel: new Float32Array(VB),
+    capT: new Float32Array(VB), avg: new Float32Array(VB).fill(-80), ceil: -30, noise: null, age: 0,
+    src: 'demo', last: performance.now(), t0: performance.now(), big: document.createElement('canvas') };
+  vis.big.width = VW * 2; vis.big.height = VH * 2;
+  log('nav', 'Visualizer on. Press any key to go back.');
+  startMic();
+  vis.raf = requestAnimationFrame(visFrame);
+}
+async function startMic() {
+  const me = vis;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+    if (vis !== me) return stream.getTracks().forEach(t => t.stop());
+    const ctx = new AudioContext(), an = ctx.createAnalyser();
+    an.fftSize = 2048; an.smoothingTimeConstant = 0;
+    ctx.createMediaStreamSource(stream).connect(an);
+    const freqs = Array.from({ length: an.frequencyBinCount }, (_, i) => i * ctx.sampleRate / an.fftSize);
+    me.mic = { stream, ctx, an, spec: new Float32Array(an.frequencyBinCount), wave: new Float32Array(an.fftSize), bins: bandBins(freqs, ctx.sampleRate) };
+    me.src = 'mic'; log('nav', 'Listening to this computer’s microphone.'); renderVisNote();
+  } catch (e) {
+    me.src = 'demo'; renderVisNote();
+  }
+}
+function bandBins(freqs, rate) {
+  const lo = 45, hi = Math.min(14000, rate / 2 - 1), out = [];
+  for (let b = 0; b < VB; b++) {
+    const a = lo * (hi / lo) ** (b / VB), z = lo * (hi / lo) ** ((b + 1) / VB);
+    let idx = freqs.map((f, i) => f >= a && f < z ? i : -1).filter(i => i >= 0);
+    if (!idx.length) { const m = (a + z) / 2; idx = [freqs.reduce((bi, f, i) => Math.abs(f - m) < Math.abs(freqs[bi] - m) ? i : bi, 0)]; }
+    out.push(idx);
+  }
+  return out;
+}
+function stopVis(why) {
+  if (!vis) return;
+  cancelAnimationFrame(vis.raf);
+  if (vis.mic) { vis.mic.stream.getTracks().forEach(t => t.stop()); vis.mic.ctx.close(); }
+  vis = null;
+  log('svc', 'input_boolean.turn_off', { entity_id: VIS_ENTITY });
+  log('nav', `Visualizer off (${why}). The normal deck is back.`);
+  render();
+}
+// band loudness in dB plus overall RMS, from the mic or from a made-up groove when there is none
+function visInput(t) {
+  if (vis.src === 'mic' && vis.mic) {
+    const m = vis.mic; m.an.getFloatFrequencyData(m.spec); m.an.getFloatTimeDomainData(m.wave);
+    let sq = 0; for (const x of m.wave) sq += x * x;
+    const db = m.bins.map((ix, b) => 10 * Math.log10(ix.reduce((s, i) => s + 10 ** (m.spec[i] / 10), 0) / ix.length + 1e-12) + b * 14 / (VB - 1));
+    return { db, rms: Math.sqrt(sq / m.wave.length) };
+  }
+  const beat = 60 / 118, ph = (t % beat) / beat, half = ((t + beat / 2) % beat) / beat, bar = Math.floor(t / beat);
+  const kick = Math.exp(-ph * 9), snare = bar % 2 ? Math.exp(-ph * 7) : 0, hat = Math.exp(-((t % (beat / 2)) / (beat / 2)) * 14);
+  const db = Array.from({ length: VB }, (_, b) => {
+    const mel = 0.5 + 0.5 * Math.sin(t * 1.7 + b * 0.9) * Math.sin(t * 0.43 + b * 2.1);
+    const e = b < 3 ? 0.25 + kick * (1 - b * 0.15) : b < 9 ? 0.2 + mel * 0.45 + snare * 0.5 + 0.15 * Math.sin(half * 6.28) : 0.12 + hat * 0.6 + snare * 0.25 + mel * 0.2;
+    return -50 + 30 * e + (Math.random() - 0.5) * 3;
+  });
+  return { db, rms: 0.1, demo: true };
+}
+function visFrame(now) {
+  if (!vis) return;
+  const dt = Math.min((now - vis.last) / 1000, 0.1); vis.last = now;
+  const { db, rms, demo } = visInput((now - vis.t0) / 1000);
+  vis.ceil = Math.max(Math.max(...db), vis.ceil - 2 * dt, -75);
+  const rmsDb = 20 * Math.log10(rms + 1e-9); vis.age += dt;
+  if (vis.noise === null) vis.noise = rmsDb - 10;
+  vis.noise = Math.min(rmsDb, vis.noise + (vis.age < 10 ? 3 : 0.5) * dt);
+  const presence = demo ? 1 : Math.min(1, Math.max(0, (rmsDb - vis.noise - 3) / 9));
+  const clip = x => Math.min(1, Math.max(0, x));
+  for (let i = 0; i < VB; i++) {
+    const level = clip((db[i] - (vis.ceil - RANGE_DB)) / RANGE_DB) ** 1.8, hit = clip((db[i] - vis.avg[i] - 3) / 12);
+    vis.avg[i] += (db[i] - vis.avg[i]) * Math.min(1, dt / 0.35);
+    const target = clip(0.6 * level + 0.55 * hit * level ** 0.5) * presence;
+    if (target > vis.pos[i]) { vis.pos[i] = target; vis.vel[i] = 0; }
+    else { vis.vel[i] -= 4.5 * dt; vis.pos[i] = Math.max(target, vis.pos[i] + vis.vel[i] * dt); if (vis.pos[i] <= target) vis.vel[i] = 0; }
+    if (vis.pos[i] >= vis.cap[i]) { vis.cap[i] = vis.pos[i]; vis.capT[i] = 0.25; vis.capVel[i] = 0; }
+    else if ((vis.capT[i] -= dt) <= 0) { vis.capVel[i] -= 2.2 * dt; vis.cap[i] = Math.max(vis.pos[i], vis.cap[i] + vis.capVel[i] * dt); }
+  }
+  drawVis();
+  vis.raf = requestAnimationFrame(visFrame);
+}
+function drawVis() {
+  const c = vis.big.getContext('2d'), S = 2;
+  c.setTransform(S, 0, 0, S, 0, 0); c.fillStyle = '#000'; c.fillRect(0, 0, VW, VH); c.fillStyle = '#fff';
+  for (let i = 0; i < VB; i++) {
+    const col = Math.floor(i / 3), j = i % 3, x0 = col * (VK + VG) + 10 + j * 28;
+    if (vis.pos[i] > 0.004) c.fillRect(x0, VH - vis.pos[i] * VH, 19, vis.pos[i] * VH);
+    if (vis.cap[i] > 0.02) c.fillRect(x0, VH - vis.cap[i] * VH - 8, 19, 4);
+  }
+  document.querySelectorAll('#grid canvas').forEach((k, n) => {
+    const r = Math.floor(n / COLS), cc = n % COLS, g = k.getContext('2d');
+    g.drawImage(vis.big, cc * (VK + VG) * S, r * (VK + VG) * S, VK * S, VK * S, 0, 0, k.width, k.height);
+  });
+}
+function renderVis(grid) {
+  for (let i = 0; i < KEYS; i++) {
+    const el = document.createElement('button'); el.type = 'button'; el.className = 'key';
+    el.setAttribute('aria-label', 'Visualizer. Press to go back.');
+    const cv = document.createElement('canvas'); cv.width = cv.height = 192; el.appendChild(cv);
+    el.addEventListener('pointerdown', e => { e.preventDefault(); stopVis('key pressed'); });
+    el.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); stopVis('key pressed'); } });
+    grid.appendChild(el);
+  }
+  renderVisNote(); panel();
+}
+function renderVisNote() {
+  if (!vis) return;
+  $('crumb').innerHTML = `Visualizer <span>· ${vis.src === 'mic' ? 'listening to the microphone' : 'demo beat (no microphone here; the real deck uses the server’s mic)'}</span>`;
+}
+
+
+// ── Live mode: the same deck wired to the real Home Assistant over its WebSocket API ──
+// States come from Home Assistant, every key template is rendered by Home Assistant (so text matches
+// the physical deck exactly), and presses send real service calls. Page navigation stays in this tab.
+let mode = 'dev', live = null, retryT = null, retryN = 0;
+const LIGHTS = [...new Set(allButtons().map(b => b.entity_id).filter(e => typeof e === 'string' && e.startsWith('light.')))].sort();
+const KEY_ENTITIES = new Set(allButtons().map(b => b.entity_id).filter(e => typeof e === 'string'));
+const TEMPLATES = (() => { const out = new Set(), walk = o => {
+  if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.$tpl) out.add(o.src); else Object.values(o).forEach(walk); } };
+  walk(CFG); return [...out]; })();
+const servedByHA = /^https?:$/.test(location.protocol) && location.pathname.startsWith('/local/');
+const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+
+function fromHA(s) { // a Home Assistant state object in the shape the deck and panel read
+  const a = s.attributes || {}, e = { state: s.state, attributes: a };
+  if (s.entity_id.startsWith('media_player.')) Object.assign(e, { title: a.media_title || a.app_name || null, artist: a.media_artist || '', source: a.source || '',
+    volume: a.volume_level ?? null, muted: !!a.is_volume_muted,
+    duration: a.media_duration ?? null, pos: a.media_position ?? 0,
+    posAt: a.media_position_updated_at ? Date.parse(a.media_position_updated_at) : Date.now(),
+    art: a.entity_picture ? new URL(a.entity_picture, live.url).href : null });
+  return e;
+}
+
+async function credentials() {
+  if (servedByHA) { // opened from Home Assistant: borrow your login there, no token needed
+    try {
+      const h = parent !== window && parent.document.querySelector('home-assistant')?.hass;
+      if (h?.auth) { if (h.auth.expired) await h.auth.refreshAccessToken(); return { url: location.origin, token: h.auth.accessToken, how: 'your Home Assistant login' }; }
+    } catch {}
+    try {
+      const t = JSON.parse(localStorage.getItem('hassTokens'));
+      if (t?.access_token) {
+        if (t.expires && t.expires - Date.now() > 60000) return { url: location.origin, token: t.access_token, how: 'your Home Assistant login' };
+        const r = await fetch(location.origin + '/auth/token', { method: 'POST', body: new URLSearchParams(
+          { grant_type: 'refresh_token', client_id: t.clientId || location.origin + '/', refresh_token: t.refresh_token }) });
+        if (r.ok) return { url: location.origin, token: (await r.json()).access_token, how: 'your Home Assistant login' };
+      }
+    } catch {}
+  }
+  const saved = store.get('deck-live');
+  if (saved?.token) return { ...saved, url: servedByHA ? location.origin : saved.url, how: 'the token saved in this browser', saved: true };
+  if (window.DECK_LIVE?.token) return { ...window.DECK_LIVE, how: 'streamdeck-yaml/.env' };
+  return null;
+}
+
+function setStatus(kind, text) { $('status').innerHTML = `<span class="dot ${kind}"></span>${esc(text)}`; }
+function showAuth(show) {
+  $('auth').hidden = !show;
+  if (show) { $('a-url').value = servedByHA ? location.origin : (store.get('deck-live')?.url || window.DECK_LIVE?.url || DATA.haUrl || 'http://localhost:8123'); $('a-url').disabled = servedByHA; }
+}
+
+async function connect() {
+  clearTimeout(retryT);
+  setStatus('wait', 'Connecting to Home Assistant…');
+  const cred = await credentials();
+  if (mode !== 'live') return;
+  if (!cred) { setStatus('bad', 'Not connected: needs a Home Assistant token'); return showAuth(true); }
+  let ws;
+  try { ws = new WebSocket(cred.url.replace(/^http/, 'ws').replace(/\/$/, '') + '/api/websocket'); }
+  catch (e) { setStatus('bad', `Can't reach ${cred.url}`); return showAuth(true); }
+  const me = live = { ws, url: cred.url, cred, id: 0, pending: new Map(), subs: new Map(), tpl: new Map(), ready: false };
+  me.send = msg => new Promise((ok, fail) => { msg.id = ++me.id; me.pending.set(msg.id, { ok, fail }); ws.send(JSON.stringify(msg)); });
+  me.sub = (msg, on) => { const p = me.send(msg); me.subs.set(me.id, on); return p; };
+  ws.onmessage = ev => {
+    const m = JSON.parse(ev.data);
+    if (m.type === 'auth_required') ws.send(JSON.stringify({ type: 'auth', access_token: cred.token }));
+    else if (m.type === 'auth_ok') ready(me, m.ha_version);
+    else if (m.type === 'auth_invalid') {
+      me.dead = true; ws.close();
+      if (cred.saved) store.set('deck-live', null);
+      setStatus('bad', `Home Assistant refused the token from ${cred.how}`); showAuth(true);
+    } else if (m.type === 'result') {
+      const p = me.pending.get(m.id); me.pending.delete(m.id);
+      if (p) m.success ? p.ok(m.result) : p.fail(m.error || { message: 'failed' });
+    } else if (m.type === 'event') me.subs.get(m.id)?.(m.event);
+  };
+  ws.onclose = () => {
+    me.pending.forEach(p => p.fail({ message: 'connection closed' }));
+    if (live !== me || me.dead || mode !== 'live') return;
+    const wait = [2, 5, 10, 30][Math.min(retryN++, 3)];
+    setStatus('bad', `Lost Home Assistant at ${me.url}. Retrying in ${wait}s…`);
+    retryT = setTimeout(connect, wait * 1000);
+  };
+}
+
+async function ready(me, version) {
+  showAuth(false); retryN = 0;
+  const states = await me.send({ type: 'get_states' });
+  if (live !== me) return;
+  ents = {}; for (const s of states) ents[s.entity_id] = fromHA(s);
+  me.sub({ type: 'subscribe_events', event_type: 'state_changed' }, ({ data }) => {
+    if (live !== me) return;
+    if (data.new_state) ents[data.entity_id] = fromHA(data.new_state); else delete ents[data.entity_id];
+    if (KEY_ENTITIES.has(data.entity_id)) scheduleRender(); else if (data.entity_id === WIIM || LIGHTS.includes(data.entity_id)) panel();
+  });
+  const errs = [];
+  await Promise.all(TEMPLATES.map(src => me.sub({ type: 'render_template', template: src, report_errors: true }, ev => {
+    if (live !== me) return;
+    if ('result' in ev) { me.tpl.set(src, ev.result); scheduleRender(); } else if (ev.error) errs.push(ev.error);
+  }).catch(e => errs.push(e.message))));
+  me.ready = true;
+  setStatus('ok', `Live: connected to ${me.url.replace(/^https?:\/\//, '')} (Home Assistant ${version}) with ${me.cred.how}`);
+  log('nav', `Live mode: connected. ${states.length} entities, ${TEMPLATES.length} key templates rendered by Home Assistant.`);
+  if (errs.length) log('err', `Template errors: ${[...new Set(errs)].join('; ')}`);
+  render();
+}
+
+function callService(svc, data, target, line) {
+  const code = line.querySelector('code');
+  if (!live?.ready) { code.className = 'err'; code.append(' ✗ not connected, nothing sent'); toast('Not connected to Home Assistant, nothing sent'); return; }
+  const [domain, service] = svc.split('.');
+  live.send({ type: 'call_service', domain, service, service_data: data, ...(target ? { target } : {}) })
+    .then(() => domain === 'script' ? scriptError(service) : null)
+    .then(err => {
+      if (!err) return code.append(' ✓');
+      code.className = 'err'; code.append(` ✗ ${err}`); toast(`${svc}: ${err}`);
+    }, e => { code.className = 'err'; code.append(` ✗ ${e.message || e.code}`); toast(`${svc} failed: ${e.message || e.code}`); });
+}
+// A script that ends in `stop: … error: true` still answers call_service with success; its trace has the message
+async function scriptError(id) {
+  try {
+    const runs = await live.send({ type: 'trace/list', domain: 'script', item_id: id });
+    const last = runs[runs.length - 1];
+    if (!last || !['aborted', 'error'].includes(last.script_execution)) return null;
+    const t = await live.send({ type: 'trace/get', domain: 'script', item_id: id, run_id: last.run_id });
+    for (const steps of Object.values(t.trace || {})) for (const st of steps) if (st.error) return st.error;
+    return last.error || null;
+  } catch { return null; }  // no trace access: keep the plain ✓
+}
+
+function disconnect() {
+  clearTimeout(retryT); retryN = 0;
+  if (live) { live.dead = true; try { live.ws.close(); } catch {} live = null; }
+}
+
+const INTRO = {
+  dev: `A working copy of ${DECK_NAME}, generated from your <code>configuration.yaml</code>. <b>Development</b>: Home Assistant is simulated, so you can press anything and nothing in the house changes.`,
+  live: `A working copy of ${DECK_NAME}, generated from your <code>configuration.yaml</code>. <b>Live</b>: wired to your real Home Assistant. Key text and lights show real state, and every press really runs: music plays, volume changes, lights switch.`,
+};
+function setMode(m) {
+  if (m === mode && (m === 'dev' || live)) return;
+  mode = m; try { sessionStorage.setItem('deck-mode', m); } catch {}
+  document.body.classList.toggle('live', m === 'live');
+  $('devmode').checked = m === 'dev';
+  $('intro').innerHTML = INTRO[m];
+  $('logh').textContent = m === 'live' ? 'Calls sent to Home Assistant' : 'Calls that would go to Home Assistant';
+  $('logbox').open = m === 'dev';
+  if (vis) stopVis('mode changed');
+  disconnect(); initState();
+  if (m === 'live') { ents = {}; log('nav', 'Switched to Live. Key presses now control the house.'); connect(); }
+  else { showAuth(false); setStatus('', 'Simulated: nothing is sent to Home Assistant'); log('nav', 'Switched to Development (simulated).'); }
+  render();
+}
+$('devmode').addEventListener('change', e => setMode(e.target.checked ? 'dev' : 'live'));
+$('auth').addEventListener('submit', e => {
+  e.preventDefault();
+  const url = (servedByHA ? location.origin : $('a-url').value.trim()).replace(/\/$/, ''), token = $('a-tok').value.trim();
+  if (!token) return $('a-tok').focus();
+  store.set('deck-live', { url, token }); $('a-tok').value = ''; disconnect(); connect();
+});
+
+// ── Restart Home Assistant (real in both modes; two clicks) ──
+// Uses the live connection when there is one, otherwise a one-off connection with the same credentials.
+// Needs Home Assistant to be answering; a frozen one needs a restart of its container on the server.
+function oneShot(cred, msg) {
+  return new Promise((ok, fail) => {
+    const ws = new WebSocket(cred.url.replace(/^http/, 'ws').replace(/\/$/, '') + '/api/websocket');
+    let sent = false; const t = setTimeout(() => { ws.close(); fail(new Error('no answer from Home Assistant')); }, 10000);
+    ws.onmessage = ev => { const m = JSON.parse(ev.data);
+      if (m.type === 'auth_required') ws.send(JSON.stringify({ type: 'auth', access_token: cred.token }));
+      else if (m.type === 'auth_invalid') { clearTimeout(t); ws.close(); fail(new Error(`Home Assistant refused the token from ${cred.how}`)); }
+      else if (m.type === 'auth_ok') { sent = true; ws.send(JSON.stringify({ id: 1, ...msg })); }
+      else if (m.type === 'result') { clearTimeout(t); ws.close(); m.success ? ok() : fail(new Error(m.error?.message || 'failed')); } };
+    ws.onerror = () => {};
+    ws.onclose = () => { clearTimeout(t); sent ? ok() : fail(new Error(`can't reach Home Assistant at ${cred.url}`)); }; // closing mid-call = it is restarting
+  });
+}
+const up = url => fetch(url.replace(/\/$/, '') + '/manifest.json', { mode: 'no-cors', cache: 'no-store' }).then(() => true, () => false);
+let armT = null;
+$('ha-restart').addEventListener('click', async () => {
+  const btn = $('ha-restart'), msg = t => $('ha-msg').textContent = t;
+  if (!btn.dataset.armed) {  // first click arms, second within 5 s restarts
+    btn.dataset.armed = '1'; btn.textContent = 'Confirm restart';
+    armT = setTimeout(() => { delete btn.dataset.armed; btn.textContent = 'Restart Home Assistant'; }, 5000); return;
+  }
+  clearTimeout(armT); delete btn.dataset.armed; btn.disabled = true; btn.textContent = 'Restarting…';
+  const done = t => { msg(t); btn.disabled = false; btn.textContent = 'Restart Home Assistant'; };
+  const cred = live?.ready ? live.cred : await credentials();
+  if (!cred) { showAuth(true); return done('Needs a Home Assistant token: paste one above, then press Restart again.'); }
+  const t0 = Date.now(), secs = () => Math.round((Date.now() - t0) / 1000);
+  try {
+    if (live?.ready) await live.send({ type: 'call_service', domain: 'homeassistant', service: 'restart' }).catch(e => { if (!/closed/.test(e.message || '')) throw e; });
+    else await oneShot(cred, { type: 'call_service', domain: 'homeassistant', service: 'restart' });
+  } catch (e) { log('err', `homeassistant.restart ✗ ${e.message}`); return done(`Didn't restart: ${e.message}.`); }
+  log('svc', 'homeassistant.restart ✓');
+  msg('Home Assistant is shutting down…');
+  let wentDown = false;
+  while (secs() < 240) {
+    await new Promise(r => setTimeout(r, 2000));
+    const isUp = await up(cred.url);
+    if (!isUp) { wentDown = true; msg(`Home Assistant is restarting… ${secs()}s`); }
+    else if (wentDown || secs() > 30) { log('nav', `Home Assistant is back after ${secs()}s.`); return done(`Restarted. Back after ${secs()}s.`); }
+  }
+  done('Home Assistant hasn’t come back after 4 minutes. Check it on the server.');
+});
+
+// ── Track progress: Home Assistant reports the position at a moment; it runs on from there while playing ──
+function posNow(w) {
+  if (!w || !w.duration) return null;
+  const run = w.state === 'playing' ? (Date.now() - (w.posAt || Date.now())) / 1000 : 0;
+  return Math.max(0, Math.min(w.duration, (w.pos || 0) + run));
+}
+const clock = t => { t = Math.floor(t); const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = String(t % 60).padStart(2, '0');
+  return h ? `${h}:${String(m).padStart(2, '0')}:${s}` : `${m}:${s}`; };
+function renderProgress() {
+  const w = ents[WIIM], at = posNow(w), on = at != null && !['off', 'unavailable', 'unknown'].includes(w.state);
+  $('prog').hidden = !on;
+  if (!on) return;
+  $('p-bar').style.width = (100 * at / w.duration).toFixed(2) + '%';
+  $('p-bar-wrap').setAttribute('aria-valuenow', Math.round(100 * at / w.duration));
+  $('p-pos').textContent = clock(at); $('p-dur').textContent = clock(w.duration);
+}
+setInterval(() => { if (!document.hidden) renderProgress(); }, 1000);
+
+// ── Player controls beside the deck: the same calls the deck keys make, sent straight to the WiiM ──
+function send(svc, data) {
+  const line = log('svc', svc, data);
+  if (mode === 'live') callService(svc, data, undefined, line); else { simulate(svc, data); render(); }
+}
+let dragging = false, volT = null, toastT = null;
+function toast(text, kind = '') { const t = $('toast'); t.textContent = text; t.className = 'toast ' + kind; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 5000); }
+$('c-play').addEventListener('click', () => send('media_player.media_play_pause', { entity_id: WIIM }));
+$('c-prev').addEventListener('click', () => send('media_player.media_previous_track', { entity_id: WIIM }));
+$('c-next').addEventListener('click', () => send('media_player.media_next_track', { entity_id: WIIM }));
+$('c-mute').addEventListener('click', () => send('media_player.volume_mute', { entity_id: WIIM, is_volume_muted: !(ents[WIIM] || {}).muted }));
+const setVol = () => send('media_player.volume_set', { entity_id: WIIM, volume_level: +$('c-vol').value / 100 });
+$('c-vol').addEventListener('input', () => {  // follows the drag, at most a few calls a second
+  dragging = true; $('c-volv').textContent = $('c-vol').value + '%';
+  if (!volT) volT = setTimeout(() => { volT = null; setVol(); }, 250);
+});
+const nudge = d => {  // from the slider's value, so quick repeated taps add up before HA reports back
+  const v = Math.max(0, Math.min(100, +$('c-vol').value + d)); $('c-vol').value = v; $('c-volv').textContent = v + '%'; setVol();
+};
+$('c-volup').addEventListener('click', () => nudge(1));
+$('c-voldn').addEventListener('click', () => nudge(-1));
+$('c-vol').addEventListener('change', () => { clearTimeout(volT); volT = null; dragging = false; setVol(); });
+
+// ── Notes on what still needs real values ──
+function notes() {
+  const items = [];
+  const entities = new Set();
+  JSON.stringify(CFG).replace(/"entity_id":"((?:media_player|light|scene)\.[a-z0-9_]+)"/g, (_, e) => entities.add(e));
+  if (JSON.stringify(CFG).includes('"script.play_spotify_album"')) entities.add('script.play_spotify_album');
+  const known = new Set(DATA.knownEntities || []);
+  const real = [...entities].filter(e => known.has(e)).sort(), fake = [...entities].filter(e => !known.has(e) && !e.startsWith('script.')).sort();
+  if (real.length) items.push(`Connected to real devices: ${real.map(e => `<code>${e}</code>`).join(', ')}.`);
+  if (fake.length) items.push(`Placeholders, not in Home Assistant yet: ${fake.map(e => `<code>${e}</code>`).join(', ')}.`);
+  if (entities.has('script.play_spotify_album') && !known.has('script.play_spotify_album')) items.push('Album keys need the <code>script.play_spotify_album</code> script and the Spotify integration in Home Assistant.');
+  if (DATA.missingIcons.length) items.push(`These icons or key images are missing and show as a red <b>?</b>: ${DATA.missingIcons.map(n => `<code>${n}</code>`).join(', ')}.`);
+  if (JSON.stringify(CFG).includes('"unknown"')) items.push('Some text templates are not simulated and show as <code>{{ ? }}</code>.');
+  if (JSON.stringify(CFG).includes(VIS_ENTITY)) items.push('The <b>Visualizer</b> key (on More) needs the rebuilt deck container in <code>visualizer/</code>; it uses the server’s microphone.');
+  if (CFG.anonymous_pages.some(p => p.name === 'People')) items.push('People folders (Home › People) are filled by talking to Home Assistant Assist: “add Kind of Blue to Alex”, “remove the last one from Riley”, “what’s in Alex’s folder”. Or hold a blank cover key and, while holding it, say what to add into the server’s microphone (“Kind of Blue by Miles Davis”, “the artist Nina Simone”, “the playlist Sunday Morning”), then let go. If you said nothing, it waits 60 seconds for you to start something on Spotify.');
+  if (CFG.pages.some(p => p.name.startsWith('Lights Out'))) items.push('<b>Lights Out</b> (coloured-tiles key on Home): turn every light off. Each press flips that key and the ones above, below and beside it; hold any key to go Home. On the real deck it needs <code>homeassistant/deck_games.yaml</code> installed in Home Assistant.');
+  if (CFG.anonymous_pages.some(p => p.name === 'Sleep')) items.push('<b>Sleep</b> (on Home and More): pick 5, 10, 15 or 30 minutes or an hour; then the music, amp, visualizer and any lights turn off. The key turns amber and reads “Sleep on” while it counts down. On the real deck it needs <code>homeassistant/deck_sleep.yaml</code> installed in Home Assistant.');
+  items.push('Key text and icon sizes are close to the real deck but not pixel-exact.');
+  $('notes').innerHTML = items.map(s => `<li>${s}</li>`).join('');
+}
+
+$('reset').addEventListener('click', e => {
+  e.preventDefault();  // it sits in the log's <summary>: don't fold the log too
+  if (vis) stopVis('reset');
+  $('log').innerHTML = '';
+  if (mode === 'live') { history = []; current = CFG.pages[0]; Object.values(timers).forEach(t => clearInterval(t.iv)); timers = {}; log('nav', 'Reset to Home (live states kept)'); }
+  else { initState(); log('nav', 'Reset'); }
+  render();
+});
+// ── Reload by itself after a rebuild (a cover added or deleted, a config change), keeping the page ──
+// build.py writes the newest build id beside the page; a <script> tag can read it even from file://.
+const VERSION_JS = servedByHA ? 'streamdeck-emulator-version.js' : '.build-version.js';
+setInterval(() => {
+  if (holding || rmArmed || document.hidden) return;  // never mid-press
+  const tag = document.createElement('script');
+  tag.src = `${VERSION_JS}?t=${Date.now()}`;
+  tag.onload = tag.onerror = () => {
+    tag.remove();
+    const seen = window.DECK_BUILD_SEEN;
+    if (!seen || seen === DATA.build || holding || rmArmed) return;
+    try { sessionStorage.setItem('deck-view', JSON.stringify({ page: current.name, history: history.map(p => p.name) })); } catch {}
+    if (servedByHA) location.replace(location.pathname + '?v=' + seen); else location.reload();
+  };
+  document.head.appendChild(tag);
+}, 3000);
+function restoreView() {
+  let v = null; try { v = JSON.parse(sessionStorage.getItem('deck-view')); sessionStorage.removeItem('deck-view'); } catch {}
+  const p = v && findPage(v.page);
+  if (!p) return;
+  current = p; history = (v.history || []).map(findPage).filter(Boolean);
+  log('nav', 'Updated to the newest build');
+}
+
+initState(); notes();
+$('intro').innerHTML = INTRO.dev; $('logh').textContent = 'Calls that would go to Home Assistant'; setStatus('', 'Simulated: nothing is sent to Home Assistant'); render();
+// Live by default; Dev mode (the toggle at the bottom) lasts until this tab is closed
+let startMode = 'live'; try { startMode = sessionStorage.getItem('deck-mode') || 'live'; } catch {}
+if (startMode === 'live') setMode('live'); else { $('devmode').checked = true; log('nav', 'Simulation started.'); }
+restoreView(); render();
+</script>

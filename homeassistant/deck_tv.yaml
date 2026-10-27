@@ -1,0 +1,307 @@
+# Stream Deck › More › TV: an LG webOS TV (`tv` in settings.yaml) and films from Jellyfin.
+#
+# Turning on: an LG TV in standby drops off the network the webOS integration uses, so
+# media_player.turn_on fires the webostv.turn_on trigger and the automation below sends a
+# Wake-on-LAN packet. On the TV: Settings › General › Devices › External Devices ›
+# TV On With Mobile › Turn on via Wi-Fi (and Quick Start+ on).
+#
+# Films: script.tv_jellyfin_play turns the TV on, opens the Jellyfin app, finds the title on
+# the Jellyfin server (jellyfin_url in settings.yaml) and tells the TV's Jellyfin app to play it.
+# Needs `jellyfin_api_key` in secrets.yaml (Jellyfin › Dashboard › API Keys › +).
+#
+# Karaoke (More › Karaoke, karaoke/songs.csv): script.tv_youtube_play turns the TV on and
+# opens the video in the TV's YouTube app (app id youtube.leanback.v4), closing YouTube first
+# if a song is already playing; script.tv_youtube_stop closes it.
+#
+# Stremio: script.tv_stremio_play searches Stremio for a title and opens the first result. The
+# TV app (io.strem.tv) ignores every launch deep link tried (stremio:///detail/movie/<imdb>,
+# /detail/…, #/detail/…, web.stremio.com URLs: all land on Home, 2026-10-26), so it drives the
+# app like the remote: side menu › Search, types with the TV's keyboard, first result, Play Now,
+# first stream (play: false stops on the title's menu). A Stremio update that moves Search
+# breaks it. Assist calls script.stremio_play, which starts it in the background.
+# Installed by homeassistant/install.sh into packages/deck_tv.yaml.
+wake_on_lan:
+
+automation:
+  - id: deck_tv_wake
+    alias: Turn on the LG TV (Wake-on-LAN)
+    triggers:
+      - trigger: webostv.turn_on
+        entity_id: @@tv@@
+    actions:
+      - action: wake_on_lan.send_magic_packet
+        data:
+          mac: "@@tv_mac@@"
+          broadcast_address: @@broadcast@@  # the default 255.255.255.255 doesn't wake it
+
+rest_command:
+  jellyfin_find:  # the first film or video whose name matches
+    url: "@@jellyfin_url@@/Items?searchTerm={{ title | urlencode }}&IncludeItemTypes=Movie,Video&Recursive=true&Limit=1&Fields=Path"
+    method: get
+    headers:
+      X-Emby-Token: !secret jellyfin_api_key
+  jellyfin_sessions:
+    url: "@@jellyfin_url@@/Sessions?activeWithinSeconds=120"
+    method: get
+    headers:
+      X-Emby-Token: !secret jellyfin_api_key
+  jellyfin_play:
+    url: "@@jellyfin_url@@/Sessions/{{ session }}/Playing?playCommand=PlayNow&itemIds={{ item }}"
+    method: post
+    headers:
+      X-Emby-Token: !secret jellyfin_api_key
+
+script:
+  tv_jellyfin_play:
+    alias: TV › play from Jellyfin
+    mode: restart
+    fields:
+      title:
+        description: Name of the film in Jellyfin
+        example: Fantastic Planet
+    variables:
+      tv: @@tv@@
+      app: Jellyfin  # the app's name in the TV's source list
+    sequence:
+      - action: rest_command.jellyfin_find
+        data:
+          title: "{{ title }}"
+        response_variable: found
+      - variables:
+          item: "{{ (found.content.Items | default([]) | first | default({})).Id | default('') }}"
+      - if: "{{ not item }}"
+        then:
+          - action: persistent_notification.create
+            data:
+              title: Stream Deck TV
+              message: "Couldn't find “{{ title }}” on Jellyfin (HTTP {{ found.status }})."
+          - stop: not found
+      # wake the TV (Wake-on-LAN, above) and wait for webOS to answer
+      - if: "{{ not is_state(tv, 'on') }}"
+        then:
+          - action: media_player.turn_on
+            target:
+              entity_id: "{{ tv }}"
+          - wait_template: "{{ is_state(tv, 'on') }}"
+            timeout: "00:00:40"
+            continue_on_timeout: false
+          - delay: 3
+      - action: media_player.select_source
+        target:
+          entity_id: "{{ tv }}"
+        data:
+          source: "{{ app }}"
+      # the app takes a few seconds to start and check in with the server
+      - variables:
+          session: ""
+      - repeat:
+          sequence:
+            - delay: 2
+            - action: rest_command.jellyfin_sessions
+              response_variable: sessions
+            - variables:
+                session: >-
+                  {%- set ns = namespace(id='') -%}
+                  {%- for s in sessions.content | default([]) if s.SupportsRemoteControl | default(false) -%}
+                    {%- if not ns.id and ((s.Client ~ ' ' ~ s.DeviceName) | lower) is search('webos|lg|oled') -%}
+                      {%- set ns.id = s.Id -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {{ ns.id }}
+          until: "{{ session != '' or repeat.index >= 15 }}"
+      - if: "{{ session == '' }}"
+        then:
+          - action: persistent_notification.create
+            data:
+              title: Stream Deck TV
+              message: "The TV's Jellyfin app didn't show up on the server, so “{{ title }}” wasn't started. Is the app signed in?"
+          - stop: no session
+      - action: rest_command.jellyfin_play
+        data:
+          session: "{{ session }}"
+          item: "{{ item }}"
+
+  tv_youtube_play:
+    alias: TV › play a YouTube video
+    mode: restart
+    fields:
+      video:
+        description: YouTube video ID (the v= part of the link)
+        example: c8wn2fMYvns
+      title:
+        description: What it is, for the logbook
+        example: Don't Stop Believin' – Journey
+    variables:
+      tv: @@tv@@
+    sequence:
+      # wake the TV (Wake-on-LAN, above) and wait for webOS to answer
+      - if: "{{ not is_state(tv, 'on') }}"
+        then:
+          - action: media_player.turn_on
+            target:
+              entity_id: "{{ tv }}"
+          - wait_template: "{{ is_state(tv, 'on') }}"
+            timeout: "00:00:40"
+            continue_on_timeout: false
+          - delay: 3
+      # a song already playing: close YouTube so it stops, then start the new one fresh
+      - if: "{{ state_attr(tv, 'app_id') == 'youtube.leanback.v4' }}"
+        then:
+          - action: script.tv_youtube_stop
+          - wait_template: "{{ state_attr(tv, 'app_id') != 'youtube.leanback.v4' }}"
+            timeout: "00:00:05"
+          - delay: 1
+      # launching the YouTube app with a contentId plays that video
+      - action: webostv.command
+        data:
+          entity_id: "{{ tv }}"
+          command: system.launcher/launch
+          payload:
+            id: youtube.leanback.v4
+            contentId: "{{ video }}"
+
+  # What Assist (ChatGPT, the Jonjon pipeline) calls: an LLM waits for the scripts it calls, and
+  # tv_stremio_play takes ~30 s, longer than a voice reply should; and if the conversation is cut
+  # short, the call is cancelled mid-way. So this starts it in the background and returns at once.
+  stremio_play:
+    alias: Play in Stremio on the TV
+    description: >-
+      Plays a film or TV show in the Stremio app on the living room TV, turning the TV on if
+      needed. Returns straight away; the TV takes about 30 seconds to get there.
+    mode: parallel
+    fields:
+      title:
+        description: Name of the film or show
+        example: The Matrix
+        required: true
+        selector:
+          text:
+    sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.tv_stremio_play
+        data:
+          variables:
+            title: "{{ title }}"
+            play: true
+
+  tv_stremio_play:
+    alias: TV › open a film or show in Stremio
+    description: >-
+      Opens a film or TV show in the Stremio app on the living room TV (turning the TV on if
+      needed) and presses Play Now, so Stremio picks the stream itself. With play false it stops on
+      the title's menu for a person to choose with the remote.
+    mode: restart
+    fields:
+      title:
+        description: Name of the film or show, as you'd type it in Stremio's search
+        example: The Matrix
+        required: true
+        selector:
+          text:
+      play:
+        description: Press Play Now (Stremio picks the stream); false stops on the title's menu
+        default: true
+        selector:
+          boolean:
+    variables:
+      tv: @@tv@@
+      app: io.strem.tv
+    sequence:
+      # wake the TV (Wake-on-LAN, above) and wait for webOS to answer
+      - if: "{{ not is_state(tv, 'on') }}"
+        then:
+          - action: media_player.turn_on
+            target:
+              entity_id: "{{ tv }}"
+          - wait_template: "{{ is_state(tv, 'on') }}"
+            timeout: "00:00:40"
+            continue_on_timeout: false
+          - delay: 3
+      # start from a fresh Home screen, so the key presses below land where they should
+      - if: "{{ state_attr(tv, 'app_id') == app }}"
+        then:
+          - action: webostv.command
+            continue_on_error: true
+            data:
+              entity_id: "{{ tv }}"
+              command: system.launcher/close
+              payload:
+                id: "{{ app }}"
+          - wait_template: "{{ state_attr(tv, 'app_id') != app }}"
+            timeout: "00:00:05"
+          - delay: 1
+      - action: webostv.command
+        data:
+          entity_id: "{{ tv }}"
+          command: system.launcher/launch
+          payload:
+            id: "{{ app }}"
+      - wait_template: "{{ state_attr(tv, 'app_id') == app }}"
+        timeout: "00:00:15"
+        continue_on_timeout: false
+      - delay: 10  # Stremio loads its Home rows before it takes key presses
+      # side menu, up to Search (the top entry), open it
+      - action: webostv.button
+        data:
+          entity_id: "{{ tv }}"
+          button: LEFT
+      - delay: 1
+      - repeat:
+          count: 5
+          sequence:
+            - action: webostv.button
+              data:
+                entity_id: "{{ tv }}"
+                button: UP
+            - delay: 0.6
+      - action: webostv.button
+        data:
+          entity_id: "{{ tv }}"
+          button: ENTER
+      - delay: 2
+      # type into the TV's on-screen keyboard and submit; the first result gets the focus
+      - action: webostv.command
+        data:
+          entity_id: "{{ tv }}"
+          command: com.webos.service.ime/insertText
+          payload:
+            text: "{{ title }}"
+            replace: 0
+      - delay: 1
+      - action: webostv.command
+        data:
+          entity_id: "{{ tv }}"
+          command: com.webos.service.ime/sendEnterKey
+      - delay: 5
+      # Enter on a result opens its menu with Play Now focused
+      - action: webostv.button
+        data:
+          entity_id: "{{ tv }}"
+          button: ENTER
+      # Play Now opens the stream list with the first stream focused; it needs a moment to fill
+      # from the addons, then Enter starts that stream
+      - if: "{{ play | default(true) | bool }}"
+        then:
+          - delay: 3
+          - action: webostv.button
+            data:
+              entity_id: "{{ tv }}"
+              button: ENTER
+          - delay: 6
+          - action: webostv.button
+            data:
+              entity_id: "{{ tv }}"
+              button: ENTER
+
+  tv_youtube_stop:
+    alias: TV › stop YouTube
+    sequence:
+      # closing the app is the one stop YouTube can't ignore; the TV goes back to what was on before
+      - action: webostv.command
+        continue_on_error: true
+        data:
+          entity_id: @@tv@@
+          command: system.launcher/close
+          payload:
+            id: youtube.leanback.v4

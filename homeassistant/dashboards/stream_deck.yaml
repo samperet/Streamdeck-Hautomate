@@ -1,0 +1,12 @@
+# Stream Deck dashboard (from configuration.yaml > lovelace > dashboards > stream-deck).
+# The page is ~/streamdeck-yaml/emulator/streamdeck-emulator-local.html, copied to www/ on every rebuild.
+# A panel view with one iframe card: the card fills the whole screen, phone or desktop.
+title: Stream Deck
+views:
+  - title: Emulator
+    path: emulator
+    icon: mdi:view-grid
+    panel: true
+    cards:
+      - type: iframe
+        url: /local/streamdeck-emulator.html

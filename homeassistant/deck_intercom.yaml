@@ -1,0 +1,352 @@
+# Stream Deck intercom: lets Assist manage the people folders on the deck.
+# Installed to /config/packages/deck_intercom.yaml by homeassistant/install.sh.
+#
+# Assist (the chat bubble in the Home Assistant web UI, or the phone app) understands
+# the phrases in custom_sentences/en/deck.yaml, e.g.
+#   "add Kind of Blue by Miles Davis to Alex"
+#   "add the playlist Sunday Morning to Riley's folder"
+#   "put https://open.spotify.com/album/... in Jo's folder"
+#   "remove the last one from Riley"      "what's in Alex's folder"
+# and hands them to the deck manager (streamdeck-yaml/manager/deck_manager.py) on this
+# computer, which edits the folder and refreshes the deck.
+
+rest_command:
+  deck_manager:
+    url: "http://127.0.0.1:8765/api/{{ command }}"
+    method: POST
+    content_type: "application/json"
+    payload: '{{ {"item": item | default(""), "person": person | default("")} | to_json }}'
+    timeout: 45
+  # Listen mode: waits (up to LISTEN_SECONDS in gen_config.py) for something new on Spotify.
+  deck_listen:
+    url: "http://127.0.0.1:8765/api/{{ command }}"
+    method: POST
+    content_type: "application/json"
+    payload: '{{ {"folder": folder | default(""), "voice": voice | default(true), "slot": slot | default(none)} | to_json }}'
+    timeout: 90
+
+  # Push-to-talk from the emulator (the physical deck calls the deck manager directly)
+  deck_voice:
+    url: "http://127.0.0.1:8765/api/voice_{{ command }}"
+    method: POST
+    content_type: "application/json"
+    payload: '{{ {"folder": folder | default(""), "slot": slot | default(none)} | to_json }}'
+    timeout: 90
+
+  # Deleting a cover from a person's folder (held 3 s on the deck, then tapped to confirm)
+  deck_remove:
+    url: "http://127.0.0.1:8765/api/remove_id"
+    method: POST
+    content_type: "application/json"
+    payload: '{{ {"folder": folder | default(""), "id": id | default("")} | to_json }}'
+    timeout: 45
+
+# While listening, holds the label of the Home key to show "Listening…" on (People, Jazz, More…).
+input_text:
+  deck_listen:
+    name: Stream Deck listening
+    initial: ""
+    max: 100
+
+intent_script:
+  DeckAdd:
+    action:
+      - action: rest_command.deck_manager
+        data:
+          command: add
+          item: "{{ item | default('') }}"
+          person: "{{ person | default('') }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          reply: >-
+            {{ {'speech': result.content.speech}
+               if result is defined and result.content is mapping and 'speech' in result.content
+               else {'speech': "The deck manager on the server isn't answering. Check that deck-manager is running."} }}
+      - stop: done
+        response_variable: reply
+    speech:
+      text: "{{ action_response.speech }}"
+
+  DeckRemove:
+    action:
+      - action: rest_command.deck_manager
+        data:
+          command: remove
+          item: "{{ item | default('') }}"
+          person: "{{ person | default('') }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          reply: >-
+            {{ {'speech': result.content.speech}
+               if result is defined and result.content is mapping and 'speech' in result.content
+               else {'speech': "The deck manager on the server isn't answering. Check that deck-manager is running."} }}
+      - stop: done
+        response_variable: reply
+    speech:
+      text: "{{ action_response.speech }}"
+
+  DeckList:
+    action:
+      - action: rest_command.deck_manager
+        data:
+          command: list
+          person: "{{ person | default('') }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          reply: >-
+            {{ {'speech': result.content.speech}
+               if result is defined and result.content is mapping and 'speech' in result.content
+               else {'speech': "The deck manager on the server isn't answering. Check that deck-manager is running."} }}
+      - stop: done
+        response_variable: reply
+    speech:
+      text: "{{ action_response.speech }}"
+
+script:
+  # Holding a blank cover key on the deck: add whatever you start next on Spotify there.
+  deck_listen:
+    alias: Stream Deck listen mode
+    mode: parallel
+    fields:
+      folder:
+        description: "Deck folder, e.g. people/alex or albums/jazz"
+        required: true
+        selector:
+          text:
+      home_key:
+        description: "Home key that shows Listening… (People, Jazz, More…)"
+        selector:
+          text:
+      slot:
+        description: "Which key in the folder the new cover goes on (the blank key held; 0 = first)"
+        selector:
+          number:
+            min: 0
+            max: 999
+            mode: box
+      voice:
+        description: "Listen on the server's microphone first (the deck's push-to-talk turns this off: it already listened)"
+        default: true
+        selector:
+          boolean:
+    sequence:
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.deck_listen
+        data:
+          value: "{{ home_key | default('People') }}"
+      - action: rest_command.deck_listen
+        data:
+          command: listen
+          folder: "{{ folder }}"
+          slot: "{{ slot | default(none) }}"
+          voice: "{{ voice | default(true) }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          ok: "{{ result is defined and result.content is mapping and 'speech' in result.content }}"
+          speech: >-
+            {{ result.content.speech if ok
+               else "The deck manager on the server isn't answering. Check that deck-manager is running." }}
+      # A second hold in the same folder, or a newer listen elsewhere, leaves the indicator to that one.
+      - if: "{{ not ok or result.content.clear | default(true) }}"
+        then:
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.deck_listen
+            data:
+              value: ""
+          - action: persistent_notification.create
+            data:
+              notification_id: deck_listen
+              title: Stream Deck
+              message: "{{ speech }}"
+
+  # Push-to-talk on a blank cover key, for the emulator: start when held, stop when let go.
+  # Returns the deck manager's answer: speech, heard, added (stop) or ok (start).
+  deck_voice:
+    alias: Stream Deck push-to-talk
+    mode: parallel
+    fields:
+      command:
+        description: "start, stop or cancel"
+        required: true
+        selector:
+          select:
+            options: [start, stop, cancel]
+      folder:
+        description: "Deck folder, e.g. people/alex"
+        selector:
+          text:
+      slot:
+        description: "Which key in the folder the new cover goes on (the blank key held; 0 = first)"
+        selector:
+          number:
+            min: 0
+            max: 999
+            mode: box
+    sequence:
+      - action: rest_command.deck_voice
+        data:
+          command: "{{ command }}"
+          folder: "{{ folder | default('') }}"
+          slot: "{{ slot | default(none) }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          reply: >-
+            {{ result.content if result is defined and result.content is mapping
+               else {'speech': "The deck manager on the server isn't answering. Check that deck-manager is running.", 'error': true} }}
+      - stop: done
+        response_variable: reply
+
+  # A cover's long press in a person's folder. The deck (visualizer/deck_run.py) and the emulator
+  # ask first: hold 3 s, then tap to confirm, which calls this with confirm: true. Without that it
+  # only explains, so a plain long press never deletes anything.
+  deck_remove:
+    alias: Stream Deck delete a cover
+    mode: queued
+    fields:
+      folder:
+        description: "Deck folder, e.g. people/alex"
+        required: true
+        selector:
+          text:
+      id:
+        description: "Spotify ID of the album, artist or playlist"
+        required: true
+        selector:
+          text:
+      title:
+        description: "Its name, for the message"
+        selector:
+          text:
+      confirm:
+        description: "Really delete (the deck sends this after the confirming tap)"
+        default: false
+        selector:
+          boolean:
+    sequence:
+      - if: "{{ not (confirm | default(false)) }}"
+        then:
+          - action: persistent_notification.create
+            data:
+              notification_id: deck_remove
+              title: Stream Deck
+              message: "To delete {{ title | default('a cover') }}, hold it for 3 seconds, then tap it again."
+          - stop: not confirmed
+      - action: rest_command.deck_remove
+        data:
+          folder: "{{ folder }}"
+          id: "{{ id }}"
+        response_variable: result
+        continue_on_error: true
+      - variables:
+          reply: >-
+            {{ result.content if result is defined and result.content is mapping
+               else {'speech': "The deck manager on the server isn't answering. Check that deck-manager is running."} }}
+      - action: persistent_notification.create
+        data:
+          notification_id: deck_remove
+          title: Stream Deck
+          message: "{{ reply.speech }}"
+      - stop: done
+        response_variable: reply
+
+  # Holding the Home key that says "Listening…": take what's playing right now.
+  deck_listen_take:
+    alias: Stream Deck listen mode, take what's playing
+    mode: queued
+    sequence:
+      - action: rest_command.deck_listen
+        data:
+          command: listen_take
+        continue_on_error: true
+
+  # What every album, playlist or song key on the deck calls.
+  play_spotify_album:
+    alias: Play Spotify album or playlist
+    mode: restart
+    fields:
+      uri:
+        description: "Spotify URI, e.g. spotify:album:1weenld61qoidwYuZ1GESA, spotify:playlist:... or spotify:track:..."
+        required: true
+        selector:
+          text:
+    variables:
+      # The Spotify integration's player, found automatically. Needs the Spotify integration
+      # (Settings > Devices & services > Add integration > Spotify).
+      spotify: "{{ integration_entities('spotify') | select('match', 'media_player\\.') | first | default('') }}"
+      # The WiiM in Spotify Connect: by name, or by its device ID when its Connect name comes up blank
+      # (it did in 2026-10; Spotify then lists it as the bare ID). From http://<speaker-ip>:5356/zc?action=getInfo on a WiiM
+      speaker: >-
+        {%- set names = state_attr(spotify, 'source_list') or [] if spotify else [] -%}
+        {{ '@@spotify_device@@' if '@@spotify_device@@' in names or '@@spotify_device_id@@' not in names
+           else '@@spotify_device_id@@' }}
+      wiim: @@player@@
+      # the TV's HDMI ARC (and Bluetooth, Line In…) take the WiiM off its network input, and there
+      # it ignores Spotify: play_media "works" and nothing plays
+      parked: "{{ not is_state(wiim, 'playing') }}"
+      # Already playing Spotify on the WiiM: this is a switch from one album to another. Asked of the
+      # WiiM because the Spotify integration only refreshes every 30 s, so its source lags
+      switching: "{{ not parked and (state_attr(wiim, 'media_content_id') or '') is string and (state_attr(wiim, 'media_content_id') or '').startswith('spotify:') }}"
+    sequence:
+      # Fail loudly instead of silently doing nothing (the deck emulator shows the error)
+      - if: "{{ not spotify }}"
+        then:
+          - stop: "No Spotify player in Home Assistant: add the Spotify integration first"
+            error: true
+      # Not playing: put the WiiM back on its network input, and hand Spotify over again below
+      - if: "{{ parked }}"
+        then:
+          - action: media_player.select_source
+            continue_on_error: true
+            target:
+              entity_id: "{{ wiim }}"
+            data:
+              source: Network  # the WiiM's network input (its source_list: Network, Bluetooth, Line In, Optical In, TV)
+          - delay: 1
+      # Spotify silently ignores a source it can't see, so check first
+      - if: "{{ speaker not in (state_attr(spotify, 'source_list') or []) }}"
+        then:
+          - stop: "Spotify can't see the speaker (@@spotify_device@@). Pick it once in the Spotify app, or sign in to Spotify in the WiiM Home app"
+            error: true
+      # Hand Spotify over to the WiiM only when it isn't already playing there: a handover to the
+      # same speaker pauses and replays the current song for a moment before the new one starts
+      - if: "{{ not switching }}"
+        then:
+          - action: media_player.select_source
+            target:
+              entity_id: "{{ spotify }}"
+            data:
+              source: "{{ speaker }}"
+      # With nothing playing, Spotify only offers "select source" until it refreshes (every 30 s),
+      # so refresh it now and wait for play_media (feature 512) to become available
+      - if: "{{ state_attr(spotify, 'supported_features') | int(0) | bitwise_and(512) == 0 or not switching }}"
+        then:
+          - repeat:
+              sequence:
+                - delay: 1
+                - action: homeassistant.update_entity
+                  target:
+                    entity_id: "{{ spotify }}"
+              until: "{{ state_attr(spotify, 'supported_features') | int(0) | bitwise_and(512) > 0 or repeat.index >= 10 }}"
+      # A fresh start is at 20%; a switch keeps the volume. Set after the handover, which brings
+      # Spotify's last volume with it
+      - if: "{{ not switching }}"
+        then:
+          - action: media_player.volume_set
+            continue_on_error: true
+            target:
+              entity_id: "{{ wiim }}"
+            data:
+              volume_level: 0.2
+      - action: media_player.play_media
+        target:
+          entity_id: "{{ spotify }}"
+        data:
+          media_content_type: "{{ uri.split(':')[1] }}"  # album, playlist, track or episode
+          media_content_id: "{{ uri }}"

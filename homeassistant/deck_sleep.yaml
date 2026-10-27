@@ -1,0 +1,44 @@
+# Sleep timer for the Stream Deck: More › Sleep › 5 min … 1 hour, or Cancel.
+# Installed to /config/packages/deck_sleep.yaml by homeassistant/install.sh.
+#
+# The deck keys start or cancel timer.deck_sleep; when it runs out this turns everything
+# off: the music on the WiiM, the amp itself, the LG TV, the visualizer and any lights.
+
+timer:
+  deck_sleep:
+    name: Stream Deck sleep
+    icon: mdi:power-sleep
+    restore: true  # a Home Assistant restart mid-countdown still ends in sleep
+
+automation:
+  - id: deck_sleep_everything_off
+    alias: Stream Deck sleep, everything off
+    description: The deck's sleep timer ran out; turn the music, amp, TV, visualizer and lights off.
+    mode: single
+    triggers:
+      - trigger: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.deck_sleep
+    actions:
+      # each step on its own, so one missing device doesn't stop the rest
+      - action: media_player.media_pause
+        target:
+          entity_id: @@player@@
+        continue_on_error: true
+      - action: media_player.turn_off
+        target:
+          entity_id: @@player@@
+        continue_on_error: true
+      - action: media_player.turn_off  # the LG TV (homeassistant/deck_tv.yaml); fine if it's already off
+        target:
+          entity_id: @@tv@@
+        continue_on_error: true
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.deck_visualizer
+        continue_on_error: true
+      - action: light.turn_off
+        target:
+          entity_id: all
+        continue_on_error: true

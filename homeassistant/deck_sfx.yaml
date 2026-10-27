@@ -1,0 +1,23 @@
+# Stream Deck › More › Sound Effects: play a short sound over whatever is playing.
+# The WiiM can't mix a clip into Spotify (it has no notification/prompt command; playing a
+# URL on it replaces the music), so effects play on a second speaker and the music on the
+# WiiM is never touched. Change `speaker` below to use a different one.
+# Clips live in ~/streamdeck-yaml/sounds/ and are copied to www/sfx/ (served as /local/sfx/)
+# by gen_config.py. Installed by homeassistant/install.sh into packages/deck_sfx.yaml.
+script:
+  deck_sfx:
+    alias: Deck sound effect
+    mode: parallel
+    fields:
+      url:
+        description: Full http:// URL of the clip, reachable from the speaker
+        example: http://homeassistant.local:8123/local/sfx/glasses-clinking.mp3
+    variables:
+      speaker: @@sfx_speaker@@
+    sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: "{{ speaker }}"
+        data:
+          media_content_id: "{{ url }}"
+          media_content_type: music

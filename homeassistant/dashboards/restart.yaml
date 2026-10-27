@@ -1,0 +1,20 @@
+# Restart Home Assistant from the sidebar (configuration.yaml > lovelace > dashboards > restart-ha).
+# Asks to confirm first; takes about a minute, and the Stream Deck reconnects by itself.
+title: Restart
+views:
+  - title: Restart
+    path: restart
+    icon: mdi:restart
+    cards:
+      - type: button
+        name: Restart Home Assistant
+        icon: mdi:restart
+        icon_height: 96px
+        show_state: false
+        tap_action:
+          action: perform-action
+          perform_action: homeassistant.restart
+          confirmation:
+            text: Restart Home Assistant now? It takes about a minute.
+        hold_action:
+          action: none

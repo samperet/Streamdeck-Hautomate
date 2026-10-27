@@ -1,0 +1,26 @@
+services:
+  ha_streamdeck:
+    container_name: ha_streamdeck
+    # The stock image plus a microphone library; the supervisor runs the normal deck
+    # and swaps in the visualizer when input_boolean.deck_visualizer turns on.
+    build: ./visualizer
+    image: streamdeck-yaml-visualizer:latest
+    command: ["python", "/opt/deck-visualizer/supervisor.py"]
+    env_file: .env
+    volumes:
+      - ./configuration.yaml:/app/configuration.yaml
+      - ./icons:/icons:ro
+      - ./fonts:/fonts:ro  # Chicago, the keys' font (visualizer/deck_run.py)
+      - ./visualizer:/opt/deck-visualizer:ro
+      # Album covers emulator/build.py downloaded; visualizer/supervisor.py copies them in.
+      - ./emulator/.cache:/covers:ro
+      - ./99-streamdeck.rules:/etc/udev/rules.d/99-streamdeck.rules
+      - /etc/localtime:/etc/localtime:ro
+    privileged: true
+    restart: unless-stopped
+    network_mode: host
+    logging:
+      driver: json-file
+      options:
+        max-file: "5"
+        max-size: 10m

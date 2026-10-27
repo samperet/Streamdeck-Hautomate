@@ -1,0 +1,30 @@
+# Volume steps for the Stream Deck's Vol − / Vol + keys (gen_config.py, vol_key and marquee).
+# Installed to /config/packages/deck_volume.yaml by homeassistant/install.sh.
+#
+# One press is one step, sized by how loud it is: 1% below 15%, 2% below 35%, 3% below 60%,
+# then 5%, landing on round numbers. Holding a key repeats, faster the longer it's held, and
+# pressing the other way soon after drops to 1% steps: visualizer/deck_run.py (and the emulator)
+# do that themselves with volume_set, keeping their own running level, since the WiiM's state
+# lags behind quick steps. Change the tiers there too (VOL_TIERS).
+
+script:
+  deck_volume:
+    alias: Stream Deck volume step
+    mode: queued
+    max: 20
+    fields:
+      direction:
+        description: 1 to raise, -1 to lower
+        example: 1
+    sequence:
+      - action: media_player.volume_set
+        target:
+          entity_id: @@player@@
+        data:
+          volume_level: >-
+            {% set pct = ((state_attr('@@player@@', 'volume_level') or 0) * 100) | round | int %}
+            {% set up = (direction | int(1)) > 0 %}
+            {% set ref = pct if up else pct - 1 %}
+            {% set step = 1 if ref < 15 else 2 if ref < 35 else 3 if ref < 60 else 5 %}
+            {% set new = ((pct // step) + 1) * step if up else ((-((-pct) // step)) - 1) * step %}
+            {{ ([[new, 100] | min, 0] | max) / 100 }}

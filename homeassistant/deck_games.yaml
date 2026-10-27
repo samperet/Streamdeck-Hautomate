@@ -1,0 +1,82 @@
+# Lights Out on the Stream Deck: More › Lights Out.
+# Installed to /config/packages/deck_games.yaml by homeassistant/install.sh.
+#
+# The whole deck is the board (8x4 on an XL, 5x3 on the 15-key deck; each key passes `cols` and
+# `cells`). Pressing a key flips it and the keys above, below, left and right of it; turn every
+# light off to win. Hold any key to leave.
+# The board is kept in an input_text as one cell per key ('#' lit, '.' dark)
+# then ':' and the number of moves, then ':' and the game number, e.g. ".#..##.#...#..#.#..##.#...#..#..:4:7".
+# Empty = not started yet. The game number picks the colour of the lit keys (LO_COLOURS in
+# gen_config.py), so each new game has the next colour.
+# The deck draws the keys from it (gen_config.py, lights_out_page); this script plays.
+
+input_text:
+  deck_lightsout:
+    name: Stream Deck Lights Out
+    max: 60
+
+script:
+  deck_lightsout_press:
+    alias: Stream Deck Lights Out press
+    description: A key on a Lights Out board was pressed. Plays a move, or starts a new game when none is on.
+    mode: queued
+    max: 10
+    fields:
+      board:
+        description: The input_text holding the board
+        example: input_text.deck_lightsout
+      cell:
+        description: The key pressed, from 0, left to right and top to bottom
+        example: 7
+      cols:
+        description: Keys in a row (8 on a Stream Deck XL, 5 on the 15-key deck)
+        example: 8
+      cells:
+        description: Keys on the deck (32 or 15)
+        example: 32
+    sequence:
+      - variables:
+          w: "{{ cols | default(8) | int }}"
+          n: "{{ cells | default(32) | int }}"
+      - if: "{{ '#' in states(board).split(':')[0] }}"
+        then:  # a game is on: flip the cell and its neighbours, count the move
+          - action: input_text.set_value
+            target:
+              entity_id: "{{ board }}"
+            data:
+              value: >-
+                {%- set s = states(board).split(':') -%}
+                {%- set p = cell | int -%}
+                {%- for i in range(n) -%}
+                  {%- set hit = (i // w == p // w and (i % w - p % w) | abs <= 1)
+                             or (i % w == p % w and (i // w - p // w) | abs == 1) -%}
+                  {{- ('.' if s[0][i] == '#' else '#') if hit else s[0][i] -}}
+                {%- endfor -%}
+                :{{ (s[1] | int(0)) + 1 if s | length > 1 else 1 }}
+                {%- if s | length > 2 %}:{{ s[2] }}{% endif %}
+        else:  # solved or never played: deal a new board, with the next game number (= next colour)
+          - variables:
+              game: >-
+                {%- set s = (states(board) or '').split(':') -%}
+                {{ ((s[2] | int(-1)) if s | length > 2 else -1) + 1 }}
+          # Not every pattern can be solved, so a board is made by pressing
+          # random keys on a dark one; that always leaves a solvable game. Retry if it came out dark.
+          - repeat:
+              sequence:
+                - action: input_text.set_value
+                  target:
+                    entity_id: "{{ board }}"
+                  data:
+                    value: >-
+                      {%- set ns = namespace(s='.' * n) -%}
+                      {%- for p in range(n) if [true, false] | random -%}
+                        {%- set ns2 = namespace(t='') -%}
+                        {%- for i in range(n) -%}
+                          {%- set hit = (i // w == p // w and (i % w - p % w) | abs <= 1)
+                                     or (i % w == p % w and (i // w - p // w) | abs == 1) -%}
+                          {%- set ns2.t = ns2.t ~ (('.' if ns.s[i] == '#' else '#') if hit else ns.s[i]) -%}
+                        {%- endfor -%}
+                        {%- set ns.s = ns2.t -%}
+                      {%- endfor -%}
+                      {{ ns.s }}:0:{{ game % 60 }}
+              until: "{{ '#' in states(board).split(':')[0] }}"

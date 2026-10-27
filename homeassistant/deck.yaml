@@ -1,0 +1,23 @@
+# Assist phrases for the Stream Deck's people folders.
+# Installed to /config/custom_sentences/en/deck.yaml; handled in packages/deck_intercom.yaml.
+language: "en"
+intents:
+  DeckAdd:
+    data:
+      - sentences:
+          - "(add|put) {item} (to|in|into|on|onto) {person} [folder|button|deck|page]"
+  DeckRemove:
+    data:
+      - sentences:
+          - "(remove|delete|take) {item} (from|off|out of) {person} [folder|button|deck|page]"
+  DeckList:
+    data:
+      - sentences:
+          - "(what's|what is|whats) (in|on) {person} [folder|button|deck|page]"
+          - "(list|show [me]) {person} [folder|button|deck|page|albums|music]"
+lists:
+  item:
+    wildcard: true
+  person:  # filled in from `people` in settings.yaml by tools/install_ha.py
+    values:
+@@people_list@@

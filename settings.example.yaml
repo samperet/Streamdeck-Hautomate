@@ -1,0 +1,62 @@
+# Your house, for the Stream Deck. Copy this file to settings.yaml (git-ignored) and change it.
+# gen_config.py builds the deck from it, tools/install_ha.py fills it into the Home Assistant
+# packages, and the emulator reads it. Re-run `python3 gen_config.py` and
+# `python3 tools/install_ha.py` after changing it.
+
+# Which Stream Deck: xl (Stream Deck XL, 8x4 = 32 keys) or mk2 (Stream Deck MK.2 or original, 5x3 = 15 keys)
+deck: xl
+
+# The speaker albums play on: a Home Assistant media_player that Spotify Connect can play to
+# (a WiiM, Sonos, Chromecast, Echo...). Its name and, optionally, its device ID in Spotify Connect.
+player: media_player.living_room_speaker
+spotify_device: Living Room
+spotify_device_id: ""            # only if its Connect name sometimes comes up blank
+
+# More › Amp: the speaker's inputs, as [name in its source_list, label on the key]
+sources:
+  - [Network, Wi-Fi]
+  - [Bluetooth, Bluetooth]
+  - [Line In, Line In]
+  - [Optical In, Optical]
+
+lan_probe_ip: 192.168.1.1        # any device on your LAN (your router is fine); finds this computer's address
+ha_config: ~/homeassistant/config  # Home Assistant's config folder (where configuration.yaml is)
+
+# More › Sound Effects play on a second speaker, so the music keeps going
+sfx_speaker: media_player.kitchen_speaker
+
+# More › TV and More › Karaoke (optional: leave tv empty to drop both). An LG webOS TV, woken
+# over the network; films come from a Jellyfin server (add jellyfin_api_key to Home Assistant's secrets.yaml).
+tv: media_player.living_room_tv
+tv_label: TV
+tv_mac: "AA:BB:CC:DD:EE:FF"
+broadcast: 192.168.1.255
+jellyfin_url: http://192.168.1.50:8096
+films:                           # [name in Jellyfin, label on the key]
+  - [Fantastic Planet, "Fantastic\nPlanet"]
+
+# People: everyone gets a folder of albums on Home › People, filled by voice ("add Kind of Blue to
+# Alex") or by holding an empty key. [file in people/, name on the key, other names Assist may hear]
+people:
+  - [alex, Alex, [al]]
+  - [riley, Riley]
+person_genre: {}                 # e.g. {alex: jazz}: a genre on that person's page instead of Home
+
+# Home: a ranked list with its own key ([file in albums/, label]), then the genres, in order.
+# Each is albums/<file>.json; add albums with `python3 albums/add.py <file> < list.tsv`.
+top: [top500, Greatest Hits]
+genres:
+  - [jazz, Jazz]
+  - [classical, Classical]
+  - [folk, Folk]
+  - [pop, Pop]
+  - [world, World]
+  - [afro, Afro]
+  - [rock, Rock]
+  - [soul, Soul]
+  - [blues, Blues]
+  - [hiphop, Hip-Hop]
+  - [reggae, Reggae]
+  - [electronic, Electronic]
+  - [bossanova, "Bossa\nNova"]
+  - [country, Country]

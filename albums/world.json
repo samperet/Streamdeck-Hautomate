@@ -1,0 +1,656 @@
+[
+ {
+  "artist": "Buena Vista Social Club",
+  "title": "Buena Vista Social Club",
+  "id": "5qcOy8sMqROZ0VEfK8LJZt",
+  "spotify_title": "Buena Vista Social Club"
+ },
+ {
+  "artist": "Ravi Shankar",
+  "title": "The Sounds of India",
+  "id": "4aSIyoC7BdDebquu0WgcFK",
+  "spotify_title": "The Sounds Of India"
+ },
+ {
+  "artist": "Nusrat Fateh Ali Khan",
+  "title": "Shahen-Shah",
+  "id": "10GkvioKyOSyh7Q7aIbu2C",
+  "spotify_title": "Shahen-Shah (Real World Gold)"
+ },
+ {
+  "artist": "Gipsy Kings",
+  "title": "Gipsy Kings",
+  "id": "4aDmHcFNChCXPle7tMeoWS",
+  "spotify_title": "Gipsy Kings"
+ },
+ {
+  "artist": "Paco de Lucía",
+  "title": "Fuente y Caudal",
+  "id": "5U0rq4xjzLbUT3n4RXRExG",
+  "spotify_title": "Fuente Y Caudal"
+ },
+ {
+  "artist": "Camarón de la Isla",
+  "title": "La Leyenda del Tiempo",
+  "id": "3Wqic8Xd2GsDuXoV90fmSB",
+  "spotify_title": "La Leyenda Del Tiempo (Remastered 2018)"
+ },
+ {
+  "artist": "Mercedes Sosa",
+  "title": "Cantora 1",
+  "id": "0GEdAkGPf0hOqaHtg6arIl",
+  "spotify_title": "Cantora"
+ },
+ {
+  "artist": "Jorge Ben Jor",
+  "title": "África Brasil",
+  "id": "0esHQqYklDPje00NUNq6py",
+  "spotify_title": "Africa Brasil"
+ },
+ {
+  "artist": "Milton Nascimento",
+  "title": "Clube da Esquina",
+  "id": "5risYG7klZCSLMNxB9dZhf",
+  "spotify_title": "Clube Da Esquina"
+ },
+ {
+  "artist": "Gilberto Gil",
+  "title": "Refazenda",
+  "id": "1hoogSOvsrpNEEycTHaqmX",
+  "spotify_title": "Refazenda"
+ },
+ {
+  "artist": "Novos Baianos",
+  "title": "Acabou Chorare",
+  "id": "76iTNsPU1yhKWcQrTc2qdA",
+  "spotify_title": "Acabou Chorare"
+ },
+ {
+  "artist": "Ibrahim Ferrer",
+  "title": "Buena Vista Social Club Presents Ibrahim Ferrer",
+  "id": "2HZnjbQkf0Ev5lmuLLqrvI",
+  "spotify_title": "Ibrahim Ferrer (Buena Vista Social Club Presents)"
+ },
+ {
+  "artist": "Anoushka Shankar",
+  "title": "Traces of You",
+  "id": "3JhWoZyK2xTHTbwVXyaleq",
+  "spotify_title": "Traces Of You"
+ },
+ {
+  "artist": "Ofra Haza",
+  "title": "Yemenite Songs",
+  "id": "5ql8ZazwMT2EN6Fx55xtar",
+  "spotify_title": "Yemenite Songs"
+ },
+ {
+  "artist": "Fairuz",
+  "title": "The Best of Fairuz",
+  "id": "7MrdWIvdobTf6MqVD3yILM",
+  "spotify_title": "Legend - The Best Of Fairuz"
+ },
+ {
+  "artist": "Umm Kulthum",
+  "title": "Oum Kalsoum the Legend",
+  "id": "01zERbWTkKFyiJTOVL0o7p",
+  "spotify_title": "Oum Kalsoum the Legend"
+ },
+ {
+  "artist": "Natacha Atlas",
+  "title": "Halim",
+  "id": "1nMkSh9Z7IoH0bymXoQbVq",
+  "spotify_title": "Halim"
+ },
+ {
+  "artist": "Ry Cooder",
+  "title": "A Meeting by the River",
+  "id": "23aVUUODTi4xa9TnLyoqr5",
+  "spotify_title": "A Meeting by the River"
+ },
+ {
+  "artist": "Shakti",
+  "title": "Shakti with John McLaughlin",
+  "id": "1Yub41uoYXCmT10jjaEYiz",
+  "spotify_title": "Shakti with John McLaughlin (with John McLaughlin)"
+ },
+ {
+  "artist": "Lila Downs",
+  "title": "La Sandunga",
+  "id": "0QYmOnq6og7uF4NsVlQcn3",
+  "spotify_title": "La Sandunga"
+ },
+ {
+  "artist": "Chavela Vargas",
+  "title": "Que Te Vaya Bonito",
+  "id": "4sw1emE03YGpWHbJAyOKhQ",
+  "spotify_title": "Que te vaya bonito (Remastered)"
+ },
+ {
+  "artist": "Susana Baca",
+  "title": "Eco de Sombras",
+  "id": "4XGLISdM0trVxq0V0gqsUI",
+  "spotify_title": "Eco De Sombras"
+ },
+ {
+  "artist": "Totó la Momposina",
+  "title": "La Candela Viva",
+  "id": "2UChA5fC8ycqyOJbMwjtZw",
+  "spotify_title": "La Candela Viva"
+ },
+ {
+  "artist": "Bebel Gilberto",
+  "title": "Tanto Tempo",
+  "id": "4HVc4yoKzUdtHvZ8zGGHe4",
+  "spotify_title": "Tanto Tempo"
+ },
+ {
+  "artist": "Seu Jorge",
+  "title": "The Life Aquatic Studio Sessions",
+  "id": "2tAFOhqz3DxxVI2s5YNsrD",
+  "spotify_title": "The Life Aquatic Exclusive Studio Sessions Featuring Seu Jorge"
+ },
+ {
+  "artist": "Taraf de Haïdouks",
+  "title": "Band of Gypsies",
+  "id": "79UAXRPpn0omj7tmcoO7JW",
+  "spotify_title": "Band Of Gypsies"
+ },
+ {
+  "artist": "Mariza",
+  "title": "Fado em Mim",
+  "id": "6beqKsulFgnqh6exo2LlcZ",
+  "spotify_title": "Fado em mim"
+ },
+ {
+  "artist": "Amália Rodrigues",
+  "title": "Com Que Voz",
+  "id": "2dylJw918RzDVmhtOQOD1H",
+  "spotify_title": "Com que voz"
+ },
+ {
+  "artist": "Huun-Huur-Tu",
+  "title": "60 Horses in My Herd",
+  "id": "5g3w09Hdnbt4JCtdBxAdwh",
+  "spotify_title": "Sixty Horses In My Herd"
+ },
+ {
+  "artist": "Le Mystère des Voix Bulgares",
+  "title": "Le Mystère des Voix Bulgares",
+  "id": "6sq0xFq7n6ToKZjBcQvYwI",
+  "spotify_title": "Le Mystere Des Voix Bulgares"
+ },
+ {
+  "artist": "Rodrigo y Gabriela",
+  "title": "Rodrigo y Gabriela",
+  "id": "3iqyQHFVWrmx4rjWRJXCNg",
+  "spotify_title": "Rodrigo y Gabriela"
+ },
+ {
+  "artist": "Natalia Lafourcade",
+  "title": "Musas",
+  "id": "30isRfL4u7fowKgTVsydDt",
+  "spotify_title": "Musas (Un Homenaje al Folclore Latinoamericano en Manos de Los Macorinos, Vol. 1)"
+ },
+ {
+  "artist": "Bomba Estéreo",
+  "title": "Amanecer",
+  "id": "7GQzUp6R1CtA9CmsVZg090",
+  "spotify_title": "Amanecer"
+ },
+ {
+  "artist": "Ibeyi",
+  "title": "Ibeyi",
+  "id": "4VrxiS9RcvqQCdIfww3HKR",
+  "spotify_title": "Ibeyi"
+ },
+ {
+  "artist": "Altın Gün",
+  "title": "Gece",
+  "id": "2gsX2XOm1Ru56EeQ6UD3Vb",
+  "spotify_title": "Gece"
+ },
+ {
+  "artist": "Yasmine Hamdan",
+  "title": "Ya Nass",
+  "id": "1ESy9wkDihYJM6JSo19tN4",
+  "spotify_title": "Ya Nass"
+ },
+ {
+  "artist": "Gotan Project",
+  "title": "La Revancha del Tango",
+  "id": "2riLhxE3UzS3evEXAwjEJq",
+  "spotify_title": "La revancha del tango"
+ },
+ {
+  "artist": "Celia Cruz",
+  "title": "Celia & Johnny",
+  "id": "2Fim0ltdhy5696Nuo2yjY0",
+  "spotify_title": "Celia & Johnny (Remastered 2024)"
+ },
+ {
+  "artist": "Silvio Rodríguez",
+  "title": "Días y Flores",
+  "id": "4WMN4LQsBDyDSkJiD1ydoy",
+  "spotify_title": "Días y Flores"
+ },
+ {
+  "artist": "Violeta Parra",
+  "title": "Las Últimas Composiciones",
+  "id": "6XR4mUfQxcJt395ym5cH39",
+  "spotify_title": "Las Últimas Composiciones"
+ },
+ {
+  "artist": "Anouar Brahem",
+  "title": "Le Pas du Chat Noir",
+  "id": "1Vi1fmvatCuzuASdvUGTuf",
+  "spotify_title": "Le pas du chat noir"
+ },
+ {
+  "artist": "Sheila Chandra",
+  "title": "Weaving My Ancestors' Voices",
+  "id": "18xHLkID2nZIjqAGCrKVs6",
+  "spotify_title": "Weaving My Ancestors' Voices (Real World Gold)"
+ },
+ {
+  "artist": "Deep Forest",
+  "title": "Boheme",
+  "id": "2TJN6lP92E4B4wpSfNnqBE",
+  "spotify_title": "Boheme"
+ },
+ {
+  "artist": "Loreena McKennitt",
+  "title": "The Visit",
+  "id": "4cElpd2dvqEtq0uv5HwN2s",
+  "spotify_title": "The Visit"
+ },
+ {
+  "artist": "Hamza El Din",
+  "title": "Escalay",
+  "id": "7jbHgjKHav2bxYBZCIPlIU",
+  "spotify_title": "Explorer Series: Escalay (The Water Wheel)"
+ },
+ {
+  "artist": "Goran Bregović",
+  "title": "Underground",
+  "id": "2xMLHeRDiuzNWIrZt7Q8na",
+  "spotify_title": "Underground (Original Motion Picture Soundtrack)"
+ },
+ {
+  "artist": "Caetano Veloso",
+  "title": "Caetano Veloso",
+  "id": "3c86hrltna2ozDQGHhgcHK",
+  "spotify_title": "Caetano Veloso"
+ },
+ {
+  "artist": "Omara Portuondo",
+  "title": "Buena Vista Social Club Presents Omara Portuondo",
+  "id": "1nEoXu83WPlqrfKAznidDw",
+  "spotify_title": "Omara Portuondo (Buena Vista Social Club Presents)"
+ },
+ {
+  "artist": "Buena Vista Social Club",
+  "title": "Buena Vista Social Club at Carnegie Hall",
+  "id": "4lsvzkvzZqKJQsfjLV76RR",
+  "spotify_title": "Buena Vista Social Club at Carnegie Hall (Live)"
+ },
+ {
+  "artist": "Rubén González",
+  "title": "Introducing... Rubén González",
+  "id": "4aH9hHamrsRzZm4oSzfcZH",
+  "spotify_title": "Introducing"
+ },
+ {
+  "artist": "Afro-Cuban All Stars",
+  "title": "A Toda Cuba le Gusta",
+  "id": "4z8W6dVcSq2iFSbNBFwHR1",
+  "spotify_title": "A Toda Cuba Le Gusta"
+ },
+ {
+  "artist": "Los Van Van",
+  "title": "Llegó... Van Van",
+  "id": "39Bn2tQqMTFkJvPPPKkiwW",
+  "spotify_title": "Llego... Van Van"
+ },
+ {
+  "artist": "Héctor Lavoe",
+  "title": "La Voz",
+  "id": "4OAr7LoCvz26ux4SYqzUcW",
+  "spotify_title": "La Voz (Remastered 2023)"
+ },
+ {
+  "artist": "Willie Colón",
+  "title": "Lo Mato",
+  "id": "4TzXeIsjyPLaNvgOd84bwr",
+  "spotify_title": "Lo Mato"
+ },
+ {
+  "artist": "Fania All Stars",
+  "title": "Live at the Cheetah, Vol. 1",
+  "id": "1XfrZU7zjQT9obvRbk1x0e",
+  "spotify_title": "Live At The Cheetah, Vol. 1"
+ },
+ {
+  "artist": "Tito Puente",
+  "title": "Dance Mania",
+  "id": "5lEk5pQKxyyLfDLGDBSC2L",
+  "spotify_title": "Dance Mania (Legacy Edition)"
+ },
+ {
+  "artist": "Eddie Palmieri",
+  "title": "Azúcar Pa' Ti",
+  "id": "7ABnsWLl8iiyVqkpR9ZRGT",
+  "spotify_title": "Azúcar pa' Ti"
+ },
+ {
+  "artist": "Carlos Vives",
+  "title": "Clásicos de la Provincia",
+  "id": "2WtC5PE25yxWNPpAinn2in",
+  "spotify_title": "Clasicos de la Provincia"
+ },
+ {
+  "artist": "Los Lobos",
+  "title": "La Pistola y el Corazón",
+  "id": "30kfddnchGyZepcTfJuAyV",
+  "spotify_title": "La Pistola Y El Corazon"
+ },
+ {
+  "artist": "Café Tacvba",
+  "title": "Re",
+  "id": "7EJ5pXrSqqfybKyfbvlz84",
+  "spotify_title": "Re"
+ },
+ {
+  "artist": "Lhasa de Sela",
+  "title": "La Llorona",
+  "id": "7J8k8Y7zfCFKMPWzUPGVuP",
+  "spotify_title": "La Llorona"
+ },
+ {
+  "artist": "Astor Piazzolla",
+  "title": "Tango: Zero Hour",
+  "id": "6NNvUtOmrKH7DlRUfnbx7d",
+  "spotify_title": "Tango: Zero Hour"
+ },
+ {
+  "artist": "Carlos Gardel",
+  "title": "Mano a Mano",
+  "id": "0t83HMnVPOR8Te4zmCXLMj",
+  "spotify_title": "Mano a Mano (1927-1928)"
+ },
+ {
+  "artist": "Atahualpa Yupanqui",
+  "title": "El Payador Perseguido",
+  "id": "4fvEyhxl27rcq4tuqBL15A",
+  "spotify_title": "El Payador Perseguido"
+ },
+ {
+  "artist": "Chico Buarque",
+  "title": "Construção",
+  "id": "7yrRo2o4XzDfv3mNnkPRE5",
+  "spotify_title": "Construção"
+ },
+ {
+  "artist": "Caetano Veloso",
+  "title": "Transa",
+  "id": "49cBF5iGpJ7nx6EAR8BLga",
+  "spotify_title": "Transa"
+ },
+ {
+  "artist": "Gal Costa",
+  "title": "Gal Costa",
+  "id": "5ZVLLME05cmciSZz4IGcZu",
+  "spotify_title": "Gal Costa"
+ },
+ {
+  "artist": "Os Mutantes",
+  "title": "Os Mutantes",
+  "id": "0RBkIFbQy91qv8Tqja20og",
+  "spotify_title": "\"Os Mutantes\""
+ },
+ {
+  "artist": "Maria Bethânia",
+  "title": "Álibi",
+  "id": "4hjiHP3NIIzyYUgfs145zr",
+  "spotify_title": "Álibi"
+ },
+ {
+  "artist": "Tom Zé",
+  "title": "Estudando o Samba",
+  "id": "2jOgajtpXNsinBpwg2dUjH",
+  "spotify_title": "Estudando o samba"
+ },
+ {
+  "artist": "Cartola",
+  "title": "Cartola",
+  "id": "1c1rLO3NkLcGGBQvsp5mzu",
+  "spotify_title": "Cartola (1976)"
+ },
+ {
+  "artist": "Paco de Lucía",
+  "title": "Almoraima",
+  "id": "1q91XEhPVMf2HOjWMHW82d",
+  "spotify_title": "Almoraima"
+ },
+ {
+  "artist": "Rosalía",
+  "title": "El Mal Querer",
+  "id": "355bjCHzRJztCzaG5Za4gq",
+  "spotify_title": "El Mal Querer"
+ },
+ {
+  "artist": "Enrique Morente",
+  "title": "Omega",
+  "id": "3bESeiHwnLYMbaDDIzAHnx",
+  "spotify_title": "OMEGA"
+ },
+ {
+  "artist": "Dulce Pontes",
+  "title": "Lágrimas",
+  "id": "1zzFrgwlNEsSGSWNNJow3t",
+  "spotify_title": "Lágrimas"
+ },
+ {
+  "artist": "Madredeus",
+  "title": "O Espírito da Paz",
+  "id": "7ksuir9e0otEfmJGylzqSF",
+  "spotify_title": "O Espírito Da Paz"
+ },
+ {
+  "artist": "Cristina Branco",
+  "title": "Ulisses",
+  "id": "7tqjbyDBDg8ghkOn80DQMl",
+  "spotify_title": "Ulisses"
+ },
+ {
+  "artist": "Ali Akbar Khan",
+  "title": "Morning & Evening Ragas",
+  "id": "67k4uG8xZPen7unvZOAYfl",
+  "spotify_title": "Morning and Evening Ragas"
+ },
+ {
+  "artist": "Zakir Hussain",
+  "title": "Making Music",
+  "id": "6Z5RRaRtxckdDY9W9711lB",
+  "spotify_title": "Making Music"
+ },
+ {
+  "artist": "Ravi Shankar",
+  "title": "West Meets East",
+  "id": "6KPrm39h0YHIisL8sBkYhC",
+  "spotify_title": "West Meets East"
+ },
+ {
+  "artist": "Nusrat Fateh Ali Khan",
+  "title": "Mustt Mustt",
+  "id": "57ObW7qW6CN1CWLXV5DOGb",
+  "spotify_title": "Mustt Mustt (Real World Gold)"
+ },
+ {
+  "artist": "Abida Parveen",
+  "title": "Raqs-e-Bismil",
+  "id": "40m7KZRpYGJ1vgRAuKpl1R",
+  "spotify_title": "Raqs-e-Bismil"
+ },
+ {
+  "artist": "A. R. Rahman",
+  "title": "Bombay",
+  "id": "4ejbQMeAknwJAl346hKxMN",
+  "spotify_title": "Bombay (Original Motion Picture Soundtrack)"
+ },
+ {
+  "artist": "Dead Can Dance",
+  "title": "Into the Labyrinth",
+  "id": "7p5KMaq9Ewoj3LgJc3LB0s",
+  "spotify_title": "Into the Labyrinth (Remastered)"
+ },
+ {
+  "artist": "Rabih Abou-Khalil",
+  "title": "Blue Camel",
+  "id": "4Qxx712hAyTvTsl1EsWeRj",
+  "spotify_title": "Blue Camel"
+ },
+ {
+  "artist": "Dhafer Youssef",
+  "title": "Abu Nawas Rhapsody",
+  "id": "21B3ckDMGBE7WzorsseUkl",
+  "spotify_title": "Abu Nawas Rhapsody"
+ },
+ {
+  "artist": "Khaled",
+  "title": "Khaled",
+  "id": "5vp5VVCujQe9SmpSaD4uEL",
+  "spotify_title": "Khaled"
+ },
+ {
+  "artist": "Cheb Mami",
+  "title": "Meli Meli",
+  "id": "2VdjS07TqCEyccPRo7snTQ",
+  "spotify_title": "Meli Meli"
+ },
+ {
+  "artist": "Mercan Dede",
+  "title": "Su",
+  "id": "3NwJKlkra5cj1ykfqSx02I",
+  "spotify_title": "Su"
+ },
+ {
+  "artist": "Omar Souleyman",
+  "title": "Wenu Wenu",
+  "id": "3E2DQ7tVjC1zcgiCSTIoaC",
+  "spotify_title": "Wenu Wenu"
+ },
+ {
+  "artist": "Esma Redžepova",
+  "title": "Chaje Shukarije",
+  "id": "3C1dvCkYLCEi900xSTk42Z",
+  "spotify_title": "Esma - Chaje Shukarije"
+ },
+ {
+  "artist": "Boban Marković Orkestar",
+  "title": "Boban i Marko",
+  "id": "4RGY7pFJy5VAsoWXzL4eVQ",
+  "spotify_title": "Boban I Marko"
+ },
+ {
+  "artist": "Kočani Orkestar",
+  "title": "L'Orient Est Rouge",
+  "id": "6m3TitC9yykOCXYYUkpmXZ",
+  "spotify_title": "L'Orient Est Rouge"
+ },
+ {
+  "artist": "Fanfare Ciocărlia",
+  "title": "Iag Bari",
+  "id": "6zUrmT5eJIG2lNajO4AxJj",
+  "spotify_title": "Iag Bari"
+ },
+ {
+  "artist": "Värttinä",
+  "title": "Seleniko",
+  "id": "14G5REXzSjK16xQr532YOH",
+  "spotify_title": "Seleniko"
+ },
+ {
+  "artist": "Hedningarna",
+  "title": "Kaksi!",
+  "id": "1DyT9dlmpiVMiZ3qReVmC5",
+  "spotify_title": "Kaksi!"
+ },
+ {
+  "artist": "The Chieftains",
+  "title": "The Long Black Veil",
+  "id": "1rClywJWYiXuEZOpOqQMC0",
+  "spotify_title": "The Long Black Veil"
+ },
+ {
+  "artist": "Clannad",
+  "title": "Magical Ring",
+  "id": "7aDYJYbaUSgJ3lwaa6BJBs",
+  "spotify_title": "Magical Ring (2003 Remaster)"
+ },
+ {
+  "artist": "Planxty",
+  "title": "Planxty",
+  "id": "43TF1LRa7kmO7XzJmWcehP",
+  "spotify_title": "Planxty"
+ },
+ {
+  "artist": "Kitarō",
+  "title": "Silk Road",
+  "id": "2qHCtS8EDvp9rGLWsFWwDU",
+  "spotify_title": "Silk Road"
+ },
+ {
+  "artist": "Yungchen Lhamo",
+  "title": "Tibet, Tibet",
+  "id": "5xFquBldjFswFMfozn0RiA",
+  "spotify_title": "Tibet, Tibet"
+ },
+ {
+  "artist": "Gabby Pahinui",
+  "title": "The Gabby Pahinui Hawaiian Band, Vol. 1",
+  "id": "2mAXdR3BgOOvQCmRKsLecw",
+  "spotify_title": "Gabby Pahinui Hawaiian Band, Vol. 1"
+ },
+ {
+  "artist": "Yothu Yindi",
+  "title": "Tribal Voice",
+  "id": "24taI9xwSptP27Nm9RJRvD",
+  "spotify_title": "Tribal Voice"
+ },
+ {
+  "artist": "Geoffrey Gurrumul Yunupingu",
+  "title": "Gurrumul",
+  "id": "1j0RnAQnTTpHM7SqDxAO0g",
+  "spotify_title": "Gurrumul"
+ },
+ {
+  "artist": "Peter Gabriel",
+  "title": "Passion",
+  "id": "2kXVFPs4QdO1fIu6zzBzvI",
+  "spotify_title": "Passion: Music for The Last Temptation of Christ"
+ },
+ {
+  "artist": "Paul Simon",
+  "title": "The Rhythm of the Saints",
+  "id": "08tZq3FDsspdU6ycn8Jl2o",
+  "spotify_title": "The Rhythm Of The Saints"
+ },
+ {
+  "artist": "Willie Colón & Rubén Blades",
+  "title": "Siembra",
+  "id": "7wOJ9RTQr05ytqROWtTPzy",
+  "spotify_title": "Siembra"
+ },
+ {
+  "artist": "Tim Maia",
+  "title": "Racional Vol. 1",
+  "id": "2lRhEHwcphLMhfEeyNM7ST",
+  "spotify_title": "Racional (Vol 1)"
+ },
+ {
+  "artist": "Israel Kamakawiwo'ole",
+  "title": "Facing Future",
+  "id": "0pquf1NcG9FdiypBPwICu9",
+  "spotify_title": "Facing Future"
+ }
+]

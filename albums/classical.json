@@ -1,0 +1,290 @@
+[
+ {
+  "artist": "Glenn Gould",
+  "title": "Bach: The Goldberg Variations (1981 recording)",
+  "id": "1aCpHSQE5ghxibsQ5gkBe0",
+  "spotify_title": "Bach: The Goldberg Variations, BWV 988 (1981 Gould Remaster)"
+ },
+ {
+  "artist": "Yo-Yo Ma",
+  "title": "Bach: Six Evolutions – Cello Suites",
+  "id": "6XaCGjrIRFiS5D5IVg66vb",
+  "spotify_title": "Six Evolutions - Bach: Cello Suites"
+ },
+ {
+  "artist": "Max Richter",
+  "title": "Recomposed by Max Richter: Vivaldi – The Four Seasons",
+  "id": "5yuG2LEkf7QA9ZGIXldCmy",
+  "spotify_title": "Recomposed By Max Richter: Vivaldi, The Four Seasons"
+ },
+ {
+  "artist": "Arvo Pärt",
+  "title": "Tabula Rasa (ECM)",
+  "id": "2oFjVtbJ4pNE1oRu5nMZeq",
+  "spotify_title": "Arvo Pärt: Tabula Rasa"
+ },
+ {
+  "artist": "Max Richter",
+  "title": "The Blue Notebooks",
+  "id": "0vElQaFL7sHqn9QajkFs35",
+  "spotify_title": "The Blue Notebooks"
+ },
+ {
+  "artist": "Philip Glass",
+  "title": "Glassworks",
+  "id": "0kCtUCcTKBac57OcW8nABH",
+  "spotify_title": "Glassworks"
+ },
+ {
+  "artist": "Steve Reich",
+  "title": "Music for 18 Musicians (ECM 1978)",
+  "id": "536QTsVznT8vli2Pv8PQ2T",
+  "spotify_title": "Music For 18 Musicians"
+ },
+ {
+  "artist": "Arthur Rubinstein",
+  "title": "Chopin: Nocturnes",
+  "id": "17BpetXgxy3JCOYEdK4b9y",
+  "spotify_title": "Rubinstein Chopin Nocturnes, barcarolle, berceuse"
+ },
+ {
+  "artist": "Carlos Kleiber & Wiener Philharmoniker",
+  "title": "Beethoven: Symphonies Nos. 5 & 7",
+  "id": "2rFE6csJ54y18Y25HbQ7xA",
+  "spotify_title": "Beethoven: Symphonies Nos. 5 & 7"
+ },
+ {
+  "artist": "Jean-Yves Thibaudet",
+  "title": "Satie: The Complete Solo Piano Music",
+  "id": "2j9bJ924xvtumGl4vsS5r4",
+  "spotify_title": "Erik Satie: The Complete Solo Piano Music"
+ },
+ {
+  "artist": "Sviatoslav Richter",
+  "title": "Rachmaninoff: Piano Concerto No. 2",
+  "id": "2NE8z2VDZ7nLI1qnwzENoH",
+  "spotify_title": "Rachmaninoff: Piano Concerto No. 2 in C Minor, Op. 18"
+ },
+ {
+  "artist": "Herbert von Karajan & Berliner Philharmoniker",
+  "title": "Dvořák: Symphony No. 9 \"From the New World\"",
+  "id": "1FQB45yRuRRQdlb4y720ze",
+  "spotify_title": "Dvorak Symphony No. 9"
+ },
+ {
+  "artist": "Hilary Hahn",
+  "title": "Bach: Violin Concertos",
+  "id": "6sPuKS6aPWv0FIzkE5dxTS",
+  "spotify_title": "J.S. Bach: Violin Concertos"
+ },
+ {
+  "artist": "Martha Argerich",
+  "title": "Chopin (Martha Argerich Plays Chopin)",
+  "id": "5EwiSggPVSW8vd1Z8uFP1s",
+  "spotify_title": "Martha Argerich Plays Chopin"
+ },
+ {
+  "artist": "Jacqueline du Pré",
+  "title": "Elgar: Cello Concerto",
+  "id": "2quIWWReAgS6YDHlMsoJbf",
+  "spotify_title": "Elgar: Cello Concerto & Sea Pictures"
+ },
+ {
+  "artist": "Carlos Kleiber",
+  "title": "Brahms: Symphony No. 4",
+  "id": "0m6drSxGp5CSwgIn4J8upn",
+  "spotify_title": "Brahms: Symphony No. 4"
+ },
+ {
+  "artist": "András Schiff",
+  "title": "Bach: The Well-Tempered Clavier",
+  "id": "5PAH0U09RWn81YFcxy4D4z",
+  "spotify_title": "Bach, J.S.: Well-Tempered Klavier"
+ },
+ {
+  "artist": "Mstislav Rostropovich",
+  "title": "Bach: Cello Suites",
+  "id": "2ge28dEPCwqWMdxS4Qpvbx",
+  "spotify_title": "Bach: Cello Suites, BWV 1007 - 1012"
+ },
+ {
+  "artist": "Anne-Sophie Mutter",
+  "title": "Vivaldi: The Four Seasons",
+  "id": "6PFRlTQNJiRfuJjSQeooFq",
+  "spotify_title": "Vivaldi: The Four Seasons (Remastered)"
+ },
+ {
+  "artist": "Dawn Upshaw",
+  "title": "Górecki: Symphony No. 3",
+  "id": "4vArLMJQy7aoUgP0D1d2X0",
+  "spotify_title": "Górecki: Symphony No. 3"
+ },
+ {
+  "artist": "Arvo Pärt",
+  "title": "Alina",
+  "id": "69iw6Zy6fh2dSnEgBTZKJE",
+  "spotify_title": "Arvo Pärt: Alina"
+ },
+ {
+  "artist": "Philip Glass",
+  "title": "Solo Piano",
+  "id": "6EWWECfJeBkOIcBEuOj74M",
+  "spotify_title": "Solo Piano"
+ },
+ {
+  "artist": "Philip Glass",
+  "title": "Koyaanisqatsi",
+  "id": "7ruApgAZVeqcDJp77jSGg7",
+  "spotify_title": "Koyaanisqatsi (Complete Original Soundtrack)"
+ },
+ {
+  "artist": "Ludovico Einaudi",
+  "title": "Una Mattina",
+  "id": "0Ryad9M1b1MxSjgXdHCh1c",
+  "spotify_title": "Una Mattina"
+ },
+ {
+  "artist": "Jóhann Jóhannsson",
+  "title": "Orphée",
+  "id": "22ohGwoKrvCaZYMmgTGfvR",
+  "spotify_title": "Orphée"
+ },
+ {
+  "artist": "Krystian Zimerman",
+  "title": "Debussy: Préludes",
+  "id": "4PDp2T3AyaScBMJmYtfa0h",
+  "spotify_title": "Debussy: Preludes"
+ },
+ {
+  "artist": "Víkingur Ólafsson",
+  "title": "Johann Sebastian Bach",
+  "id": "55XdhiY6nd3iij8msqiagR",
+  "spotify_title": "Johann Sebastian Bach"
+ },
+ {
+  "artist": "Daniil Trifonov",
+  "title": "Chopin Evocations",
+  "id": "3EGoexkD9hH8H2waAigsqT",
+  "spotify_title": "Chopin Evocations"
+ },
+ {
+  "artist": "Leonard Bernstein",
+  "title": "Gershwin: Rhapsody in Blue",
+  "id": "4k3Ulgs7jk52OcwAZnPZrH",
+  "spotify_title": "Gershwin: Rhapsody in Blue; Prelude for Piano No. 2 / Bernstein: Symphonic Dances From \"West Side Story\""
+ },
+ {
+  "artist": "John Eliot Gardiner",
+  "title": "Bach: Mass in B Minor",
+  "id": "0WOOMbCD7P4beo7ReMiK70",
+  "spotify_title": "Bach, J.S.: Mass In B Minor BWV 232"
+ },
+ {
+  "artist": "Cecilia Bartoli",
+  "title": "The Vivaldi Album",
+  "id": "7HeBNJ6y7U5UEf7Dx1AbDL",
+  "spotify_title": "Cecilia Bartoli - The Vivaldi Album"
+ },
+ {
+  "artist": "Emil Gilels",
+  "title": "Grieg: Lyric Pieces",
+  "id": "3GbarUsFr9ZQAraOJipds8",
+  "spotify_title": "Grieg: Lyric Pieces"
+ },
+ {
+  "artist": "Vladimir Horowitz",
+  "title": "Horowitz in Moscow",
+  "id": "1eCIPUHol3pEspyki6bWeB",
+  "spotify_title": "Vladimir Horowitz - Horowitz in Moscow"
+ },
+ {
+  "artist": "Itzhak Perlman",
+  "title": "Bach: Sonatas and Partitas",
+  "id": "6MTWPCeJsfNo1JUifvAMWZ",
+  "spotify_title": "Bach: Complete Sonatas & Partitas for Violin Solo"
+ },
+ {
+  "artist": "Kronos Quartet",
+  "title": "Different Trains",
+  "id": "3i8ojYITZwfiZilo8ShpxQ",
+  "spotify_title": "Different Trains / Electric Counterpoint"
+ },
+ {
+  "artist": "John Adams",
+  "title": "Harmonielehre",
+  "id": "6SLu8t72Q3PYmwMYpqHgYK",
+  "spotify_title": "Harmonielehre"
+ },
+ {
+  "artist": "The Tallis Scholars",
+  "title": "Allegri: Miserere",
+  "id": "11EFoolEeb3cHbpugUS6dm",
+  "spotify_title": "Allegri: Miserere; Palestrina: Missa Papae Marcelli; Mundy: Vox Patris Caelestis"
+ },
+ {
+  "artist": "Max Richter",
+  "title": "From Sleep",
+  "id": "7tP7WLxusDpTi1gf1JFsrT",
+  "spotify_title": "From Sleep"
+ },
+ {
+  "artist": "Pascal Rogé",
+  "title": "Satie: Piano Works",
+  "id": "7IjGFO75lb5ZP9ACSIjEAr",
+  "spotify_title": "Satie: 3 Gymnopédies; 6 Gnossiennes etc."
+ },
+ {
+  "artist": "Wilhelm Kempff",
+  "title": "Beethoven: Piano Sonatas",
+  "id": "7KDftN1vMPADG7Z97yjs73",
+  "spotify_title": "Beethoven: Piano Sonatas Nos.8 \"Pathétique\", 14 \"Moonlight\", 15 \"Pastorale\" & 24"
+ },
+ {
+  "artist": "Herbert von Karajan",
+  "title": "Holst: The Planets",
+  "id": "4v0Xyz0LVToUsSTGdsvKSK",
+  "spotify_title": "Holst: The Planets"
+ },
+ {
+  "artist": "Eugen Jochum",
+  "title": "Orff: Carmina Burana",
+  "id": "5tWMVeB9Rtxhpk7icB3Ev6",
+  "spotify_title": "Orff: Carmina Burana"
+ },
+ {
+  "artist": "Herbert von Karajan",
+  "title": "Mozart: Requiem",
+  "id": "2ocwBqwP9YG0bNPRJtX19n",
+  "spotify_title": "Mozart: Requiem (Stereo Version)"
+ },
+ {
+  "artist": "Leonard Bernstein",
+  "title": "Stravinsky: The Rite of Spring",
+  "id": "0F9N8HseBFNawOkrBFK38x",
+  "spotify_title": "Stravinsky: Le sacre du printemps"
+ },
+ {
+  "artist": "Il Giardino Armonico",
+  "title": "Vivaldi: The Four Seasons",
+  "id": "3cFRXAiWH7rV4Eg6YxXYaX",
+  "spotify_title": "Vivaldi : Le quattro stagioni [The Four Seasons] & Concertos"
+ },
+ {
+  "artist": "Hilary Hahn",
+  "title": "Hilary Hahn Plays Bach",
+  "id": "2GLJLkriVbdfDi5W5e3LJM",
+  "spotify_title": "Hilary Hahn Plays Bach"
+ },
+ {
+  "artist": "Yo-Yo Ma",
+  "title": "Bach: The Cello Suites",
+  "id": "4EvC7HmIgn65YjKRA1HCOE",
+  "spotify_title": "Inspired By Bach: The Cello Suites"
+ },
+ {
+  "artist": "Nils Frahm",
+  "title": "Felt",
+  "id": "3AioJfZ8LfEzPaFPQHoe3e",
+  "spotify_title": "Felt (Special Edition)"
+ }
+]

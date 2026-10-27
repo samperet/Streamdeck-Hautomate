@@ -1,0 +1,704 @@
+[
+ {
+  "artist": "Michael Jackson",
+  "title": "Thriller",
+  "id": "1x6guHfwvOGsIQgRK5v5p1",
+  "spotify_title": "Thriller"
+ },
+ {
+  "artist": "Michael Jackson",
+  "title": "Off the Wall",
+  "id": "2ZytN2cY4Zjrr9ukb2rqTP",
+  "spotify_title": "Off the Wall"
+ },
+ {
+  "artist": "Madonna",
+  "title": "Like a Prayer",
+  "id": "48AGkmM7iO4jrELRnNZGPV",
+  "spotify_title": "Like a Prayer"
+ },
+ {
+  "artist": "Prince",
+  "title": "Purple Rain",
+  "id": "12DmuRtZNTx84ELHKD3VGL",
+  "spotify_title": "Purple Rain (Deluxe Expanded Edition)"
+ },
+ {
+  "artist": "Whitney Houston",
+  "title": "Whitney Houston",
+  "id": "2MH37enG6IPvNK5QFLyKes",
+  "spotify_title": "Whitney Houston"
+ },
+ {
+  "artist": "ABBA",
+  "title": "Arrival",
+  "id": "79ZX48114T8NH36MnOTtl7",
+  "spotify_title": "Arrival"
+ },
+ {
+  "artist": "Fleetwood Mac",
+  "title": "Rumours",
+  "id": "63k57x0qOkUWEMR0dkMivh",
+  "spotify_title": "Rumours"
+ },
+ {
+  "artist": "The Beatles",
+  "title": "Abbey Road",
+  "id": "0ETFjACtuP2ADo6LFhL6HN",
+  "spotify_title": "Abbey Road (Remastered 2009)"
+ },
+ {
+  "artist": "The Beach Boys",
+  "title": "Pet Sounds",
+  "id": "42oBdomfxF0DbKKMEqrnQW",
+  "spotify_title": "Pet Sounds (50th Anniversary Edition)"
+ },
+ {
+  "artist": "Carole King",
+  "title": "Tapestry",
+  "id": "3NY5E1IrUP5xkyq41NZ9YC",
+  "spotify_title": "Tapestry"
+ },
+ {
+  "artist": "Elton John",
+  "title": "Goodbye Yellow Brick Road",
+  "id": "5WupqgR68HfuHt3BMJtgun",
+  "spotify_title": "Goodbye Yellow Brick Road (Remastered)"
+ },
+ {
+  "artist": "Stevie Wonder",
+  "title": "Songs in the Key of Life",
+  "id": "0BBWJ3L9fhkmNLdt4zs4fu",
+  "spotify_title": "Songs In The Key Of Life (Reissue)"
+ },
+ {
+  "artist": "Kate Bush",
+  "title": "Hounds of Love",
+  "id": "5BWl0bB1q0TqyFmkBEupZy",
+  "spotify_title": "Hounds Of Love"
+ },
+ {
+  "artist": "Cyndi Lauper",
+  "title": "She's So Unusual",
+  "id": "1FvdZ1oizXwF9bxogujoF0",
+  "spotify_title": "She's So Unusual"
+ },
+ {
+  "artist": "Janet Jackson",
+  "title": "Rhythm Nation 1814",
+  "id": "4OD3LU6001esAtFshDX46M",
+  "spotify_title": "Rhythm Nation 1814"
+ },
+ {
+  "artist": "Tears for Fears",
+  "title": "Songs from the Big Chair",
+  "id": "3myPwaMYjdwhtq0nFgeG6W",
+  "spotify_title": "Songs From The Big Chair (Super Deluxe Edition)"
+ },
+ {
+  "artist": "a-ha",
+  "title": "Hunting High and Low",
+  "id": "1ER3B6zev5JEAaqhnyyfbf",
+  "spotify_title": "Hunting High and Low"
+ },
+ {
+  "artist": "Robyn",
+  "title": "Body Talk",
+  "id": "7J4oxoeFQLTrHnjNu2ZaJ5",
+  "spotify_title": "Body Talk"
+ },
+ {
+  "artist": "Kylie Minogue",
+  "title": "Fever",
+  "id": "4WzTXHp8bVKkKNu3UQ2Fqu",
+  "spotify_title": "Fever"
+ },
+ {
+  "artist": "Britney Spears",
+  "title": "Blackout",
+  "id": "4Zn6x4YZygDs3zOXkIMx27",
+  "spotify_title": "Blackout"
+ },
+ {
+  "artist": "Beyoncé",
+  "title": "Lemonade",
+  "id": "7dK54iZuOxXFarGhXwEXfF",
+  "spotify_title": "Lemonade"
+ },
+ {
+  "artist": "Rihanna",
+  "title": "Anti",
+  "id": "3Q149ZH46Z0f3oDR7vlDYV",
+  "spotify_title": "ANTI"
+ },
+ {
+  "artist": "Adele",
+  "title": "21",
+  "id": "1azUkThwd2HfUDdeNeT147",
+  "spotify_title": "21"
+ },
+ {
+  "artist": "Amy Winehouse",
+  "title": "Back to Black",
+  "id": "0E4xv5gPjykrwBgBZzI8XG",
+  "spotify_title": "Back To Black (Deluxe Edition)"
+ },
+ {
+  "artist": "Taylor Swift",
+  "title": "1989",
+  "id": "1yGbNOtRIgdIiGHOEBaZWf",
+  "spotify_title": "1989 (Deluxe)"
+ },
+ {
+  "artist": "Taylor Swift",
+  "title": "folklore",
+  "id": "2fenSS68JI1h4Fo296JfGr",
+  "spotify_title": "folklore"
+ },
+ {
+  "artist": "Lady Gaga",
+  "title": "The Fame",
+  "id": "1qwlxZTNLe1jq3b0iidlue",
+  "spotify_title": "The Fame"
+ },
+ {
+  "artist": "Lorde",
+  "title": "Melodrama",
+  "id": "2B87zXm9bOWvAJdkJBTpzF",
+  "spotify_title": "Melodrama"
+ },
+ {
+  "artist": "Carly Rae Jepsen",
+  "title": "Emotion",
+  "id": "7ja67LUGrJ3wkl26LLwc1R",
+  "spotify_title": "Emotion"
+ },
+ {
+  "artist": "Dua Lipa",
+  "title": "Future Nostalgia",
+  "id": "7fJJK56U9fHixgO0HQkhtI",
+  "spotify_title": "Future Nostalgia"
+ },
+ {
+  "artist": "Harry Styles",
+  "title": "Harry's House",
+  "id": "5r36AJ6VOJtp00oxSkBZ5h",
+  "spotify_title": "Harry's House"
+ },
+ {
+  "artist": "Billie Eilish",
+  "title": "When We All Fall Asleep, Where Do We Go?",
+  "id": "0S0KGZnfBGSIssfF54WSJh",
+  "spotify_title": "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?"
+ },
+ {
+  "artist": "Olivia Rodrigo",
+  "title": "Sour",
+  "id": "7bYichzvtYHdjF8HF69dyA",
+  "spotify_title": "SOUR"
+ },
+ {
+  "artist": "Ariana Grande",
+  "title": "Thank U, Next",
+  "id": "2fYhqwDWXjbpjaIJPEfKFw",
+  "spotify_title": "thank u, next"
+ },
+ {
+  "artist": "The Weeknd",
+  "title": "After Hours",
+  "id": "4yP0hdKOZPNshxUOjY0cZj",
+  "spotify_title": "After Hours"
+ },
+ {
+  "artist": "Bruno Mars",
+  "title": "24K Magic",
+  "id": "4PgleR09JVnm3zY1fW3XBA",
+  "spotify_title": "24K Magic"
+ },
+ {
+  "artist": "Charli XCX",
+  "title": "Brat",
+  "id": "2lIZef4lzdvZkiiCzvPKj7",
+  "spotify_title": "BRAT"
+ },
+ {
+  "artist": "Sabrina Carpenter",
+  "title": "Short n' Sweet",
+  "id": "3iPSVi54hsacKKl1xIR2eH",
+  "spotify_title": "Short n' Sweet"
+ },
+ {
+  "artist": "Chappell Roan",
+  "title": "The Rise and Fall of a Midwest Princess",
+  "id": "0EiI8ylL0FmWWpgHVTsZjZ",
+  "spotify_title": "The Rise and Fall of a Midwest Princess"
+ },
+ {
+  "artist": "Frank Ocean",
+  "title": "Blonde",
+  "id": "3mH6qwIy9crq0I9YQbOuDf",
+  "spotify_title": "Blonde"
+ },
+ {
+  "artist": "SZA",
+  "title": "SOS",
+  "id": "1nrVofqDRs7cpWXJ49qTnP",
+  "spotify_title": "SOS"
+ },
+ {
+  "artist": "Coldplay",
+  "title": "A Rush of Blood to the Head",
+  "id": "0RHX9XECH8IVI3LNgWDpmQ",
+  "spotify_title": "A Rush of Blood to the Head"
+ },
+ {
+  "artist": "Justin Timberlake",
+  "title": "FutureSex/LoveSounds",
+  "id": "2scB1uhcCI1TSf6b9TCZK3",
+  "spotify_title": "FutureSex/LoveSounds"
+ },
+ {
+  "artist": "Mariah Carey",
+  "title": "Daydream",
+  "id": "1ibYM4abQtSVQFQWvDSo4J",
+  "spotify_title": "Daydream"
+ },
+ {
+  "artist": "Spice Girls",
+  "title": "Spice",
+  "id": "3x2jF7blR6bFHtk4MccsyJ",
+  "spotify_title": "Spice"
+ },
+ {
+  "artist": "Sade",
+  "title": "Diamond Life",
+  "id": "3BvsfsRDOneu2rHuGIuKfD",
+  "spotify_title": "Diamond Life"
+ },
+ {
+  "artist": "Paul Simon",
+  "title": "Graceland",
+  "id": "6WgGWYw6XXQyLTsWt7tXky",
+  "spotify_title": "Graceland (25th Anniversary Deluxe Edition)"
+ },
+ {
+  "artist": "Lana Del Rey",
+  "title": "Born to Die",
+  "id": "4F5dVhgk569Du5cLfal3t5",
+  "spotify_title": "Born To Die (Deluxe Version)"
+ },
+ {
+  "artist": "Madonna",
+  "title": "True Blue",
+  "id": "6fmnT17jc2Sc69q3nza1eD",
+  "spotify_title": "True Blue"
+ },
+ {
+  "artist": "Madonna",
+  "title": "Ray of Light",
+  "id": "6cuNyrSmRjBeekioLdLkvI",
+  "spotify_title": "Ray of Light"
+ },
+ {
+  "artist": "Prince",
+  "title": "1999",
+  "id": "34MHuXONazzgSxI0cThpAg",
+  "spotify_title": "1999"
+ },
+ {
+  "artist": "Prince",
+  "title": "Sign o' the Times",
+  "id": "2QuHyvguNhl5kfdoE17RRe",
+  "spotify_title": "Sign O' The Times"
+ },
+ {
+  "artist": "Whitney Houston",
+  "title": "Whitney",
+  "id": "5Vdzprr5cOqXQo44eHeV7t",
+  "spotify_title": "Whitney"
+ },
+ {
+  "artist": "ABBA",
+  "title": "Super Trouper",
+  "id": "3ZdkT5buYFi1WQaB0XNNtf",
+  "spotify_title": "Super Trouper"
+ },
+ {
+  "artist": "ABBA",
+  "title": "The Visitors",
+  "id": "3JHZ83ohEBDLFQfbVfDHFh",
+  "spotify_title": "The Visitors"
+ },
+ {
+  "artist": "Elton John",
+  "title": "Honky Château",
+  "id": "2ei2X6ghPnw7YRwQtAH075",
+  "spotify_title": "Honky Chateau"
+ },
+ {
+  "artist": "Stevie Wonder",
+  "title": "Talking Book",
+  "id": "3PResMqFgQYBfzTnqTKwQw",
+  "spotify_title": "Talking Book"
+ },
+ {
+  "artist": "Kate Bush",
+  "title": "The Kick Inside",
+  "id": "6LPR2A12So7G9V2WoZgTwd",
+  "spotify_title": "The Kick Inside"
+ },
+ {
+  "artist": "George Michael",
+  "title": "Faith",
+  "id": "34K1Kvskt9arWy8E1Gz3Lw",
+  "spotify_title": "Faith"
+ },
+ {
+  "artist": "Wham!",
+  "title": "Make It Big",
+  "id": "02f3y3NTsddjdUMoNiBppI",
+  "spotify_title": "Make It Big"
+ },
+ {
+  "artist": "Phil Collins",
+  "title": "No Jacket Required",
+  "id": "0W4sJvHbfC93pt74eOQAZZ",
+  "spotify_title": "No Jacket Required (2025 Mix)"
+ },
+ {
+  "artist": "Lionel Richie",
+  "title": "Can't Slow Down",
+  "id": "3alZBOvPaK3hgMEEymw4Yr",
+  "spotify_title": "Can't Slow Down"
+ },
+ {
+  "artist": "Bee Gees",
+  "title": "Main Course",
+  "id": "2blsPE3sO5SnroFjfEAlfj",
+  "spotify_title": "Main Course"
+ },
+ {
+  "artist": "Daryl Hall & John Oates",
+  "title": "Private Eyes",
+  "id": "7rfpaXxmQG7dnFycZjLae0",
+  "spotify_title": "Private Eyes (Expanded Edition)"
+ },
+ {
+  "artist": "Simon & Garfunkel",
+  "title": "Bridge Over Troubled Water",
+  "id": "0JwHz5SSvpYWuuCNbtYZoV",
+  "spotify_title": "Bridge Over Troubled Water"
+ },
+ {
+  "artist": "Billy Joel",
+  "title": "The Stranger",
+  "id": "3IILMjMMnoN2sKzgesX8KV",
+  "spotify_title": "The Stranger"
+ },
+ {
+  "artist": "Billy Joel",
+  "title": "52nd Street",
+  "id": "1HmCO8VK98AU6EXPOjGYyI",
+  "spotify_title": "52nd Street"
+ },
+ {
+  "artist": "Carpenters",
+  "title": "A Song for You",
+  "id": "1nA6Exnq2mWD8678q3E4Ov",
+  "spotify_title": "A Song For You"
+ },
+ {
+  "artist": "Pet Shop Boys",
+  "title": "Actually",
+  "id": "0p5QwhEke5P9mFY4CY9u4j",
+  "spotify_title": "Actually (2018 Remaster)"
+ },
+ {
+  "artist": "Duran Duran",
+  "title": "Rio",
+  "id": "7HVP879lmeHoVCMZINTDlj",
+  "spotify_title": "Rio (2001 Remaster)"
+ },
+ {
+  "artist": "Eurythmics",
+  "title": "Sweet Dreams (Are Made of This)",
+  "id": "5jNDWA19BJbE24x1UUJGRY",
+  "spotify_title": "Sweet Dreams (Are Made Of This)"
+ },
+ {
+  "artist": "Culture Club",
+  "title": "Colour by Numbers",
+  "id": "0VgBqlPrvUQsOqSwzA0fET",
+  "spotify_title": "Colour By Numbers"
+ },
+ {
+  "artist": "The Human League",
+  "title": "Dare",
+  "id": "3ls7tE9D2SIvjTmRuEtsQY",
+  "spotify_title": "Dare!"
+ },
+ {
+  "artist": "Blondie",
+  "title": "Parallel Lines",
+  "id": "4M6s2jbhKWEcOdXZ8WiHts",
+  "spotify_title": "Parallel Lines"
+ },
+ {
+  "artist": "Tina Turner",
+  "title": "Private Dancer",
+  "id": "7gVHUNPQr0AE2A0Yf5MjqR",
+  "spotify_title": "Private Dancer (30th Anniversary Issue)"
+ },
+ {
+  "artist": "Janet Jackson",
+  "title": "Control",
+  "id": "7GWkceE5McMVfffd1RGL6Y",
+  "spotify_title": "Control"
+ },
+ {
+  "artist": "Janet Jackson",
+  "title": "The Velvet Rope",
+  "id": "1uFp52Q9EXLNA6DTRYnpTj",
+  "spotify_title": "The Velvet Rope"
+ },
+ {
+  "artist": "Mariah Carey",
+  "title": "Music Box",
+  "id": "5Mr8FpZP1DaLDxjbMD7GcR",
+  "spotify_title": "Music Box"
+ },
+ {
+  "artist": "Michael Jackson",
+  "title": "Bad",
+  "id": "3Us57CjssWnHjTUIXBuIeH",
+  "spotify_title": "Bad (Remastered)"
+ },
+ {
+  "artist": "Cher",
+  "title": "Believe",
+  "id": "0jZfbz0dNfDjPSg0hYJNth",
+  "spotify_title": "Believe"
+ },
+ {
+  "artist": "Celine Dion",
+  "title": "Falling into You",
+  "id": "2vk0n8aeQSO74VtQBbNDPR",
+  "spotify_title": "Falling into You"
+ },
+ {
+  "artist": "Shania Twain",
+  "title": "Come On Over",
+  "id": "4UMe0Ods7kygK6OISasZe9",
+  "spotify_title": "Come On Over"
+ },
+ {
+  "artist": "Alanis Morissette",
+  "title": "Jagged Little Pill",
+  "id": "09AwlP99cHfKVNKv4FC8VW",
+  "spotify_title": "Jagged Little Pill"
+ },
+ {
+  "artist": "Backstreet Boys",
+  "title": "Millennium",
+  "id": "5ySxm9hxBNss01WCL7GLyQ",
+  "spotify_title": "Millennium"
+ },
+ {
+  "artist": "*NSYNC",
+  "title": "No Strings Attached",
+  "id": "20RMokVwJ2wjQ0s8FOdOFC",
+  "spotify_title": "No Strings Attached"
+ },
+ {
+  "artist": "Christina Aguilera",
+  "title": "Stripped",
+  "id": "2USigX9DhGuAini71XZEEK",
+  "spotify_title": "Stripped"
+ },
+ {
+  "artist": "Britney Spears",
+  "title": "...Baby One More Time",
+  "id": "3WNxdumkSMGMJRhEgK80qx",
+  "spotify_title": "...Baby One More Time (Digital Deluxe Version)"
+ },
+ {
+  "artist": "Gwen Stefani",
+  "title": "Love. Angel. Music. Baby.",
+  "id": "3Lqn8M0QxPLIPRJ4nUKTGN",
+  "spotify_title": "Love. Angel. Music. Baby. (Deluxe Version)"
+ },
+ {
+  "artist": "No Doubt",
+  "title": "Tragic Kingdom",
+  "id": "3VekjWskUut57hx6W9wqL8",
+  "spotify_title": "Tragic Kingdom"
+ },
+ {
+  "artist": "Destiny's Child",
+  "title": "The Writing's on the Wall",
+  "id": "283NWqNsCA9GwVHrJk59CG",
+  "spotify_title": "The Writing's On The Wall"
+ },
+ {
+  "artist": "Beyoncé",
+  "title": "Renaissance",
+  "id": "6FJxoadUE4JNVwWHghBwnb",
+  "spotify_title": "RENAISSANCE"
+ },
+ {
+  "artist": "Rihanna",
+  "title": "Good Girl Gone Bad",
+  "id": "4OXnPSBtZo8PBFiTOfuumP",
+  "spotify_title": "Good Girl Gone Bad"
+ },
+ {
+  "artist": "Kelly Clarkson",
+  "title": "Breakaway",
+  "id": "5gDAEao3VxFdbm8vS0koQq",
+  "spotify_title": "Breakaway"
+ },
+ {
+  "artist": "Katy Perry",
+  "title": "Teenage Dream",
+  "id": "32Uy0GLddTw4559CWja1f1",
+  "spotify_title": "Teenage Dream"
+ },
+ {
+  "artist": "Lady Gaga",
+  "title": "Born This Way",
+  "id": "2KkMVsxymoNR7hRmBcMttd",
+  "spotify_title": "Born This Way"
+ },
+ {
+  "artist": "Robyn",
+  "title": "Robyn",
+  "id": "5xDz5FY3Hsp2skcOP1IUNU",
+  "spotify_title": "Robyn"
+ },
+ {
+  "artist": "Kylie Minogue",
+  "title": "Light Years",
+  "id": "3vH4V069uawep9By3y6EP7",
+  "spotify_title": "Light Years"
+ },
+ {
+  "artist": "Adele",
+  "title": "25",
+  "id": "3AvPX1B1HiFROvYjLb5Qwi",
+  "spotify_title": "25"
+ },
+ {
+  "artist": "Lorde",
+  "title": "Pure Heroine",
+  "id": "0rmhjUgoVa17LZuS8xWQ3v",
+  "spotify_title": "Pure Heroine"
+ },
+ {
+  "artist": "Dua Lipa",
+  "title": "Dua Lipa",
+  "id": "2vlhlrgMaXqcnhRqIEV9AP",
+  "spotify_title": "Dua Lipa"
+ },
+ {
+  "artist": "Harry Styles",
+  "title": "Fine Line",
+  "id": "7xV2TzoaVc0ycW7fwBwAml",
+  "spotify_title": "Fine Line"
+ },
+ {
+  "artist": "Olivia Rodrigo",
+  "title": "GUTS",
+  "id": "1xJHno7SmdVtZAtXbdbDZp",
+  "spotify_title": "GUTS"
+ },
+ {
+  "artist": "Ariana Grande",
+  "title": "Sweetener",
+  "id": "5KOu62BJwwCJTfyyAaEbZk",
+  "spotify_title": "Sweetener"
+ },
+ {
+  "artist": "Norah Jones",
+  "title": "Come Away with Me",
+  "id": "3ul9GmXlTkmRMh3OciXxFR",
+  "spotify_title": "Come Away With Me (Remastered 2022)"
+ },
+ {
+  "artist": "Lily Allen",
+  "title": "Alright, Still",
+  "id": "45hzatvfEcADFQx8ENl4vs",
+  "spotify_title": "Alright, Still"
+ },
+ {
+  "artist": "Florence + The Machine",
+  "title": "Lungs",
+  "id": "6hs55qjerNNOi4ZT5bOhxV",
+  "spotify_title": "Lungs"
+ },
+ {
+  "artist": "Sia",
+  "title": "1000 Forms of Fear",
+  "id": "6FdNvoO5sF4EKwCX9je1MH",
+  "spotify_title": "1000 Forms Of Fear (Deluxe Version)"
+ },
+ {
+  "artist": "Lizzo",
+  "title": "Cuz I Love You",
+  "id": "6dFFcYQ8VhifgdKgYY5LYL",
+  "spotify_title": "Cuz I Love You"
+ },
+ {
+  "artist": "Doja Cat",
+  "title": "Planet Her",
+  "id": "4yBOVyQv3IdSptKDx4wL1d",
+  "spotify_title": "Planet Her"
+ },
+ {
+  "artist": "Gorillaz",
+  "title": "Demon Days",
+  "id": "45IcwOkFv3YqTpU5Bal8fl",
+  "spotify_title": "Demon Days"
+ },
+ {
+  "artist": "MGMT",
+  "title": "Oracular Spectacular",
+  "id": "6mm1Skz3JE6AXneya9Nyiv",
+  "spotify_title": "Oracular Spectacular"
+ },
+ {
+  "artist": "Jessie Ware",
+  "title": "What's Your Pleasure?",
+  "id": "1CTm3ARqDETSm7GfvNYNJp",
+  "spotify_title": "What's Your Pleasure?"
+ },
+ {
+  "artist": "Rosalía",
+  "title": "MOTOMAMI",
+  "id": "6jbtHi5R0jMXoliU2OS0lo",
+  "spotify_title": "MOTOMAMI"
+ },
+ {
+  "artist": "Kacey Musgraves",
+  "title": "Golden Hour",
+  "id": "7f6xPqyaolTiziKf5R5Z0c",
+  "spotify_title": "Golden Hour"
+ },
+ {
+  "artist": "Haim",
+  "title": "Days Are Gone",
+  "id": "729Vh0HApsm7hGDVjbmtrf",
+  "spotify_title": "Days Are Gone"
+ },
+ {
+  "artist": "Bruno Mars",
+  "title": "Doo-Wops & Hooligans",
+  "id": "1uyf3l2d4XYwiEqAb7t7fX",
+  "spotify_title": "Doo-Wops & Hooligans"
+ },
+ {
+  "artist": "Maroon 5",
+  "title": "Songs About Jane",
+  "id": "1Rv9WRKyYhFaGbuYDaQunN",
+  "spotify_title": "Songs About Jane"
+ }
+]

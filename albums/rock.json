@@ -1,0 +1,692 @@
+[
+ {
+  "artist": "The Beatles",
+  "title": "Abbey Road",
+  "id": "0ETFjACtuP2ADo6LFhL6HN",
+  "spotify_title": "Abbey Road (Remastered 2009)"
+ },
+ {
+  "artist": "Fleetwood Mac",
+  "title": "Rumours",
+  "id": "1bt6q2SruMsBtcerNVtpZB",
+  "spotify_title": "Rumours"
+ },
+ {
+  "artist": "Led Zeppelin",
+  "title": "Led Zeppelin IV",
+  "id": "1Ugdi2OTxKopVVqsprp5pb",
+  "spotify_title": "Led Zeppelin IV"
+ },
+ {
+  "artist": "Pink Floyd",
+  "title": "The Dark Side of the Moon",
+  "id": "33ZnX621Z1dJRtCsLJosMx",
+  "spotify_title": "The Dark Side Of The Moon"
+ },
+ {
+  "artist": "The Who",
+  "title": "Who's Next",
+  "id": "40l8psHxHkph9yw5bcn2p3",
+  "spotify_title": "Who's Next"
+ },
+ {
+  "artist": "Bruce Springsteen",
+  "title": "Born to Run",
+  "id": "43YIoHKSrEw2GJsWmhZIpu",
+  "spotify_title": "Born To Run"
+ },
+ {
+  "artist": "The Clash",
+  "title": "London Calling",
+  "id": "6FCzvataOZh68j8OKzOt9a",
+  "spotify_title": "London Calling (Remastered)"
+ },
+ {
+  "artist": "The Rolling Stones",
+  "title": "Exile on Main St.",
+  "id": "0xO9kRgdKZ3wzqrzJhM3sE",
+  "spotify_title": "Exile On Main St"
+ },
+ {
+  "artist": "Nirvana",
+  "title": "Nevermind",
+  "id": "6okv1avxEgYSdc2JYy6ZEi",
+  "spotify_title": "Nevermind"
+ },
+ {
+  "artist": "Radiohead",
+  "title": "OK Computer",
+  "id": "6dVIqQ8qmQ5GBnJ9shOYGE",
+  "spotify_title": "OK Computer"
+ },
+ {
+  "artist": "The Beatles",
+  "title": "Revolver",
+  "id": "3PRoXYsngSwjEQWR5PsHWR",
+  "spotify_title": "Revolver (Remastered 2009)"
+ },
+ {
+  "artist": "Patti Smith",
+  "title": "Horses",
+  "id": "0OeuSeP8wp8n8OuTqYb61C",
+  "spotify_title": "Horses"
+ },
+ {
+  "artist": "The Velvet Underground & Nico",
+  "title": "The Velvet Underground & Nico",
+  "id": "2QkDDVLuh025znjaxvTfAY",
+  "spotify_title": "The Velvet Underground & Nico"
+ },
+ {
+  "artist": "The Beach Boys",
+  "title": "Pet Sounds",
+  "id": "2CNEkSE8TADXRT2AzcEt1b",
+  "spotify_title": "Pet Sounds"
+ },
+ {
+  "artist": "Pixies",
+  "title": "Doolittle",
+  "id": "0DQyTVcDhK9wm0f6RaErWO",
+  "spotify_title": "Doolittle"
+ },
+ {
+  "artist": "The Rolling Stones",
+  "title": "Sticky Fingers",
+  "id": "29m6DinzdaD0OPqWKGyMdz",
+  "spotify_title": "Sticky Fingers (Remastered)"
+ },
+ {
+  "artist": "The Beatles",
+  "title": "Sgt. Pepper's Lonely Hearts Club Band",
+  "id": "2KGC4mwJwXTz0jDAKxK3q3",
+  "spotify_title": "Sgt. Pepper's Lonely Hearts Club Band"
+ },
+ {
+  "artist": "The Rolling Stones",
+  "title": "Let It Bleed",
+  "id": "4l4u9e9jSbotSXNjYfOugy",
+  "spotify_title": "Let It Bleed"
+ },
+ {
+  "artist": "Led Zeppelin",
+  "title": "Led Zeppelin II",
+  "id": "58MQ0PLijVHePUonQlK76Y",
+  "spotify_title": "Led Zeppelin II (Remaster)"
+ },
+ {
+  "artist": "Led Zeppelin",
+  "title": "Physical Graffiti",
+  "id": "4Q7cPyiP8cMIlUEHAqeYfd",
+  "spotify_title": "Physical Graffiti (Remaster)"
+ },
+ {
+  "artist": "Pink Floyd",
+  "title": "Wish You Were Here",
+  "id": "0bCAjiUamIFqKJsekOYuRw",
+  "spotify_title": "Wish You Were Here"
+ },
+ {
+  "artist": "Pink Floyd",
+  "title": "The Wall",
+  "id": "5Dbax7G8SWrP9xyzkOvy2F",
+  "spotify_title": "The Wall"
+ },
+ {
+  "artist": "The Jimi Hendrix Experience",
+  "title": "Are You Experienced",
+  "id": "7rSZXXHHvIhF4yUFdaOCy9",
+  "spotify_title": "Are You Experienced"
+ },
+ {
+  "artist": "The Jimi Hendrix Experience",
+  "title": "Electric Ladyland",
+  "id": "5z090LQztiqh13wYspQvKQ",
+  "spotify_title": "Electric Ladyland"
+ },
+ {
+  "artist": "The Doors",
+  "title": "The Doors",
+  "id": "1jWmEhn3ggaL6isoyLfwBn",
+  "spotify_title": "The Doors"
+ },
+ {
+  "artist": "The Doors",
+  "title": "L.A. Woman",
+  "id": "7IKUTIc9UWuVngyGPtqNHS",
+  "spotify_title": "L.A. Woman"
+ },
+ {
+  "artist": "Bob Dylan",
+  "title": "Highway 61 Revisited",
+  "id": "6YabPKtZAjxwyWbuO9p4ZD",
+  "spotify_title": "Highway 61 Revisited"
+ },
+ {
+  "artist": "Bob Dylan",
+  "title": "Blonde on Blonde",
+  "id": "4NP1rhnsPdYpnyJP0p0k0L",
+  "spotify_title": "Blonde On Blonde"
+ },
+ {
+  "artist": "The Kinks",
+  "title": "The Kinks Are the Village Green Preservation Society",
+  "id": "6o0u4pbxrUai7aPkizuzCp",
+  "spotify_title": "The Kinks Are the Village Green Preservation Society"
+ },
+ {
+  "artist": "Cream",
+  "title": "Disraeli Gears",
+  "id": "6fRqzJT070Kp9RWlSXmKcY",
+  "spotify_title": "Disraeli Gears"
+ },
+ {
+  "artist": "Creedence Clearwater Revival",
+  "title": "Cosmo's Factory",
+  "id": "5w2X5ZmdE4u0XGkOU7BiLG",
+  "spotify_title": "Cosmo's Factory"
+ },
+ {
+  "artist": "Creedence Clearwater Revival",
+  "title": "Green River",
+  "id": "4RokNOgd6jNlFeWPNYFwkS",
+  "spotify_title": "Green River (Remastered 1985)"
+ },
+ {
+  "artist": "Neil Young",
+  "title": "Harvest",
+  "id": "2l3QxNo4QubBNmVKxLeum0",
+  "spotify_title": "Harvest (2009 Remaster)"
+ },
+ {
+  "artist": "Neil Young & Crazy Horse",
+  "title": "Rust Never Sleeps",
+  "id": "2QqocFdpBkxOBLcIRo6UuJ",
+  "spotify_title": "Rust Never Sleeps"
+ },
+ {
+  "artist": "Crosby, Stills, Nash & Young",
+  "title": "Déjà Vu",
+  "id": "5bHkK1X4WEOzNvRhehvOcb",
+  "spotify_title": "Deja Vu"
+ },
+ {
+  "artist": "The Allman Brothers Band",
+  "title": "At Fillmore East",
+  "id": "0Y5Wlv2OJKaW0uDJ5HnUfy",
+  "spotify_title": "At Fillmore East"
+ },
+ {
+  "artist": "Eagles",
+  "title": "Hotel California",
+  "id": "2widuo17g5CEC66IbzveRu",
+  "spotify_title": "Hotel California (2013 Remaster)"
+ },
+ {
+  "artist": "David Bowie",
+  "title": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars",
+  "id": "48D1hRORqJq52qsnUYZX56",
+  "spotify_title": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars (2012 Remaster)"
+ },
+ {
+  "artist": "David Bowie",
+  "title": "Hunky Dory",
+  "id": "6fQElzBNTiEMGdIeY0hy5l",
+  "spotify_title": "Hunky Dory (2015 Remaster)"
+ },
+ {
+  "artist": "David Bowie",
+  "title": "Low",
+  "id": "2de6LD7eOW8zrlorbS28na",
+  "spotify_title": "Low (2017 Remaster)"
+ },
+ {
+  "artist": "Lou Reed",
+  "title": "Transformer",
+  "id": "5SqbMEyAt8332ISGiLX0St",
+  "spotify_title": "Transformer"
+ },
+ {
+  "artist": "Black Sabbath",
+  "title": "Paranoid",
+  "id": "6r7LZXAVueS5DqdrvXJJK7",
+  "spotify_title": "Paranoid (Remaster)"
+ },
+ {
+  "artist": "Deep Purple",
+  "title": "Machine Head",
+  "id": "1EK3a0Yctg4d3nGQzE4Uty",
+  "spotify_title": "Machine Head"
+ },
+ {
+  "artist": "Queen",
+  "title": "A Night at the Opera",
+  "id": "1TkbyIkf6GSrO5e7gWS4AM",
+  "spotify_title": "A Night At The Opera"
+ },
+ {
+  "artist": "AC/DC",
+  "title": "Back in Black",
+  "id": "6mUdeDZCsExyJLMdAfDuwh",
+  "spotify_title": "Back In Black"
+ },
+ {
+  "artist": "AC/DC",
+  "title": "Highway to Hell",
+  "id": "10v912xgTZbjAtYfyKWJCS",
+  "spotify_title": "Highway to Hell"
+ },
+ {
+  "artist": "Aerosmith",
+  "title": "Toys in the Attic",
+  "id": "6As5aOEQjfxLIChIB3fQRD",
+  "spotify_title": "Toys In The Attic"
+ },
+ {
+  "artist": "Van Halen",
+  "title": "Van Halen",
+  "id": "7DdEbYFPKTZ8KB4z6L4UnQ",
+  "spotify_title": "Van Halen (Remastered)"
+ },
+ {
+  "artist": "Boston",
+  "title": "Boston",
+  "id": "2QLp07RO6anZHmtcKTEvSC",
+  "spotify_title": "Boston"
+ },
+ {
+  "artist": "Steely Dan",
+  "title": "Aja",
+  "id": "1hOK2ey9W76x9GnftSRgrw",
+  "spotify_title": "Aja"
+ },
+ {
+  "artist": "Television",
+  "title": "Marquee Moon",
+  "id": "630o1rKTDsLeIPreOY1jqP",
+  "spotify_title": "Marquee Moon"
+ },
+ {
+  "artist": "Ramones",
+  "title": "Ramones",
+  "id": "3ToX9inehiXTv17hpaOyie",
+  "spotify_title": "Ramones (2017 Remaster)"
+ },
+ {
+  "artist": "Sex Pistols",
+  "title": "Never Mind the Bollocks, Here's the Sex Pistols",
+  "id": "5fxYu3rqjCNTSPKN8mtEl2",
+  "spotify_title": "Never Mind The Bollocks, Here's The Sex Pistols"
+ },
+ {
+  "artist": "Talking Heads",
+  "title": "Remain in Light",
+  "id": "1JvXxLsm0PxlGH4LXzqMGq",
+  "spotify_title": "Remain in Light"
+ },
+ {
+  "artist": "The Cars",
+  "title": "The Cars",
+  "id": "4tJPWT4r4FSKwy784Qs1Fq",
+  "spotify_title": "The Cars"
+ },
+ {
+  "artist": "Elvis Costello & The Attractions",
+  "title": "This Year's Model",
+  "id": "4RLIesiAVONV4fOUlOSmr4",
+  "spotify_title": "This Year's Model (2021 Remaster)"
+ },
+ {
+  "artist": "Joy Division",
+  "title": "Unknown Pleasures",
+  "id": "5Dgqy4bBg09Rdw7CQM545s",
+  "spotify_title": "Unknown Pleasures"
+ },
+ {
+  "artist": "The Police",
+  "title": "Synchronicity",
+  "id": "5W9OT0a5iZlBr83a9WMKFY",
+  "spotify_title": "Synchronicity (Remastered 2003)"
+ },
+ {
+  "artist": "U2",
+  "title": "The Joshua Tree",
+  "id": "5vBZRYu2GLA65nfxBvG1a7",
+  "spotify_title": "The Joshua Tree"
+ },
+ {
+  "artist": "U2",
+  "title": "Achtung Baby",
+  "id": "5n52kyQKeUZs5ObZJejLQd",
+  "spotify_title": "Achtung Baby"
+ },
+ {
+  "artist": "R.E.M.",
+  "title": "Murmur",
+  "id": "4Mw9Gcu1LT7JaipXdwrq1Q",
+  "spotify_title": "Murmur"
+ },
+ {
+  "artist": "R.E.M.",
+  "title": "Automatic for the People",
+  "id": "0BiNb8HYR4JvuxUa31Z58Q",
+  "spotify_title": "Automatic For The People"
+ },
+ {
+  "artist": "The Smiths",
+  "title": "The Queen Is Dead",
+  "id": "5Y0p2XCgRRIjna91aQE8q7",
+  "spotify_title": "The Queen Is Dead"
+ },
+ {
+  "artist": "The Cure",
+  "title": "Disintegration",
+  "id": "0A13JySVHzBoRZFk2o89Wl",
+  "spotify_title": "Disintegration (2010 Remaster)"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "title": "Appetite for Destruction",
+  "id": "28yHV3Gdg30AiB8h8em1eW",
+  "spotify_title": "Appetite For Destruction"
+ },
+ {
+  "artist": "Metallica",
+  "title": "Master of Puppets",
+  "id": "5gzLOflH95LkKYE6XSXE9k",
+  "spotify_title": "Master of Puppets (Remastered)"
+ },
+ {
+  "artist": "Bruce Springsteen",
+  "title": "Born in the U.S.A.",
+  "id": "0PMasrHdpaoIRuHuhHp72O",
+  "spotify_title": "Born In The U.S.A."
+ },
+ {
+  "artist": "Tom Petty and the Heartbreakers",
+  "title": "Damn the Torpedoes",
+  "id": "708Whrc4abJEtqBINv9S2b",
+  "spotify_title": "Damn The Torpedoes (Deluxe Edition)"
+ },
+ {
+  "artist": "Dire Straits",
+  "title": "Brothers in Arms",
+  "id": "7jvcSnCnugLcisBCNBm60s",
+  "spotify_title": "Brothers in Arms"
+ },
+ {
+  "artist": "Def Leppard",
+  "title": "Hysteria",
+  "id": "1ja2qzCrh6bZykcojbZs82",
+  "spotify_title": "Hysteria"
+ },
+ {
+  "artist": "Bon Jovi",
+  "title": "Slippery When Wet",
+  "id": "0kBfgEilUFCMIQY5IOjG4t",
+  "spotify_title": "Slippery When Wet"
+ },
+ {
+  "artist": "The Replacements",
+  "title": "Let It Be",
+  "id": "2sOLW5TSgXiLZBacdHxO6m",
+  "spotify_title": "Let It Be"
+ },
+ {
+  "artist": "Sonic Youth",
+  "title": "Daydream Nation",
+  "id": "3BYlBcND6PeKoW6ZODjZO3",
+  "spotify_title": "Daydream Nation (Remastered Original Album)"
+ },
+ {
+  "artist": "Pearl Jam",
+  "title": "Ten",
+  "id": "5B4PYA7wNN4WdEXdIJu58a",
+  "spotify_title": "Ten"
+ },
+ {
+  "artist": "Soundgarden",
+  "title": "Superunknown",
+  "id": "4K8bxkPDa5HENw0TK7WxJh",
+  "spotify_title": "Superunknown (20th Anniversary)"
+ },
+ {
+  "artist": "Alice in Chains",
+  "title": "Dirt",
+  "id": "58NXIEYqmq5dQHg9nV9duM",
+  "spotify_title": "Dirt (2022 Remaster)"
+ },
+ {
+  "artist": "The Smashing Pumpkins",
+  "title": "Siamese Dream",
+  "id": "3YDm8Vu6IOjjVdLNHlJtj0",
+  "spotify_title": "Siamese Dream (2011 - Remaster)"
+ },
+ {
+  "artist": "Nirvana",
+  "title": "In Utero",
+  "id": "7wOOA7l306K8HfBKfPoafr",
+  "spotify_title": "In Utero"
+ },
+ {
+  "artist": "Radiohead",
+  "title": "The Bends",
+  "id": "35UJLpClj5EDrhpNIi4DFg",
+  "spotify_title": "The Bends"
+ },
+ {
+  "artist": "Radiohead",
+  "title": "Kid A",
+  "id": "6GjwtEZcfenmOf6l18N7T7",
+  "spotify_title": "Kid A"
+ },
+ {
+  "artist": "Oasis",
+  "title": "(What's the Story) Morning Glory?",
+  "id": "2u30gztZTylY4RG7IvfXs8",
+  "spotify_title": "(What's The Story) Morning Glory?"
+ },
+ {
+  "artist": "Oasis",
+  "title": "Definitely Maybe",
+  "id": "3LzKUdUTdJb6P7xGN6SotC",
+  "spotify_title": "Definitely Maybe"
+ },
+ {
+  "artist": "Blur",
+  "title": "Parklife",
+  "id": "0YS25Dr3hMtMFlVTfuvzl4",
+  "spotify_title": "Parklife"
+ },
+ {
+  "artist": "Pulp",
+  "title": "Different Class",
+  "id": "3ly9T2L4pqTZijFgQssd3x",
+  "spotify_title": "Different Class"
+ },
+ {
+  "artist": "Red Hot Chili Peppers",
+  "title": "Blood Sugar Sex Magik",
+  "id": "1DCI2yWmV4UI7Aga71yx9B",
+  "spotify_title": "Blood Sugar Sex Magik"
+ },
+ {
+  "artist": "Rage Against the Machine",
+  "title": "Rage Against the Machine",
+  "id": "4LaRYkT4oy47wEuQgkLBul",
+  "spotify_title": "Rage Against The Machine"
+ },
+ {
+  "artist": "Foo Fighters",
+  "title": "The Colour and the Shape",
+  "id": "30ly6F6Xl0TKmyBCU50Khv",
+  "spotify_title": "The Colour And The Shape"
+ },
+ {
+  "artist": "Weezer",
+  "title": "Weezer",
+  "id": "4X3LhfPfmdcMQblc5k11WC",
+  "spotify_title": "Weezer"
+ },
+ {
+  "artist": "Green Day",
+  "title": "Dookie",
+  "id": "4uG8q3GPuWHQlRbswMIRS6",
+  "spotify_title": "Dookie"
+ },
+ {
+  "artist": "Jeff Buckley",
+  "title": "Grace",
+  "id": "7yQtjAjhtNi76KRu05XWFS",
+  "spotify_title": "Grace"
+ },
+ {
+  "artist": "Pavement",
+  "title": "Slanted and Enchanted",
+  "id": "7o14zVcXSRk7clV6QCEdOD",
+  "spotify_title": "Slanted & Enchanted"
+ },
+ {
+  "artist": "Neutral Milk Hotel",
+  "title": "In the Aeroplane Over the Sea",
+  "id": "17q5eeNk3HAjX1gzQnkTX7",
+  "spotify_title": "In the Aeroplane Over the Sea"
+ },
+ {
+  "artist": "The White Stripes",
+  "title": "Elephant",
+  "id": "6D9urpsOWWKtYvF6PaorGE",
+  "spotify_title": "Elephant"
+ },
+ {
+  "artist": "The Strokes",
+  "title": "Is This It",
+  "id": "2k8KgmDp9oHrmu0MIj4XDE",
+  "spotify_title": "Is This It"
+ },
+ {
+  "artist": "Arcade Fire",
+  "title": "Funeral",
+  "id": "6ZB8qaR9JNuS0Q0bG1nbcH",
+  "spotify_title": "Funeral"
+ },
+ {
+  "artist": "Queens of the Stone Age",
+  "title": "Songs for the Deaf",
+  "id": "58HZZpS0wxJKwGjoerg0mk",
+  "spotify_title": "Songs For The Deaf"
+ },
+ {
+  "artist": "Wilco",
+  "title": "Yankee Hotel Foxtrot",
+  "id": "0rPtXOMN42nsLDiShvGamv",
+  "spotify_title": "Yankee Hotel Foxtrot"
+ },
+ {
+  "artist": "Arctic Monkeys",
+  "title": "AM",
+  "id": "78bpIziExqiI9qztvNFlQu",
+  "spotify_title": "AM"
+ },
+ {
+  "artist": "The Killers",
+  "title": "Hot Fuss",
+  "id": "4piJq7R3gjUOxnYs6lDCTg",
+  "spotify_title": "Hot Fuss"
+ },
+ {
+  "artist": "The Black Keys",
+  "title": "Brothers",
+  "id": "7qE6RXYyz5kj5Tll7mJU0v",
+  "spotify_title": "Brothers"
+ },
+ {
+  "artist": "Muse",
+  "title": "Origin of Symmetry",
+  "id": "1AP6uGYHdakRgwuWQsP5pK",
+  "spotify_title": "Origin of Symmetry"
+ },
+ {
+  "artist": "Tame Impala",
+  "title": "Lonerism",
+  "id": "3C2MFZ2iHotUQOSBzdSvM7",
+  "spotify_title": "Lonerism"
+ },
+ {
+  "artist": "Vampire Weekend",
+  "title": "Vampire Weekend",
+  "id": "7n8NJkGKAl2np1bXiRn0CY",
+  "spotify_title": "Vampire Weekend"
+ },
+ {
+  "artist": "Big Brother & The Holding Company",
+  "title": "Cheap Thrills",
+  "id": "2rogKfOpmCFuqNhtGKf2dX",
+  "spotify_title": "Cheap Thrills"
+ },
+ {
+  "artist": "Jefferson Airplane",
+  "title": "Surrealistic Pillow",
+  "id": "6lPb7Eoon6QPbscWbMsk6a",
+  "spotify_title": "Surrealistic Pillow"
+ },
+ {
+  "artist": "Grateful Dead",
+  "title": "American Beauty",
+  "id": "7rqgm1BnAZ8I4d6hukpkdg",
+  "spotify_title": "American Beauty"
+ },
+ {
+  "artist": "The Band",
+  "title": "The Band",
+  "id": "5ZRYMtWMk8ha4YD73KtlR2",
+  "spotify_title": "The Band (Deluxe Edition / 2019 Remix)"
+ },
+ {
+  "artist": "Rush",
+  "title": "Moving Pictures",
+  "id": "2xg7iIKoSqaDNpDbJnyCjY",
+  "spotify_title": "Moving Pictures (2011 Remaster)"
+ },
+ {
+  "artist": "Yes",
+  "title": "Fragile",
+  "id": "4X6gq5bgpGXcHINlFWzriM",
+  "spotify_title": "Fragile"
+ },
+ {
+  "artist": "King Crimson",
+  "title": "In the Court of the Crimson King",
+  "id": "75ol9OP8bJaRqzGimpFHDm",
+  "spotify_title": "In The Court Of The Crimson King (Expanded & Remastered Original Album Mix)"
+ },
+ {
+  "artist": "Thin Lizzy",
+  "title": "Jailbreak",
+  "id": "7LZsSMEraR5F9Me6njnIMB",
+  "spotify_title": "Jailbreak"
+ },
+ {
+  "artist": "The Pretenders",
+  "title": "Pretenders",
+  "id": "6AFFu3ilmlEDz1I9ZaNOZw",
+  "spotify_title": "Pretenders"
+ },
+ {
+  "artist": "The Stooges",
+  "title": "Fun House",
+  "id": "3FTcomSFg2zWSqWLRgBYpv",
+  "spotify_title": "Fun House (Deluxe Edition)"
+ },
+ {
+  "artist": "The Byrds",
+  "title": "Mr. Tambourine Man",
+  "id": "0pkrqPjeq9K5KD0hFqAKNa",
+  "spotify_title": "Mr. Tambourine Man"
+ },
+ {
+  "artist": "ZZ Top",
+  "title": "Eliminator",
+  "id": "4KW6YVbF8E3kexYcl0k4IK",
+  "spotify_title": "Eliminator"
+ }
+]
